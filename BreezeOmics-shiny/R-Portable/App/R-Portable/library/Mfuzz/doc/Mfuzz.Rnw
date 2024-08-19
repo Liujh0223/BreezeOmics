@@ -1,0 +1,501 @@
+% \VignetteIndexEntry{Introduction to Mfuzz}
+% \VignetteDepends{Mfuzz}
+% \VignetteKeywords{Expression Analysis, Clustering}
+% \VignettePackage{Mfuzz}
+
+\documentclass[a4paper,11pt]{article}
+\usepackage{a4wide}
+\title{Introduction to Mfuzz package and its graphical user interface}
+\author{Matthias E. Futschik\\ SysBioLab,  
+Universidade do Algarve\\ 
+URL: \textit{http://mfuzz.sysbiolab.eu}
+\\ \\ and\\ \\ Lokesh Kumar\\ Institute for Advanced Biosciences, Keio-University, Japan
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Overview}
+ Clustering is an important tool in gene expression data analysis - both on transcript as well as on protein level. This unsupervised classificatiion technique is commonly used to reveal structures hidden in large gene expression data sets. The vast majority of clustering algorithms applied so far produce \textit{hard partitions} of the data, i.e. each gene or protein  is assigned exactly to one cluster. \textit{Hard} clustering is favourable if clusters are well separated. However, this is generally not the case for gene expression data, where gene/protein clusters frequently overlap. Additionally, hard clustering algorithms are often highly sensitive to noise.
+
+To overcome the limitations of hard clustering,  \textit{soft} clustering can be applied offering  several advantages to  researchers \cite{bronwyn,lokesh}. First, it generates accessible internal cluster structures, i.e. it indicates how well corresponding clusters represent genes/proteins. This additional information can be used for a refined search for regulatory elements. Second, the overall relation between clusters, and thus a global clustering structure, can be defined. Additionally, soft clustering is more noise robust and \textit{a priori} pre-filtering of genes can be avoided. This prevents the exclusion of biologically relevant genes/proteins from the data analysis.
+
+This vignette gives a short introduction to soft clustering using the \textit{Mfuzz} package. It misses some features (such  cluster stability)  due to the size restrictions for Bioconductor vignettes. Additional, the graphical user interace (\textit{Mfuzzgui} is introduced here. Note that we use microarray data to illustrate the functions of \textit{Mfuzz}, but other data such as RNA-Seq or proteomics data can be analysed by \textit{Mfuzz} as well. 
+The data pre-processing, however, might need to be adjusted for other types of data. 
+More information regarding this and other issues can be found in the \textit{Questions and Answers} section on the \textit{Mfuzz} webpage: \\ 
+ \hfill \fbox{\textit{http://mfuzz.sysbiolab.eu}}\hfill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%
+\section{Installation requirements}
+Following software is required to run the Mfuzz package:
+\begin{itemize} 
+\item  R (> 2.0.0). For installation of R, refer to \textit{http://www.r-project.org}.
+\item  R-package: e1071. For installation of these add-on packages, refer to \textit{http://cran.r-project.org}.
+\item Bioconductor package:  Biobase. To use the graphical user interface \emph{Mfuzzgui},  the tcltk and Tkwidgets package needs to be installed.  Refer to \textit{http://www.bioconductor.org} for installation. 
+\end{itemize}
+
+If these requirements are fulfilled, the  \textit{Mfuzz} add-on R-package can be installed. To see how to install add-on R-packages on your computer system, start \textit{R} and type in \textit{help(INSTALL)}.
+Optionally, you may use the R-function \textit{install.packages()}. 
+Once the \textit{Mfuzz} package is installed, you can load the package by 
+
+<<>>=
+  library(Mfuzz) 
+@
+
+%%%%%% DATA PREPARATION 
+
+\section{Data pre-processing}
+
+To illustrate our approach, we apply  soft clustering to yeast cell cycle expression data by Cho \textit{et al.} \cite{cho}.  6178 genes were monitored at 17 time points over a span of 160 minutes using Affymetrix chips. Note that 
+we do not exclude here the array corresponding to the time-point of 90 mins which displays
+ irregularities in the expression values measured.  Additionally, the data set was modified by restricting the number of genes to 3000. Thus, results here might differ from those
+reported in reference~\cite{bronwyn}. 
+<<>>=
+  data(yeast) 
+@
+
+
+\subsection{Missing values}
+ As a first step, we exclude  genes with more than  25\% of the measurements missing. Note
+that missing values should be denoted by \texttt{NA} in the gene expression matrix.
+
+<<>>=
+yeast.r <- filter.NA(yeast, thres=0.25)
+@
+
+
+ Fuzzy c-means like many other cluster algorithms,
+ does not allow for missing values. Thus,
+we  replace remaining missing values  by the  average values expression value of the
+corresponding gene. 
+
+<<>>=
+yeast.f <- fill.NA(yeast.r,mode="mean")
+@
+
+Alternatively (and recommended), the (weighted) k-nearest neighbour method can be used (\texttt{mode=`knn'/`wknn'}). These methods perform usually favourable compared to the simple  method above, but are computationally intensive. 
+
+
+
+\subsection{Filtering}
+Most cluster analyses published 
+include a filtering step to remove genes which are expressed at low levels or show only
+small changes in expression.
+Different filtering procedures have been proposed. A popular procedure is the setting of a minimum
+threshold for variation \\
+Calculation the standard deviation shows, however, 
+that the  transition between low and high values for variation in gene expression 
+is smooth and no particular
+cut-off point is indicated (figure~\ref{std}). 
+
+<<eval=FALSE,echo=TRUE>>=
+  tmp <- filter.std(yeast.f,min.std=0)  
+@
+
+\begin{figure}
+\centering
+\resizebox{0.8\textwidth}{!}{\includegraphics{sd.png}}
+%<<fig=TRUE,echo=FALSE,height=5,width=6>>=
+%   tmp <- filter.std(yeast.f,min.std=0)  
+%@
+\caption{Standard deviation of gene expression vectors before standardisation. The genes were ordered by the standard deviation of the corresponding expression vector. A unique cut-off value for filtering is not prominent.}
+\label{std}
+\end{figure}
+
+Thus, the value of a filtering threshold
+remains arbitrary. As no stringent filtering procedure currently exists, we avoided any
+prior filtering of gene data. This prevents the loss of
+genes that may be biologically important.
+
+
+
+\subsection{Standardisation}
+Since the clustering is performed in Euclidian space, the expression values of genes were standardised to have a mean value of zero and a standard deviation of one. This step 
+ensures that vectors of genes with similar changes in expression are close in Euclidean space:
+<<>>=
+yeast.s <- standardise(yeast.f)
+@ 
+
+
+Importantly, Mfuzz assumes that the given expression data are fully 
+preprocessed including any data normalisation. The function  \textit{standardise} does not replace the normalisation step. Note the difference: Normalisation is carried out to make different samples comparable, while standardisation (in Mfuzz) is carried out to make transcripts (or genes or proteins) comparable.
+
+
+%%%%%%% SOFT CLUSTERING
+\section{Soft clustering of gene expression data}
+Clustering is often applied to reveal   regulatory mechanisms underlying gene expression. 
+It is well known that regulation of  genes is generally not in an `on-off', 
+but gradual manner which allows a finer control of the genes' functions. 
+A cluster algorithm should reflect this finding by differentiating how closely a gene follows the dominant cluster patterns. Soft clustering appears as a good candidate for this task since 
+it can assign a gene \textit{i} gradual degrees of membership $\mu_{ij}$ to a cluster $j$. 
+The membership values can vary continuously between zero and one. 
+This feature enables soft clustering to provide more information about the structure of gene expression data. 
+
+Soft clustering is  implemented in the function \texttt{mfuzz} using the  fuzzy $c$-means algorithm (of the 
+\textit{e1071} package) based on minimization of a weighted square
+error function \cite{bezdak}. For soft clustering, the cluster centroids $\textbf{c}_j$
+ result from the weighted sum of all cluster members and show the overall expression patterns of clusters. 
+The membership values $\mu_{ij}$ indicate how well the gene $i$ is represented by  cluster $\textbf{c}_{j}$. Low values $\mu_{ij}$ point to a poor representation of gene $i$ by $\textbf{c}_{j}$. Large values $\mu_{ij}$ point to a high correlation of the expression of
+gene $i$ with the cluster centroid  $\textbf{c}_{j}$.
+The membership values are color-encoded in the plots generated by  \texttt{mfuzz.plot}. This can facilitates the identification of temporal patterns in gene cluster (figure~\ref{fp1}). You may also want to check out  \texttt{mfuzz.plot2}, which works the same way as 
+ \texttt{mfuzz.plot}, but gives you a larger range of options, some of which are 
+presented if you run  \texttt{example(mfuzz.plot2)}.
+
+Note that the clustering is based soley on the \texttt{exprs} matrix and 
+no information is used from the \texttt{phenoData}. In particular, 
+the ordering of samples (arrays) is the same as the ordering 
+of the columns in the \texttt{exprs} matrix. Also, replicated arrays in the 
+\texttt{exprs} matrix are treated as independent by the \texttt{mfuzz} function
+i.e. they should be averagered prior to clustering or placed into different
+distinct \texttt{ExpressionSet} objects. 
+
+
+
+
+<<eval=FALSE,echo=TRUE>>=
+ cl <- mfuzz(yeast.s,c=16,m=1.25)
+ mfuzz.plot(yeast.s,cl=cl,mfrow=c(4,4),time.labels=seq(0,160,10))
+@ 
+
+%\begin{figure}[ht!]
+%\centering
+%<<fig=TRUE,echo=FALSE,height=13,width=12>>=
+%   cl <- mfuzz(yeast.s,c=16,m=1.25)
+%   mfuzz.plot(yeast.s,cl=cl,mfrow=c(4,4),time.labels=seq(0,160,10),new.window=FALSE)
+%@
+\begin{figure}[t]
+\centering
+\resizebox{0.8\textwidth}{!}{\includegraphics{cluster.png}}
+\caption{Soft clusters of yeast cell cycle expression data. Yellow or green colored lines correspond to genes with
+low membership value; red and purple colored lines correspond to genes with high membership value. 
+Note the peaks in negative and positive direction for some clusters at time-point 90 min which may correspond to 
+an experimental artifact.}
+\label{fp1}
+\end{figure}
+
+
+%%%%%
+\subsection{Setting of parameters for FCM clustering}
+For fuzzy c-means clustering, the fuzzifier \textit{m} and the number of clusters \textit{c}
+has to be chosen in advance. For fuzzifier \textit{m}, we would like to choose a value
+which prevents clustering of random data. Note, that fuzzy clustering can be tuned
+in such manner, that random data is not clustered. This is a clear advantage to 
+hard clustering (such as \textit{k-means}), which commonly detects clusters even in random data. To achieve this, different options exists: 
+Either the function \texttt{partcoef} can be used to test, whether random data is clustered
+for a particular setting of \textit{m} (see example of  \texttt{partcoef}) or a direct estimate can be achieved using a relation proposed by Schwaemmle and Jensen \cite{sj}: 
+
+<<eval=FALSE,echo=TRUE>>=
+m1 <- mestimate(yeast.s)
+m1 # 1.15
+@ 
+
+Setting of an optimal number of cluster \textit{c} is usually challanging, especially for short time series and in case of overlapping clusters. Here, a range of \textit{c} can be testedand a maximal value of \textit{c} can be set which leads to the appearance of empty clusters (see \texttt{cselection}). Also, the minimum distance \textit{Dmin} between cluster centroid can  be utilized as an cluster validity index. Here, we can monitor \textit{Dmin} across a range of \textit{c} \cite{sj}.  We would expect that  \textit{Dmin} declines slower after reaching an optimal \textit{c} (see also example of function   \texttt{Dmin}).  An alternativee way is to perform clustering with a range of cluster numbers and subsequently choose the optimal cluster number based on the assessment of  their biological relevance e.g. by GO analyses. 
+
+
+\subsection{Cluster cores}
+ Membership values can also indicate the similarity of vectors to each other. If two gene expression vectors have a high membership value for a specific cluster, they are generally similar to each other. This is the basis for the definition of the core of a cluster. We define that genes with membership values larger than a chosen threshold $\alpha$ belong to the \textit{$\alpha$-core} of the cluster. This allows us to define relationships between genes within a cluster. Similarly to hierarchical clustering, the internal structures of clusters become accessible. 
+
+% As an example, the $\alpha$-cores for the previous clustering can be displayed:  
+
+
+%<<eval=FALSE,echo=TRUE>>=
+%  mfuzz.plot(yeast.s,cl=cl,mfrow=c(4,4),min.mem = 0.7,time.labels=seq(0,160,10))
+%@
+
+%\begin{figure}[t!]
+%\centering
+%<<fig=TRUE,echo=FALSE,echo=TRUE,height=13,width=12>>=
+%   mfuzz.plot(yeast.s,cl=cl,mfrow=c(4,4),min.mem = 0.7,time.labels=seq(0,160,10))
+%@
+%\caption{The same clustering is shown as in figure~\ref{fp1}, but only genes with membership values larger than 0.7 are displayed.} 
+%\label{fp2}
+%\end{figure}
+
+
+
+The average within-cluster variation is considerably reduced  setting $\alpha =0.7$.
+ The use of the $\alpha$-threshold can therefore act as \textit{a posteriori} filtering of genes.
+ This contrasts with previously discussed procedures which demand the problematic setting of a threshold \textit{a priori} to the cluster analysis
+To extract list of genes belonging to the cluster cores, the \texttt{acore} function can be used. 
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cluster stability}
+Variation of the FCM parameter $m$ also allows investigation of the stability of clusters. 
+We define here  stable clusters as clusters that show only minor changes in their structure 
+with variation of the parameter $m$. Stable clusters are generally well distinct of other 
+clusters and compact. This is contrasted by weak clusters that lose their internal structure 
+or disappear if $m$ was increased.
+
+<<eval=FALSE,echo=TRUE>>=
+   cl2 <- mfuzz(yeast.s,c=16,m=1.35)
+   mfuzz.plot(yeast.s,cl=cl2,mfrow=c(4,4),time.labels=seq(0,160,10))
+@
+
+%\begin{figure}[ht!]
+%\centering
+%<<fig=TRUE,echo=FALSE,height=13,width=12>>=
+%  tmp <- mfuzz(yeast.s,c=16,m=1.35)
+%  mfuzz.plot(yeast.s,cl=cl2,mfrow=c(4,4),time.labels=seq(0,160,10))
+%@
+%
+%\caption{Cluster resulting with increased $m=1.35$. Stable clusters contain their cluster cores, whereas weak cluster 
+%show only diffused cores. Note that the numbering of the clusters might have changed compared to the previous
+%clustering, because of random initiation of the cluster centroids at  the start of the clustering process.}
+%\label{fp3}
+%\end{figure}
+
+%\clearpage 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Global clustering structures}
+\noindent
+An interesting feature of soft clustering is the overlap or coupling between clusters. The coupling coefficient $V_{kl}$ between cluster $k$ and cluster $l$ can be defined by
+
+ \begin{equation} 
+V_{kl} = \frac{1}{N}\sum_{i=1}^{N} \mu_{ik} \mu_{il} \label{eq3}
+\end{equation}
+where $N$ is the total number of gene expression vectors. The coupling indicates how many genes are shared by two clusters. Clusters which have a low coupling show distinct overall patterns. If the coupling is large, clusters patterns are more similar. Hence, the coupling defines a similarity measure for pairs of clusters.
+
+
+<<echo=TRUE,eval=FALSE>>=
+O <- overlap(cl)
+Ptmp <- overlap.plot(cl,over=O,thres=0.05)
+@ 
+
+This allows the analysis of global clustering structures obtained by soft clustering, since relationships between clusters are defined. Similarly to hierarchical clustering, 
+the global clustering structure can be examined at different resolutions determined by the cluster number $c$. For a small $c$, only the major clusters present in the data are obtained.%(figure~\ref{fp4} \& \ref{O4}). 
+
+<<echo=TRUE,eval=FALSE>>=
+cl3 <- mfuzz(yeast.s,c=10,m=1.25)
+mfuzz.plot(yeast.s,cl=cl3,mfrow=c(3,4))
+O3 <- overlap(cl3)
+overlap.plot(cl3,over=O3,P=Ptmp,thres=0.05)
+@ 
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+If $c$ is increased, sub-clusters with distinct patterns emerge %(figure~\ref{fp1}).
+ Sub-clusters derived from a major cluster are generally
+ strongly coupled, since they share the overall expression pattern.
+Finally, soft clustering produces empty clusters for further increase of $c$.% (figures~\ref{fp5} \& \ref{O5}).
+
+
+
+<<echo=TRUE,eval=FALSE>>=
+cl4 <- mfuzz(yeast.s,c=25,m=1.25)
+mfuzz.plot(yeast.s,cl=cl4,mfrow=c(5,5))
+O4 <- overlap(cl4)
+overlap.plot(cl4,over=O4,P=Ptmp,thres=0.05)
+@ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Mfuzzgui - the graphical user interface for the Mfuzz package}
+The \emph{Mfuzzgui()} function provides a graphical user interface for pre-processing, cluster analysis and visualization of 
+gene expression microarray data using the  functions of the \emph{Mfuzz} package. The graphical interface is  based on Tk widgets 
+using the R-Tk interface developed by Peter Dalgaard. It also employs some pre-made widgets from the Bioconductor-package tkWidgets 
+by Jianhua Zhang for the selection of objects or files to be loaded. \\
+
+Mfuzzgui provides a convenient interface to most functions of the Mfuzz package without restriction of flexibility. An 
+exception is the batch processes such as \texttt{partcoeff} and \texttt{cselection} routines which are used for parameter selection in fuzzy 
+c-means clustering of microarray data. These routines are not included in Mfuzzgui. To select various parameters, the 
+underlying Mfuzz routines may be applied.\\
+
+Usage of Mfuzzgui assumes no existence of any exprSet objects and these objects can easily be constructed using the Mfuzzgui
+package itself from tab-delimited text files containing the gene expression data. \\
+ 
+To start the graphical interface, type: 
+
+\vspace{4mm}
+\noindent \texttt{> Mfuzzgui()}
+\vspace{4mm}
+
+A TclTk-Widget is launched (fig.~\ref{screenshot}). The use of the interface is intuitive. The GUI is divided into five sections; the order 
+of these sections reflects the order of a standard analysis and visualisation procedure for a microarray data set:
+
+\begin{enumerate}
+
+\item Loading of data set\\
+
+\item Pre-processing of the data set\\
+
+\item Clustering \\
+
+\item Cluster Analysis\\
+
+\item Visualisation of Results of Clustering and Cluster Analysis\\
+
+\end{enumerate} 
+
+Note that only one data set can be analysed at a time. To visualize the results of various clustering methods and cluster 
+analysis, it is not necessary to save/export this data set and reload it.\\ 
+
+The general structure of the GUI is straight-forward.  Each button corresponds to or is very similar to the name of the 
+corresponding function in the Mfuzz package. If additional arguments for the function are needed, an input window is 
+launched. Note that not everything will be checked to be of correct type. While some checks are implemented (e.g. checks 
+if the loaded data set has the correct class), most arguments remains unchecked before the underlying function is called 
+(e.g. it will not be checked if the array index is a positive integer.) If errors are produced, the validity of the input 
+arguments should be examined.\\
+
+For details about the required types of arguments and corresponding functions, please refer to the help pages of the 
+Mfuzz package. In the following section, a brief introduction to the functionality of Mfuzzgui is given. As an example, 
+the dataset \textit{yeast} can be loaded in the global environment by\\
+
+\vspace{4mm}
+\noindent \texttt{> data(yeast)}
+\vspace{4mm}
+
+or alternatively can be loaded for analysis using the \fbox{Browse objects} buttons.
+
+ 
+  
+\begin{figure}
+\centering
+\centering
+\rotatebox{270}{\resizebox{\textwidth}{!}{\includegraphics{MfuzzguiScreenshot.pdf}}}
+\caption{Screenshot of Mfuzzgui window}
+\label{screenshot}
+\end{figure}
+
+
+
+\subsection{Loading data}
+
+\textbf{exprSet object}
+
+\begin{itemize}
+
+\item \fbox{Browse objects} Import of an exprSet object of class \textit{exprSet} from the global environment 
+(\textit{.GlobalEnv}). A window produced by the function \texttt{objectBrowser} of the tkWidgets package is generated. 
+Note that, although several objects can be selected, only the first selected object will be loaded. A check is performed 
+if the object to be loaded belongs to the correct classes. \\
+
+\item \fbox{Browse files} Loading of an R data set of class \textit{exprSet} stored in a file. A window produced by the  
+function \texttt{fileBrowser} of the tkWidgets package is generated. Note that, although several files can be selected, 
+only the first selected file is loaded. A check is performed if the object to be loaded belongs to the correct classes. \\
+
+\item \fbox{Load table} Construction and loading of an exprSet object from a tab-delimited data file. A window produced by the function \texttt{fileBrowser} of the tkWidgets package is generated. It is user's responsibility to use a correctly formated file (see also figure~\ref{yeasttable}).   The first row of the file contains sample labels and optionally, the second column can contains the time points. If the second row is used for the input
+the time,  the first field in the second row must contain ``Time''. 
+Similarly, the first column contains unique gene IDs and optionally second row can contain gene names. If the second row contains gene names, the second field in the first row must contain ``Gene.Name''. The rest of the file contains 
+expression data. As example, two tables with expression data are provided. These examples can be view by  inputing \texttt{data(yeast.table)} and \texttt{data(yeast.table2)} in the R console. \\
+
+\end{itemize}
+
+The name of the current exprSet object is shown in the text fields below the buttons once they are loaded into the current 
+environment.\\
+
+
+\begin{figure}
+\centering
+\centering
+\resizebox{0.9\textwidth}{!}{\includegraphics{yeasttable3.pdf}}
+\caption{Format of table for direct uploading. The row and column highlighted by yellow are optinal and their content is not utilized for clustering. Thus, they can potentially contain information other than the time of measurments or the gene name. However, the labels of these columns have to be as indicated in order to be recognized by Mfuzzgui.}
+\label{yeasttable}
+\end{figure}
+
+\subsection{Pre-processing}
+
+
+\begin{itemize}
+
+\item \fbox{Filter missing values:} This button performs two tasks. First it generates a pop-up window for the selection of threshold value for filtering the genes. Then after pressing the \emph{OK} button of the pop-up window, it removes the genes which have more NAs (missing values) than the specified threshold value. \\ 
+
+\item \fbox{Fill missing values} Like before, this button again accomplishes two tasks. First it produces a pop-up window asking for the parameter values and method to be used for the replacement of missing values. After pressing the
+\emph{OK} button, it replaces the missing values present in the partially processed data set using the user specified method and parameter values.\\
+
+\item \fbox{Standardise} Call of the function \texttt{standardise}. This step will standardise the gene expression values 
+so that they have a mean value of zero and a standard deviation of one.\\
+
+\item \fbox{Save object} This button can be used to save the pre-processed object to some R data file. A window is generated to enable the user specify the file name where the object is to be stored.\\
+
+\item \fbox{Save table} This button can be used to save the pre-processed data in a tabular form in some disk file. A pop-up window is generated to facilitate user to specify the file name which can later be used to reload the data in the form of an exprSet object.\\
+
+\end{itemize}
+
+\subsection{Clustering}
+
+
+
+\begin{itemize}
+
+\item \fbox{Fuzzy C-means:} Call of function \texttt{mfuzz}. This button performs the fuzzy c-means clustering of the 
+data. A new window is generated so that user can specify the parameter values which are to be used in clustering the 
+data.\\
+
+\item \fbox{K-means}  Call of the function \texttt{kmeans2}. This button can be used for performing the standard k-means 
+clustering. The parameter values can be specified in the pop-up window.\\
+
+\item \fbox{Export clustering} This button can be used to save the results of clustering into a text file. In the case of fuzzy C-means method, it stores the membership values of each gene for each cluster in a tabular format whereas for the k-means method, it stores the cluster vector containing the cluster numbers corresponding to each gene. \\
+\end{itemize}
+
+Note that the clustering is based soley on the \texttt{exprs} matrix and 
+no information is used from the \texttt{phenoData}. In particular, 
+the ordering of samples (arrays) is the same as the ordering 
+of the columns in the \texttt{exprs} matrix. Also, replicated arrays in the 
+\texttt{exprs} matrix are treated as independent by the \texttt{mfuzz} function
+i.e. they should be averagered prior to clustering or placed into different
+distinct \texttt{ExpressionSet} objects. Similarly, if a table has been uploaded,
+the ordering of the samples is based on the ordering of the columns and not
+on the time of measurements given in the optinal second row.
+
+\subsection{Cluster Analysis}
+
+\begin{itemize}
+
+\item \fbox{Cluster cores} Call to the function \texttt{acore}.This function extracts genes forming the alpha cores of soft 
+clusters. The minimum membership value can be specified in the pop-up window.\\
+
+\item \fbox{Overlap} Call to the function \texttt{overlap}. This function calculates the overlap of clusters produced by 
+\emph{mfuzz}.\\
+
+\item \fbox{Export acore data} This button exports the results produced by \emph{Cluster cores} button in a text file.\\
+
+\item \fbox{Export overlap data} This button, like the previous one also saves the results generated by \emph{Overlap} button into a text file. To see the details please refer to the documentation of \emph{Mfuzz} package.\\
+
+
+\end{itemize}
+
+\subsection{Visualisation}
+
+\begin{itemize}
+
+\item \fbox{Soft clustering} Call to the function \texttt{mfuzz.plot}. This button can be used to visualise the results of 
+soft clustering in the form of color-coded plots. Some parameters can be specified in the pop-up window.\\
+
+\item \fbox{Hard Clustering} Call to the function \texttt{kmeans2.plot}. This function visualises the clusters produced by 
+\emph{mfuzz}.\\
+
+\item \fbox{Overlap} Call to the function \texttt{overlap.plot}. This function visualises the cluster overlap produced 
+by \texttt{Overlap}.\\
+
+\end{itemize}
+
+\subsection{Help}
+
+Apart from the documentations provided with the \emph{Mfuzzgui} package, there are \textit{help} buttons in each section of
+the \emph{Mfuzzgui} GUI. When one clicks on a help button, it gives a brief overview in a message box of what each button in the corresponding section does.\\
+
+
+%%%%%%%%%%%%%%%
+%BIBLIOGRAPHY
+\begin{thebibliography}{99}
+\bibitem{bronwyn} M.E. Futschik and B. Charlisle, Noise robust clustering of gene expression time-course data, Journal of Bioinformatics and Computational Biology, Vol. 3, No. 4, 965-988, 2005
+
+\bibitem{lokesh} L. Kumar and M. Futschik, Mfuzz: a software package for soft clustering of microarray data, Bioinformation, 2(1) 5-7,2007
+
+\bibitem{cho} Cho RJ, Campbell MJ, Winzeler EA,  Steinmetz L, Conway A, Wodicka L, Wolfsberg TG,  Gabrielian  AE, Landsman D, Lockhart  DJ, Davis RW,  A genome-wide transcriptional analysis of the mitotic cell cycle, \textit{Mol Cell}, \textbf{2}:65--73, 1998
+
+\bibitem{bezdak} Bezdak JC,  \textit{Pattern Recognition with Fuzzy Objective  Function Algorithms}, Plenum Press, New York, 1981
+
+\bibitem{sj}Schwaemmle and Jensen, Bioinformatics,Vol. 26 (22), 2841-2848, 2010 
+
+\end{thebibliography}
+
+\end{document}
+

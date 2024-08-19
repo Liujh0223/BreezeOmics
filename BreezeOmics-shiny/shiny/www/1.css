@@ -1,0 +1,212 @@
+
+/* navbar */
+
+.navbar-default {
+    background-color: #337ab7;
+    border-color: #ffffff;
+}
+
+.navbar-default .navbar-nav>li>a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    color: #FFF;
+    text-transform: uppercase;
+    background: #337ab7;
+    position: relative;
+}
+
+.navbar-default .navbar-brand {
+    font-size: 30px;
+    font-family: 'STXingkai';
+    color: red;
+    background-color: #FFF;
+}
+
+.navbar .navbar-nav {
+    float: left;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #FFF;
+    background-color: #286090;
+}
+
+/* caixas */
+
+a {
+    color: #FFFFFF;
+}
+
+a:focus, a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+.voronoys-block {
+    position: relative;
+    display: table;
+    width: 420px;
+    height: 150px;
+    margin-bottom: 10px;
+    font-weight: 1000;
+    font-size: 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: box-shadow .4s;
+}
+
+.voronoys-block span.name {
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+    font-weight: 1000;
+    text-transform: uppercase;
+    line-height: 1.2em;
+    letter-spacing: 1px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    word-break: normal;
+    color: #fff;
+    transition: font-weight .4s;
+}
+
+.voronoys-block span.name2 {
+    position: absolute;
+    left: 0;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding-right: 10px;
+    padding-top: 45px;
+    padding-left: 10px;
+    word-break: normal;
+    color: #fff;
+    transition: font-weight .4s;
+    text-align: left;
+}
+
+.voronoys-block span.name3 {
+    position: absolute;
+    left: 0;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding-right: 10px;
+    padding-top: 65px;
+    padding-left: 10px;
+    word-break: normal;
+    color: #fff;
+    transition: font-weight .4s;
+    text-align: left;
+}
+
+.img_block_conteiner{
+    height: 20px;
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+}
+
+/* page_info */
+
+.page-info {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.page-info span.title {
+    font-size: 22px;
+    font-weight: 1000;
+    line-height: 2.5em;
+}
+
+.page-info span.content {
+    position: relative;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.page-info span.footer {
+    font-size: 14px;
+    font-weight: 1000;
+    line-height: 0em;
+}
+
+/* fileupload */
+
+.progress {
+    position: relative;
+    height: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    /* padding-bottom: 10px; */
+    margin-top: -6px;
+    z-index: 2;
+}
+
+.progress-bar {
+    float: left;
+    width: 0%;
+    height: 100%;
+    font-size: 10px;
+    line-height: 9px;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    -webkit-box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #000;
+    font-size: 17px;
+}
+
+.btn-default:hover, .btn-default:focus {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #000000
+}
+
+.input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+    font-size: 17px;
+    border-color: black;
+    height: 38px;
+}
+
+/* selectInout */
+
+.selectize-input {
+    border-color: black;
+    height: 37px;
+    font-size: 15px;
+    line-height: 1.6em;
+}
+
+.shiny-notification {
+    height: 100px;
+    width: 400px;
+    position: fixed;
+    font-size: 20px;
+    opacity: 1;
+    top: calc(50% + 320px);
+    left: calc(50% - 200px);
+}

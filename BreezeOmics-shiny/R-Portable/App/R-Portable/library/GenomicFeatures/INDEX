@@ -1,0 +1,57 @@
+FeatureDb-class         FeatureDb objects
+TxDb-class              TxDb objects
+asBED,TxDb-method       Coerce to file format structures
+coverageByTranscript    Compute coverage by transcript (or CDS) of a
+                        set of ranges
+disjointExons           Extract non-overlapping exon parts from an
+                        object
+exonicParts             Extract non-overlapping exonic or intronic
+                        parts from a TxDb-like object
+extendExonsIntoIntrons
+                        Extend exons by a given number of bases into
+                        their adjacent introns
+extractTranscriptSeqs   Extract transcript (or CDS) sequences from
+                        chromosome sequences
+extractUpstreamSeqs     Extract sequences upstream of a set of genes or
+                        transcripts
+features                Extract simple features from a FeatureDb object
+getPromoterSeq          Get gene promoter sequences
+id2name                 Map internal ids to external names for a given
+                        feature type
+makeFeatureDbFromUCSC   Making a FeatureDb object from annotations
+                        available at the UCSC Genome Browser
+makeTxDb                Making a TxDb object from user supplied
+                        annotations
+makeTxDbFromBiomart     Make a TxDb object from annotations available
+                        on a BioMart database
+makeTxDbFromEnsembl     Make a TxDb object from an Ensembl database
+makeTxDbFromGFF         Make a TxDb object from annotations available
+                        as a GFF3 or GTF file
+makeTxDbFromGRanges     Make a TxDb object from a GRanges object
+makeTxDbFromUCSC        Make a TxDb object from annotations available
+                        at the UCSC Genome Browser
+makeTxDbPackage         Making a TxDb package from annotations
+                        available at the UCSC Genome Browser, biomaRt
+                        or from another source.
+mapIdsToRanges          Map IDs to Genomic Ranges
+mapRangesToIds          Map Genomic Ranges to IDs
+mapToTranscripts        Map range coordinates between transcripts and
+                        genome space
+microRNAs               Extract microRNA or tRNA genomic ranges from an
+                        object
+nearest-methods         Finding the nearest genomic range neighbor in a
+                        TxDb
+proteinToGenome         Map protein-relative coordinates to genomic
+                        coordinates
+select-methods          Using the "select" interface on TxDb objects
+transcriptLengths       Extract the transcript lengths (and other
+                        metrics) from a TxDb object
+transcriptLocs2refLocs
+                        Converting transcript-based locations into
+                        reference-based locations
+transcripts             Extract genomic features from a TxDb-like
+                        object
+transcriptsBy           Extract and group genomic features of a given
+                        type from a TxDb-like object
+transcriptsByOverlaps   Extract genomic features from a TxDb-like
+                        object based on their genomic location

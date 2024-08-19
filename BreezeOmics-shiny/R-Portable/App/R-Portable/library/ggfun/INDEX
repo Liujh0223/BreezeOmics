@@ -1,0 +1,31 @@
+%<+%                    %<+%
+element_blinds          this element is used to control the line color
+                        of panel.grid.major/minor.x or
+                        panel.grid.major/minor.y
+element_roundrect       round rectangle borders and backgrounds
+facet_set               facet_set
+geom_cake               geom_cake
+geom_segment_c          geom_segment_c
+geom_triangle           geom_triangle
+geom_volpoint           geom_volpoint
+get_aes_var             get_aes_var
+get_legend              get_legend
+get_plot_data           get_plot_data
+ggbreak2ggplot          ggbreak2ggplot
+gglegend                gglegend
+identify.gg             identify
+is.ggbreak              is.ggbreak
+is.ggtree               is.ggtree
+keybox                  keybox
+set_font                set_font
+set_point_legend_shape
+                        set_point_legend_shape
+theme_blinds            the theme of blind-like
+theme_fp                theme_fp
+theme_no_margin         theme_no_margin
+theme_nothing           theme_nothing
+theme_noxaxis           theme_noxaxis
+theme_stamp             the theme of blind-like alias of theme_blinds
+theme_transparent       theme_transparent
+volplot                 volplot
+yrange                  plot range of a ggplot object

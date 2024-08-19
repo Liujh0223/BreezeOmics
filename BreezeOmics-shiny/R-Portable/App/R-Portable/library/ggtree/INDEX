@@ -1,0 +1,98 @@
+%+>%                    %+>%
+%<%                     %<%
+%<+%                    %<+%
+Date2decimal            Date2decimal
+StatBalance             StatBalance
+add_colorbar            add_colorbar
+applyLayoutDaylight     applyLayoutDaylight
+as.polytomy             as.polytomy
+collapse.ggtree         collapse-ggtree
+decimal2Date            decimal2Date
+expand                  expand
+facet_data              facet_data
+facet_labeller          facet_labeller
+facet_plot              facet_plot
+facet_widths            facet_widths
+flip                    flip
+geom_aline              geom_aline
+geom_balance            geom_balance
+geom_cladelab           geom_cladelab
+geom_cladelabel         geom_cladelabel
+geom_cladelabel2        geom_cladelabel2
+geom_hilight            geom_hilight
+geom_inset              geom_inset
+geom_label2             geom_label2
+geom_motif              geom_motif
+geom_nodelab            geom_nodelab
+geom_nodelab2           geom_nodelab2
+geom_nodepoint          geom_nodepoint
+geom_point2             geom_point2
+geom_range              geom_range
+geom_rootedge           geom_rootedge
+geom_rootpoint          geom_rootpoint
+geom_segment2           geom_segment2
+geom_strip              geom_strip
+geom_striplab           geom_striplab
+geom_taxalink           link between taxa
+geom_text2              geom_text2
+geom_tiplab             geom_tiplab
+geom_tiplab2            geom_tiplab2
+geom_tippoint           geom_tippoint
+geom_tree               geom_tree
+geom_tree2              geom_tree2
+geom_treescale          geom_treescale
+geom_zoom_clade         geom_zoom_clade
+get.path                get.path
+getNodeAngle.df         getNodeAngle.df
+getNodesBreadthFirst.df
+                        getNodesBreadthFirst.df
+getSubtree              getSubtree
+getSubtree.df           getSubtree.df
+getSubtreeUnrooted      getSubtreeUnrooted
+getSubtreeUnrooted.df   getSubtreeUnrooted
+getTreeArcAngles        getTreeArcAngles
+get_clade_position      get_clade_position
+get_heatmap_column_position
+                        get_heatmap_column_position
+get_taxa_name           get_taxa_name
+ggdensitree             ggdensitree
+ggtree                  visualizing phylogenetic tree and heterogenous
+                        associated data based on grammar of graphics
+                        'ggtree' provides functions for visualizing
+                        phylogenetic tree and its associated data in R.
+gheatmap                gheatmap
+gzoom                   gzoom method
+gzoom.phylo             gzoom
+hexpand                 hexpand
+label_pad               Padding taxa labels
+layoutDaylight          Equal daylight layout method for unrooted
+                        trees.
+layoutEqualAngle        layoutEqualAngle
+layout_rectangular      layout_rectangular
+msaplot                 msaplot
+multiplot               multiplot
+nodebar                 nodebar
+nodepie                 nodepie
+open_tree               open_tree
+range_format            range_format
+revts                   revts
+rotate                  rotate
+rotateTreePoints.df     rotateTreePoints.data.frame
+rotate_tree             rotate_tree
+scaleClade              scaleClade
+scale_color             scale_color method
+scale_color_subtree     scale_color_subtree
+scale_x_ggtree          scale_x_ggtree
+scale_x_range           scale_x_range
+set_hilight_legend      set_hilight_legend
+td_filter               td-filter
+td_mutate               td-mutate
+td_unnest               td-unnest
+theme_dendrogram        theme_dendrogram
+theme_inset             theme_inset
+theme_tree              theme_tree
+theme_tree2             theme_tree2
+viewClade               viewClade
+xlim_expand             xlim_expand
+xlim_tree               xlim_tree
+zoomClade               zoomClade

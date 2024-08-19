@@ -1,0 +1,165 @@
+DGEExact-class          differential expression of Digital Gene
+                        Expression data - class
+DGEGLM-class            Digital Gene Expression Generalized Linear
+                        Model results - class
+DGELRT-class            Digital Gene Expression Likelihood Ratio Test
+                        data and results - class
+DGEList                 DGEList Constructor
+DGEList-class           Digital Gene Expression data - class
+SE2DGEList              SummarizedExperiment to DGEList
+WLEB                    Weighted Likelihood Empirical Bayes
+addPriorCount           Add a prior count
+adjustedProfileLik      Adjusted Profile Likelihood for the Negative
+                        Binomial Dispersion Parameter
+as.data.frame.DGEList   Turn a TopTags Object into a Dataframe
+as.matrix.DGEList       Turn a DGEList Object into a Matrix
+aveLogCPM               Average Log Counts Per Million
+binMeanVar              Explore the Mean-Variance Relationship for DGE
+                        Data
+binomTest               Exact Binomial Tests for Comparing Two Digital
+                        Libraries
+calcNormFactors         Library Size Normalization
+camera.DGEList          Competitive Gene Set Tests for Digital Gene
+                        Expression Data
+catchSalmon             Process Kallisto or Salmon Output
+cbind                   Combine DGEList Objects
+commonCondLogLikDerDelta
+                        Conditional Log-Likelihoods in Terms of Delta
+condLogLikDerSize       Conditional Log-Likelihood of the Dispersion
+                        for a Single Group of Replicate Libraries
+cpm                     Counts per Million or Reads per Kilobase per
+                        Million
+cutWithMinN             Cut numeric vector into non-empty intervals
+decideTestsDGE          Multiple Testing Across Genes and Contrasts
+diffSpliceDGE           Test for Differential Exon Usage
+dim.DGEList             Retrieve the Dimensions of a DGEList, DGEExact,
+                        DGEGLM, DGELRT or TopTags Object
+dimnames.DGEList        Retrieve the Dimension Names of a DGE Object
+dispBinTrend            Estimate Dispersion Trend by Binning for NB
+                        GLMs
+dispCoxReid             Estimate Common Dispersion for Negative
+                        Binomial GLMs
+dispCoxReidInterpolateTagwise
+                        Estimate Genewise Dispersion for Negative
+                        Binomial GLMs by Cox-Reid Adjusted Profile
+                        Likelihood
+dispCoxReidSplineTrend
+                        Estimate Dispersion Trend for Negative Binomial
+                        GLMs
+dropEmptyLevels         Drop Levels of a Factor that Never Occur
+edgeR-package           Empirical analysis of digital gene expression
+                        data in R
+edgeRUsersGuide         View edgeR User's Guide
+effectiveLibSizes       Effective Library Sizes
+equalizeLibSizes        Equalize Library Sizes by Quantile-to-Quantile
+                        Normalization
+estimateCommonDisp      Estimate Common Negative Binomial Dispersion by
+                        Conditional Maximum Likelihood
+estimateDisp            Estimate Common, Trended and Tagwise Negative
+                        Binomial dispersions by weighted likelihood
+                        empirical Bayes
+estimateExonGenewiseDisp
+                        Estimate Genewise Dispersions from Exon-Level
+                        Count Data
+estimateGLMCommonDisp   Estimate Common Dispersion for Negative
+                        Binomial GLMs
+estimateGLMRobustDisp   Empirical Robust Bayes Tagwise Dispersions for
+                        Negative Binomial GLMs using Observation
+                        Weights
+estimateGLMTagwiseDisp
+                        Empirical Bayes Tagwise Dispersions for
+                        Negative Binomial GLMs
+estimateGLMTrendedDisp
+                        Estimate Trended Dispersion for Negative
+                        Binomial GLMs
+estimateTagwiseDisp     Estimate Empirical Bayes Tagwise Dispersion
+                        Values
+estimateTrendedDisp     Estimate Empirical Bayes Trended Dispersion
+                        Values
+exactTest               Exact Tests for Differences between Two Groups
+                        of Negative-Binomial Counts
+expandAsMatrix          expandAsMatrix
+featureCounts2DGEList   Convert featureCounts object to a DGEList
+filterByExpr            Filter Genes By Expression Level
+getCounts               Extract Specified Component of a DGEList Object
+getPriorN               Get a Recommended Value for Prior N from
+                        DGEList Object
+gini                    Gini dispersion index
+glmFit                  Genewise Negative Binomial Generalized Linear
+                        Models
+glmQLFit                Genewise Negative Binomial Generalized Linear
+                        Models with Quasi-likelihood Tests
+glmTreat                Test for Differential Expression Relative to a
+                        Threshold
+goana.DGELRT            Gene Ontology or KEGG Analysis of
+                        Differentially Expressed Genes
+gof                     Goodness of Fit Tests for Multiple GLM Fits
+goodTuring              Good-Turing Frequency Estimation
+head.DGEList            Return the First to Last Part of a Data Object
+loessByCol              Locally Weighted Mean By Column
+maPlot                  Plots Log-Fold Change versus Log-Concentration
+                        (or, M versus A) for Count Data
+makeCompressedMatrix    makeCompressedMatrix
+maximizeInterpolant     Maximize a function given a table of values by
+                        spline interpolation.
+maximizeQuadratic       Maximize a function given a table of values by
+                        quadratic interpolation.
+mglm                    Fit Negative Binomial Generalized Linear Models
+                        to Multiple Response Vectors: Low Level
+                        Functions
+modelMatrixMeth         Construct Design Matrix for edgeR Analysis of
+                        Methylation Count Data
+movingAverageByCol      Moving Average Smoother of Matrix Columns
+nbinomDeviance          Negative Binomial Deviance
+nbinomUnitDeviance      Negative Binomial Unit Deviance
+nearestReftoX           Find Nearest Element of Reference for each
+                        Element of X
+nearestTSS              Find Nearest Transcriptional Start Site
+normalizeChIPtoInput    Normalize ChIP-Seq Read Counts to Input and
+                        Test for Enrichment
+plotBCV                 Plot Biological Coefficient of Variation
+plotExonUsage           Create a Plot of Exon Usage from Exon-Level
+                        Count Data
+plotMD.DGEList          Mean-Difference Plot of Count Data
+plotMDS.DGEList         Multidimensional scaling plot of distances
+                        between digital gene expression profiles
+plotMeanVar2            Plot Mean-Variance Relationship in DGE Data
+                        Using Standardized Residuals
+plotQLDisp              Plot the quasi-likelihood dispersion
+plotSmear               Smear plot
+plotSpliceDGE           Differential splicing plot
+predFC                  Predictive log-fold changes
+processAmplicons        Process FASTQ files from pooled genetic
+                        sequencing screens
+q2qnbinom               Quantile to Quantile Mapping between
+                        Negative-Binomial Distributions
+read10X                 Read 10X Genomics Files
+readBismark2DGE         Read Bismark Coverage Files
+readDGE                 Read and Merge a Set of Files Containing Count
+                        Data
+roast.DGEList           Self-contained Gene Set Tests for Digital Gene
+                        Expression Data
+romer.DGEList           Rotation Gene Set Enrichment for Digital Gene
+                        Expression Data
+rowsum.DGEList          Sum Over Groups of Genes
+scaleOffset             Scale offsets
+spliceVariants          Identify Genes with Splice Variants
+splitIntoGroups         Split the Counts or Pseudocounts from a DGEList
+                        Object According To Group
+subsetting              Subset DGEList, DGEGLM, DGEExact and DGELRT
+                        Objects
+sumTechReps             Sum Over Replicate Samples
+systematicSubset        Take a systematic subset of indices.
+thinCounts              Binomial or Multinomial Thinning of Counts
+topSpliceDGE            Top table of differentially spliced genes or
+                        exons
+topTags                 Table of the Top Differentially Expressed
+                        Genes/Tags
+validDGEList            Check for Valid DGEList object
+voomLmFit               Apply voom-lmFit Pipeline While Accounting for
+                        Loss of Residual DF Due to Exact Zeros
+weightedCondLogLikDerDelta
+                        Weighted Conditional Log-Likelihood in Terms of
+                        Delta
+zscoreNBinom            Z-score Equivalents of Negative Binomial
+                        Deviate

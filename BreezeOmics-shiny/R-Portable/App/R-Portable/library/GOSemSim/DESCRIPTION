@@ -1,0 +1,45 @@
+Package: GOSemSim
+Type: Package
+Title: GO-terms Semantic Similarity Measures
+Version: 2.24.0
+Authors@R: c( person(given = "Guangchuang", family = "Yu",             email = "guangchuangyu@gmail.com", role  = c("aut", "cre")),
+              person(given = "Alexey",      family = "Stukalov",       email = "astukalov@gmail.com",     role  = "ctb"),
+              person(given= "Pingfan",      family = "Guo",            email = "1178431277@qq.com",       role  = "ctb"),
+              person(given = "Chuanle",     family = "Xiao",           email = "xiaochuanle@126.com",     role  = "ctb"),
+              person(given = "Lluís",       family = "Revilla Sancho", email = "lluis.revilla@gmail.com", role  = "ctb")
+             )
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Description: The semantic comparisons of Gene Ontology (GO) annotations provide
+    quantitative ways to compute similarities between genes and gene groups,
+    and have became important basis for many bioinformatics analysis approaches.
+    GOSemSim is an R package for semantic similarity computation among GO terms,
+    sets of GO terms, gene products and gene clusters. GOSemSim implemented five
+    methods proposed by Resnik, Schlicker, Jiang, Lin and Wang respectively.
+Depends: R (>= 3.5.0)
+LinkingTo: Rcpp
+Imports: AnnotationDbi, GO.db, methods, utils
+Suggests: AnnotationHub, BiocManager, clusterProfiler, DOSE, knitr,
+        rmarkdown, org.Hs.eg.db, prettydoc, testthat, ROCR
+VignetteBuilder: knitr
+ByteCompile: true
+License: Artistic-2.0
+Encoding: UTF-8
+URL: https://yulab-smu.top/biomedical-knowledge-mining-book/
+BugReports: https://github.com/YuLab-SMU/GOSemSim/issues
+Packaged: 2022-11-02 00:42:11 UTC; biocbuild
+biocViews: Annotation, GO, Clustering, Pathways, Network, Software
+RoxygenNote: 7.2.1
+git_url: https://git.bioconductor.org/packages/GOSemSim
+git_branch: RELEASE_3_16
+git_last_commit: ed7334f
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: yes
+Author: Guangchuang Yu [aut, cre],
+  Alexey Stukalov [ctb],
+  Pingfan Guo [ctb],
+  Chuanle Xiao [ctb],
+  Lluís Revilla Sancho [ctb]
+Built: R 4.2.1; x86_64-w64-mingw32; 2022-11-02 13:42:18 UTC; windows
+ExperimentalWindowsRuntime: ucrt
+Archs: x64

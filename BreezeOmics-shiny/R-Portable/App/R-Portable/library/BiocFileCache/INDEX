@@ -1,0 +1,9 @@
+BFCOption               BFCOption These functions help get and set an R
+                        variable CACHE that controls the default
+                        caching location.
+BiocFileCache-class     BiocFileCache class
+makeBiocFileCacheFromDataFrame
+                        Make BiocFileCache objects from an existing
+                        data.frame
+makeCachedActiveBinding
+                        makeCachedActiveBinding

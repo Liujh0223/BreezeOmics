@@ -1,0 +1,21 @@
+Package: widgetTools
+Title: Creates an interactive tcltk widget
+Version: 1.76.0
+Date: 2008-10-28
+Author: Jianhua Zhang
+Description: This packages contains tools to support the construction
+        of tcltk widgets
+Depends: R (>= 2.4.0), methods, utils, tcltk
+Suggests: Biobase
+biocViews: Infrastructure
+LazyLoad: yes
+Maintainer: Jianhua Zhang <jzhang@jimmy.harvard.edu>
+License: LGPL
+git_url: https://git.bioconductor.org/packages/widgetTools
+git_branch: RELEASE_3_16
+git_last_commit: 728bc56
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-02 03:56:04 UTC; biocbuild
+Built: R 4.2.1; ; 2022-11-02 14:32:56 UTC; windows

@@ -1,0 +1,10 @@
+GetOptions              Wrapper of the Perl module 'Getopt::Long' in R
+GetoptLong              Wrapper of the Perl module 'Getopt::Long' in R
+GetoptLong.options      Global options for GetoptLong()
+get_scriptdir           Directory of current script
+get_scriptname          File name of current script
+qq                      Simple variable interpolation in texts
+qq.options              Global options for qq() related functions
+qqcat                   Print a string which has been intepolated with
+                        variables
+source_script           Source the R script with command-line arguments

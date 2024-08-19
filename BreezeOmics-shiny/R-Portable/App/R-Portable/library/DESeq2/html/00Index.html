@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: Differential gene expression analysis based on the negative
+binomial distribution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> Differential gene expression analysis based on the negative
+binomial distribution
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;DESeq2&rsquo; version 1.38.3</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="DESeq2-package.html">DESeq2-package</a></td>
+<td>DESeq2 package for differential analysis of count data</td></tr>
+<tr><td style="width: 25%;"><a href="coef.html">coef.DESeqDataSet</a></td>
+<td>Extract a matrix of model coefficients/standard errors</td></tr>
+<tr><td style="width: 25%;"><a href="collapseReplicates.html">collapseReplicates</a></td>
+<td>Collapse technical replicates in a RangedSummarizedExperiment or DESeqDataSet</td></tr>
+<tr><td style="width: 25%;"><a href="counts.html">counts-method</a></td>
+<td>Accessors for the 'counts' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="counts.html">counts&lt;--method</a></td>
+<td>Accessors for the 'counts' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="DESeq.html">DESeq</a></td>
+<td>Differential expression analysis based on the Negative Binomial (a.k.a. Gamma-Poisson) distribution</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqDataSet.html">DESeqDataSet</a></td>
+<td>DESeqDataSet object and constructors</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqDataSet.html">DESeqDataSet-class</a></td>
+<td>DESeqDataSet object and constructors</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqDataSet.html">DESeqDataSetFromHTSeqCount</a></td>
+<td>DESeqDataSet object and constructors</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqDataSet.html">DESeqDataSetFromMatrix</a></td>
+<td>DESeqDataSet object and constructors</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqDataSet.html">DESeqDataSetFromTximport</a></td>
+<td>DESeqDataSet object and constructors</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqResults.html">DESeqResults</a></td>
+<td>DESeqResults object and constructor</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqResults.html">DESeqResults-class</a></td>
+<td>DESeqResults object and constructor</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqTransform.html">DESeqTransform</a></td>
+<td>DESeqTransform object and constructor</td></tr>
+<tr><td style="width: 25%;"><a href="DESeqTransform.html">DESeqTransform-class</a></td>
+<td>DESeqTransform object and constructor</td></tr>
+<tr><td style="width: 25%;"><a href="design.html">design-method</a></td>
+<td>Accessors for the 'design' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="design.html">design&lt;--method</a></td>
+<td>Accessors for the 'design' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersionFunction.html">dispersionFunction</a></td>
+<td>Accessors for the 'dispersionFunction' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersionFunction.html">dispersionFunction-method</a></td>
+<td>Accessors for the 'dispersionFunction' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersionFunction.html">dispersionFunction&lt;-</a></td>
+<td>Accessors for the 'dispersionFunction' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersionFunction.html">dispersionFunction&lt;--method</a></td>
+<td>Accessors for the 'dispersionFunction' slot of a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersions.html">dispersions</a></td>
+<td>Accessor functions for the dispersion estimates in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersions.html">dispersions-method</a></td>
+<td>Accessor functions for the dispersion estimates in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersions.html">dispersions&lt;-</a></td>
+<td>Accessor functions for the dispersion estimates in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="dispersions.html">dispersions&lt;--method</a></td>
+<td>Accessor functions for the dispersion estimates in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="estimateBetaPriorVar.html">estimateBetaPriorVar</a></td>
+<td>Steps for estimating the beta prior variance</td></tr>
+<tr><td style="width: 25%;"><a href="estimateDispersions.html">estimateDispersions-method</a></td>
+<td>Estimate the dispersions for a DESeqDataSet</td></tr>
+<tr><td style="width: 25%;"><a href="estimateDispersionsGeneEst.html">estimateDispersionsFit</a></td>
+<td>Low-level functions to fit dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="estimateDispersionsGeneEst.html">estimateDispersionsGeneEst</a></td>
+<td>Low-level functions to fit dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="estimateDispersionsGeneEst.html">estimateDispersionsMAP</a></td>
+<td>Low-level functions to fit dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="estimateDispersionsGeneEst.html">estimateDispersionsPriorVar</a></td>
+<td>Low-level functions to fit dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="estimateBetaPriorVar.html">estimateMLEForBetaPriorVar</a></td>
+<td>Steps for estimating the beta prior variance</td></tr>
+<tr><td style="width: 25%;"><a href="estimateSizeFactors.html">estimateSizeFactors-method</a></td>
+<td>Estimate the size factors for a 'DESeqDataSet'</td></tr>
+<tr><td style="width: 25%;"><a href="estimateSizeFactorsForMatrix.html">estimateSizeFactorsForMatrix</a></td>
+<td>Low-level function to estimate size factors with robust regression.</td></tr>
+<tr><td style="width: 25%;"><a href="fpkm.html">fpkm</a></td>
+<td>FPKM: fragments per kilobase per million mapped fragments</td></tr>
+<tr><td style="width: 25%;"><a href="fpm.html">fpm</a></td>
+<td>FPM: fragments per million mapped fragments</td></tr>
+<tr><td style="width: 25%;"><a href="varianceStabilizingTransformation.html">getVarianceStabilizedData</a></td>
+<td>Apply a variance stabilizing transformation (VST) to the count data</td></tr>
+<tr><td style="width: 25%;"><a href="integrateWithSingleCell.html">integrateWithSingleCell</a></td>
+<td>Integrate bulk DE results with Bioconductor single-cell RNA-seq datasets</td></tr>
+<tr><td style="width: 25%;"><a href="lfcShrink.html">lfcShrink</a></td>
+<td>Shrink log2 fold changes</td></tr>
+<tr><td style="width: 25%;"><a href="makeExampleDESeqDataSet.html">makeExampleDESeqDataSet</a></td>
+<td>Make a simulated DESeqDataSet</td></tr>
+<tr><td style="width: 25%;"><a href="nbinomLRT.html">nbinomLRT</a></td>
+<td>Likelihood ratio test (chi-squared test) for GLMs</td></tr>
+<tr><td style="width: 25%;"><a href="nbinomWaldTest.html">nbinomWaldTest</a></td>
+<td>Wald test for the GLM coefficients</td></tr>
+<tr><td style="width: 25%;"><a href="normalizationFactors.html">normalizationFactors</a></td>
+<td>Accessor functions for the normalization factors in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="normalizationFactors.html">normalizationFactors-method</a></td>
+<td>Accessor functions for the normalization factors in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="normalizationFactors.html">normalizationFactors&lt;-</a></td>
+<td>Accessor functions for the normalization factors in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="normalizationFactors.html">normalizationFactors&lt;--method</a></td>
+<td>Accessor functions for the normalization factors in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="normalizeGeneLength.html">normalizeGeneLength</a></td>
+<td>Normalize for gene length</td></tr>
+<tr><td style="width: 25%;"><a href="normTransform.html">normTransform</a></td>
+<td>Normalized counts transformation</td></tr>
+<tr><td style="width: 25%;"><a href="plotCounts.html">plotCounts</a></td>
+<td>Plot of normalized counts for a single gene</td></tr>
+<tr><td style="width: 25%;"><a href="plotDispEsts.html">plotDispEsts</a></td>
+<td>Plot dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="plotDispEsts.html">plotDispEsts-method</a></td>
+<td>Plot dispersion estimates</td></tr>
+<tr><td style="width: 25%;"><a href="plotMA.html">plotMA</a></td>
+<td>MA-plot from base means and log fold changes</td></tr>
+<tr><td style="width: 25%;"><a href="plotMA.html">plotMA-method</a></td>
+<td>MA-plot from base means and log fold changes</td></tr>
+<tr><td style="width: 25%;"><a href="plotPCA.html">plotPCA</a></td>
+<td>Sample PCA plot for transformed data</td></tr>
+<tr><td style="width: 25%;"><a href="plotPCA.html">plotPCA-method</a></td>
+<td>Sample PCA plot for transformed data</td></tr>
+<tr><td style="width: 25%;"><a href="plotSparsity.html">plotSparsity</a></td>
+<td>Sparsity plot</td></tr>
+<tr><td style="width: 25%;"><a href="priorInfo.html">priorInfo</a></td>
+<td>Accessors for the 'priorInfo' slot of a DESeqResults object.</td></tr>
+<tr><td style="width: 25%;"><a href="priorInfo.html">priorInfo-method</a></td>
+<td>Accessors for the 'priorInfo' slot of a DESeqResults object.</td></tr>
+<tr><td style="width: 25%;"><a href="priorInfo.html">priorInfo&lt;-</a></td>
+<td>Accessors for the 'priorInfo' slot of a DESeqResults object.</td></tr>
+<tr><td style="width: 25%;"><a href="priorInfo.html">priorInfo&lt;--method</a></td>
+<td>Accessors for the 'priorInfo' slot of a DESeqResults object.</td></tr>
+<tr><td style="width: 25%;"><a href="results.html">removeResults</a></td>
+<td>Extract results from a DESeq analysis</td></tr>
+<tr><td style="width: 25%;"><a href="replaceOutliers.html">replaceOutliers</a></td>
+<td>Replace outliers with trimmed mean</td></tr>
+<tr><td style="width: 25%;"><a href="replaceOutliers.html">replaceOutliersWithTrimmedMean</a></td>
+<td>Replace outliers with trimmed mean</td></tr>
+<tr><td style="width: 25%;"><a href="results.html">results</a></td>
+<td>Extract results from a DESeq analysis</td></tr>
+<tr><td style="width: 25%;"><a href="results.html">resultsNames</a></td>
+<td>Extract results from a DESeq analysis</td></tr>
+<tr><td style="width: 25%;"><a href="rlog.html">rlog</a></td>
+<td>Apply a 'regularized log' transformation</td></tr>
+<tr><td style="width: 25%;"><a href="rlog.html">rlogTransformation</a></td>
+<td>Apply a 'regularized log' transformation</td></tr>
+<tr><td style="width: 25%;"><a href="show.html">show-method</a></td>
+<td>Show method for DESeqResults objects</td></tr>
+<tr><td style="width: 25%;"><a href="sizeFactors.html">sizeFactors-method</a></td>
+<td>Accessor functions for the 'sizeFactors' information in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="sizeFactors.html">sizeFactors&lt;--method</a></td>
+<td>Accessor functions for the 'sizeFactors' information in a DESeqDataSet object.</td></tr>
+<tr><td style="width: 25%;"><a href="summary.html">summary-method</a></td>
+<td>Summarize DESeq results</td></tr>
+<tr><td style="width: 25%;"><a href="unmix.html">unmix</a></td>
+<td>Unmix samples using loss in a variance stabilized space</td></tr>
+<tr><td style="width: 25%;"><a href="varianceStabilizingTransformation.html">varianceStabilizingTransformation</a></td>
+<td>Apply a variance stabilizing transformation (VST) to the count data</td></tr>
+<tr><td style="width: 25%;"><a href="vst.html">vst</a></td>
+<td>Quickly estimate dispersion trend and apply a variance stabilizing transformation</td></tr>
+</table>
+</div></body></html>

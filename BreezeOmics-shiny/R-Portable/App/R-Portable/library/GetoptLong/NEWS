@@ -1,0 +1,154 @@
+Changes in version 1.0.5
+
+* fixed a bug when value contains space
+
+------------------------------------------------------------------
+
+Changes in version 1.0.4
+
+* fixed a bug of logical options (wrong variable was used)
+
+-------------------------------------------------------------------
+
+Changes in version 1.0.3
+
+* fixed a bug of setting "verbose!" and with TRUE for verbose as default
+
+---------------------------------------------------------------------
+
+Changes in version 1.0.1
+
+* fixed a bug of testng folders
+* directly use .md files under solaris
+
+---------------------------------------------------------------------
+
+Changes in version 1.0.0
+
+* Re-implement options by reference class.
+* Support specification by a template.
+* Support help message of sub options.
+
+------------------------------------------------------------------------
+
+Changes in version 0.1.8
+
+* `qq()`/`qqcat()`: multiple text templates can be specified.
+
+--------------------------------------------------------------------------
+
+Changes in version 0.1.7
+
+* update dependency of GlobalOptions package
+* `code.pattern` can be a vector that all patterns are searched.
+* add `get_scriptdir()`
+* cat_format_line(): first wrap text into a variable then print it out
+
+--------------------------------------------------------------------------
+
+Changes in version 0.1.6
+
+* logical options can have default values.
+* add `cat_strwrap` option in `qq.options()`
+* text are properly wrapped for the command message
+* add `script_name` option to set alternative script name
+
+--------------------------------------------------------------------------
+
+Changes in version 0.1.5
+
+* head and foot of the message are properly wrapped.
+* qqcat: text are wrapped with fixed width per line by default
+
+---------------------------------------------------------------------------
+
+Changes in version 0.1.4
+
+* add `head` and `foot` arguments in `GetoptLong()` which set the head and foot
+  of the help message
+* change vignette format to Rmd
+
+----------------------------------------------------------------------------
+
+Changes in version 0.1.3
+
+* use `interactive()` to test whether under command-line mode
+* update according to testthat 1.0.0
+
+----------------------------------------------------------------------------
+
+Changes in version 0.1.2
+-----------------------------------------------------------------------------
+
+* update option functons with new version of GlobalOptions
+* set `source()` as internal
+
+Changes in version 0.1.1
+-----------------------------------------------------------------------------
+
+* add `source` which also allow specifying arguments in interactive session.
+
+Changes in version 0.1.0
+-----------------------------------------------------------------------------
+
+* depends on `methods` package
+* add `GetOptions` which is the same as `GetoptLong`
+
+Changes in version 0.0.9
+-----------------------------------------------------------------------------
+
+* modified tests according to changes of `GlobalOptions` package
+
+Changes in version 0.0.8
+-----------------------------------------------------------------------------
+
+* check atomic vector in `qq`
+* If the interpolated variable is equal to NULL, it will be converted to "".
+
+Changes in version 0.0.7
+------------------------------------------------------------------------------
+
+* vignettes are rendered by knitr
+* use `GlobalOptions` package to take care of the global settings
+* default value can be set to NULL if it is optional
+* if the option is designed as named list and has default value. Elements that are 
+  not specified on command-line will be kept with their default values.
+
+Changes in version 0.0.6
+------------------------------------------------------------------------------
+
+* default value can be set as a list if the option is specified as opt=[sifo]%
+
+Changes in version 0.0.5
+------------------------------------------------------------------------------
+
+* use a global variable which is a flag of whether it is under command-line or not.
+* If in interactive session and there is error, the session will be quite while
+  throw error instead.
+
+
+Changes in version 0.0.4
+------------------------------------------------------------------------------
+
+* add `cat_prefix` argument in `qqcat` which is prior than `options('cat_prefix')`
+  and not globally effective.
+
+Changes in version 0.0.3
+------------------------------------------------------------------------------
+
+* If command-line variable is a list, enforce the order of names of elements to 
+  be alphabetical (in testing file, tag=%i).
+  
+* `help` and `version` will not be exported.
+
+Changes in version 0.0.2
+------------------------------------------------------------------------------
+
+* add `collapse` option in `qq` so that `qq` can return a vector instead of
+  only collapsing them into one string.
+
+
+Changes in version 0.0.1
+------------------------------------------------------------------------------
+
+* the first release

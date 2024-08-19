@@ -1,0 +1,5 @@
+showHide                Manually show/hide a spinner
+showHidePage            Show (and hide) a full-page spinner that covers
+                        the entire page
+withSpinner             Add a spinner that shows while an output is
+                        recalculating

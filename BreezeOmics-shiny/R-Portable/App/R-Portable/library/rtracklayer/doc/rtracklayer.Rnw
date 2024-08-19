@@ -1,0 +1,741 @@
+\documentclass{article}
+
+%\VignetteIndexEntry{rtracklayer}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[colorlinks=true, linkcolor=Blue, urlcolor=Blue,
+   citecolor=Blue]{hyperref}
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+
+\newcommand{\software}[1]{\textsf{#1}}
+\newcommand{\R}{\software{R}}
+\newcommand{\IRanges}{\Rpackage{IRanges}}
+
+\title{The \textbf{rtracklayer} package}
+\author{Michael Lawrence}
+
+\begin{document}
+
+\maketitle
+
+<<initialize, echo=FALSE>>=
+options(width=70)
+@ 
+
+\tableofcontents
+
+\section{Introduction}
+
+The \textbf{rtracklayer} package is an interface (or \emph{layer})
+between \textbf{R} and genome browsers. Its main purpose is the
+visualization of genomic annotation \emph{tracks}, whether generated
+through experimental data analysis performed in R or loaded from an
+external data source. The features of \textbf{rtracklayer} may be
+divided into two categories: 1) the import/export of track data and 2)
+the control and querying of external genome browser sessions and
+views.
+
+The basic track data structure in Bioconductor is the \Rclass{GRanges}
+class, defined in the \Rpackage{GenomicRanges} package.
+
+\textbf{rtracklayer} supports the import and export of tracks from and
+to files in various formats, see Section~\ref{sec:import-export}. All
+positions in a \Rclass{GRanges} should be 1-based, as in R itself.
+
+The \textbf{rtracklayer} package currently interfaces with the
+\textbf{UCSC} web-based genome browser. Other packages may provide
+drivers for other genome browsers through a plugin system. With
+\textbf{rtracklayer}, the user may start a genome browser session,
+create and manipulate genomic views, and import/export tracks and
+sequences to and from a browser. Please note that not all features are
+necessarily supported by every browser interface.
+
+The rest of this vignette will consist of a number of case
+studies. First, we consider an experiment investigating microRNA
+regulation of gene expression, where the microRNA target sites are the
+primary genomic features of interest.
+
+\section{Gene expression and microRNA target sites}
+
+This section will demonstrate the features of
+\textbf{rtracklayer} on a microarray dataset from a larger
+experiment investigating the regulation of human stem cell
+differentiation by microRNAs. The transcriptome of the cells was
+measured before and after differentiation by HG-U133plus2 Affymetrix
+GeneChip arrays. We begin our demonstration by constructing an
+annotation dataset from the experimental data, and then illustrate the
+use of the genome browser interface to display interesting genomic
+regions in the UCSC browser.
+
+\subsection{Creating a target site track}
+
+For the analysis of the stem cell microarray data, we are interested
+in the genomic regions corresponding to differentially expressed genes
+that are known to be targeted by a microRNA. We will represent this
+information as an annotation track, so that we may view it in the UCSC
+genome browser.
+
+\subsubsection{Constructing the \Rclass{GRanges}}
+
+In preparation for creating the microRNA target track, we first used
+\textbf{limma} to detect the differentially expressed
+genes in the microarray experiment. The locations of the microRNA
+target sites were obtained from MiRBase. The code below stores information
+about the target sites on differentially expressed genes in
+the \textit{data.frame} called \texttt{targets}, which can also be
+obtained by entering \texttt{data(targets)} when \textbf{rtracklayer}
+is loaded.
+
+% 
+<<rtl-init, results = hide>>=
+library("humanStemCell")
+data(fhesc)
+library("genefilter")
+filtFhesc <- nsFilter(fhesc)[[1]]
+library("limma")
+design <- model.matrix(~filtFhesc$Diff) 
+hesclim <- lmFit(filtFhesc, design) 
+hesceb <- eBayes(hesclim) 
+tab <- topTable(hesceb, coef = 2, adjust.method = "BH", n = 7676) 
+tab2 <- tab[(tab$logFC > 1) & (tab$adj.P.Val < 0.01),]
+affyIDs <- rownames(tab2)
+library("microRNA")
+data(hsTargets)
+library("hgu133plus2.db")
+entrezIDs <- mappedRkeys(hgu133plus2ENTREZID[affyIDs])
+library("org.Hs.eg.db")
+mappedEntrezIDs <- entrezIDs[entrezIDs %in% mappedkeys(org.Hs.egENSEMBLTRANS)]
+ensemblIDs <- mappedRkeys(org.Hs.egENSEMBLTRANS[mappedEntrezIDs])
+targetMatches <- match(ensemblIDs, hsTargets$target, 0)
+## same as data(targets)
+targets <- hsTargets[targetMatches,]
+targets$chrom <- paste("chr", targets$chrom, sep = "")
+@
+% 
+
+The following code creates the track from the \texttt{targets}
+dataset:
+% 
+<<rtl-miRNA-track>>=
+library(rtracklayer)
+library(GenomicRanges)
+## call data(targets) if skipping first block
+head(targets)
+targetRanges <- IRanges(targets$start, targets$end)
+targetTrack <- with(targets, 
+                    GRangesForUCSCGenome("hg18", chrom, targetRanges, strand, 
+                                         name, target))
+@
+%
+The \Rfunction{GRangesForUCSCGenome} function constructs a
+\Rclass{GRanges} object for the named genome. The strand information,
+the name of the microRNA and the Ensembl ID of the targeted transcript
+are stored in the \Rclass{GRanges}. The chromosome for each site is
+passed as the \texttt{chrom} argument. The chromosome names and
+lengths for the genome are taken from the UCSC database and stored in
+the \Rclass{GRanges} along with the genome identifier. We can retrieve
+them as follows:
+<<rtl-miRNA-track-seqinfo>>=
+genome(targetTrack)
+head(seqlengths(targetTrack))
+@ 
+%
+While this extra information is not strictly needed to upload data to
+UCSC, calling \Rfunction{GRangesForUCSCGenome} is an easy way to
+formally associate interval data to a UCSC genome build. This ensures,
+for example, that the data will always be uploaded to the correct
+genome, regardless of browser state. It also immediately validates
+whether the intervals fall within the bounds of the genome.
+
+For cases where one is not interacting with the UCSC genome browser,
+and in particular when network access is unavailable, the
+\Rfunction{GRangesForBSGenome} function behaves the same, except it
+finds an installed \Rpackage{BSGenome} package and loads it to
+retrieve the chromosome information.
+
+\subsubsection{Accessing track information}
+
+The track information is now stored in the R session as a
+\Rclass{GRanges} object. It holds the chromosme, start, end and strand
+for each feature, along with any number of data columns.
+
+The primary feature attributes are the \texttt{start}, \texttt{end},
+\texttt{seqnames} and \texttt{strand}. There are accessors for each
+of these, named accordingly. For example, the following code retrieves the
+chromosome names and then start positions for each feature in the
+track.
+%
+<<feature-data-accessors>>=
+head(seqnames(targetTrack))
+head(start(targetTrack))
+@
+%
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Get the strand of each feature in the track
+\item Calculate the length of each feature
+\item Reconstruct (partially) the \texttt{targets} \Rclass{data.frame}
+\end{enumerate}
+
+<<sol-1, echo=FALSE, results=hide>>=
+head(strand(targetTrack))
+head(width(targetTrack))
+data.frame(chrom = as.factor(seqnames(targetTrack)), 
+           start = start(targetTrack), end = end(targetTrack),
+           strand = as.factor(strand(targetTrack)))
+@ 
+
+\subsubsection{Subsetting a \textit{GRanges}}
+
+It is often helpful to extract subsets from \Rclass{GRanges}
+instances, especially when uploading to a genome browser.  The data
+can be subset though a matrix-style syntax by feature and column.  The
+conventional \texttt{[} method is employed for subsetting, where the
+first parameter, \textit{i}, indexes the features and \textit{j}
+indexes the data columns.  Both \textit{i} and \textit{j} may contain
+numeric, logical and character indices, which behave as expected.
+%
+<<subset-features>>=
+## get the first 10 targets
+first10 <- targetTrack[1:10]
+## get pos strand targets
+posTargets <- targetTrack[strand(targetTrack) == "+"]
+## get the targets on chr1
+chr1Targets <- targetTrack[seqnames(targetTrack) == "chr1"]
+@ 
+%
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Subset the track for all features on the negative strand of
+  chromosome 2.
+\end{enumerate}
+
+<<sol-2, echo=FALSE, results=hide>>=
+negChr2Targets <- targetTrack[strand(targetTrack) == "-" & 
+                              seqnames(targetTrack) == "chr2"]
+@ 
+
+
+\subsubsection{Exporting and importing tracks}
+\label{sec:import-export}
+
+Import and export of \Rclass{GRanges} instances is supported
+in the following formats: Browser Extended
+Display (BED), versions 1, 2 and 3 of the General Feature Format
+(GFF), and Wiggle (WIG). Support for additional formats may be
+provided by other packages through a plugin system.
+
+To save the microRNA target track created above in a format understood
+by other tools, we could export it as BED. This is done with the
+\texttt{export} function, which accepts a filename or any R connection
+object as its target. If a target is not given, the serialized string
+is returned. The desired format is derived, by default, from
+the extension of the filename. Use the \texttt{format} parameter to
+explicitly specify a format.
+<<export, eval=FALSE>>=
+export(targetTrack, "targets.bed")
+@
+
+To read the data back in a future session, we could use the
+\texttt{import} function. The source
+of the data may be given as a connection, a filename or a character
+vector containing the data. Like the \texttt{export} function, the
+format is determined from the filename, by default. 
+<<import, eval=FALSE>>=
+restoredTrack <- import("targets.bed")
+@
+%
+The \Robject{restoredTrack} object is of class \Rclass{GRanges}.
+%
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Output the track to a file in the ``gff'' format.
+\item Read the track back into R.
+\item Export the track as a character vector.
+\end{enumerate}
+
+<<sol-3, echo=FALSE, results=hide>>=
+export(targetTrack, "targets.gff")
+targetGff <- import("targets.gff")
+targetChar <- export(targetTrack, format = "gff1")
+@ 
+
+\subsection{Viewing the targets in a genome browser}
+
+For the next step in our example, we will load the track into a genome
+browser for visualization with other genomic annotations. The
+\textbf{rtracklayer} package is capable of interfacing with any genome
+browser for which a driver exists. In this case, we will interact with
+the web-based \textbf{UCSC} browser, but the same code should work for
+any browser.
+
+\subsubsection{Starting a session}
+
+The first step towards interfacing with a browser is to start a
+browser session, represented in R as a \textit{BrowserSession}
+object. A \textit{BrowserSession} is primarily a container of tracks
+and genomic views. The following code creates a
+\textit{BrowserSession} for the \textbf{UCSC} browser:
+
+<<browserSession, eval=FALSE>>=  
+session <- browserSession("UCSC")
+@ 
+Note that the name of any other supported browser could have been
+given here instead of ``UCSC''. To see the names of supported
+browsers, enter:
+<<genomeBrowsers>>=
+genomeBrowsers()
+@ 
+
+\subsubsection{Laying the track}
+
+Before a track can be viewed on the genome, it must be
+loaded into the session using the \texttt{track<-} function, as
+demonstrated below:
+<<layTrack, eval=FALSE>>=
+track(session, "targets") <- targetTrack
+@ 
+The \textit{name} argument should be a character vector that will
+help identify the track within \texttt{session}. Note that the
+invocation of \texttt{track<-} above does not specify an upload
+format. Thus, the default, ``auto'', is used. Since the track does not
+contain any data values, the track is uploaded as BED. To make this
+explicit, we could pass ``bed'' as the \textit{format} parameter.
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Lay a track with the first 100 features of \texttt{targetTrack}
+\end{enumerate}
+
+Here we use the short-cut \texttt{\$} syntax for storing the track.
+<<sol-4, eval = FALSE, echo=FALSE, results=hide>>=
+session$target100 <- targetTrack[1:100]
+@ 
+
+\subsubsection{Viewing the track}
+
+For \textbf{UCSC}, a view roughly corresponds to one tab or window in
+the web browser.  The target sites are distributed throughout the
+genome, so we will only be able to view a few features at a time. In
+this case, we will view only the first feature in the track. A
+convenient way to focus a view on a particular set of features is to
+subset the track and pass the range of the subtrack to the constructor
+of the view.  Below we take a track subset that contains only the
+first feature.
+<<take-subset>>=
+subTargetTrack <- targetTrack[1] # get first feature
+@
+
+Now we call the \texttt{browserView} function to construct the view
+and pass the subtrack, zoomed out by a factor of 10, as the segment to
+view. By passing the name of the targets track in the \textit{pack}
+parameter, we instruct the browser to use the ``pack'' mode for
+viewing the track. This results in the name of the microRNA appearing
+next to the target site glyph.
+<<view-subset, eval=FALSE>>=
+view <- browserView(session, subTargetTrack * -10, pack = "targets")
+@
+
+If multiple ranges are provided, multiple views are launched:
+<<view-subset-multi, eval=FALSE>>=
+view <- browserView(session, targetTrack[1:5] * -10, pack = "targets")
+@
+
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Create a new view with the same region as \texttt{view}, except
+  zoomed out 2X.
+\item Create a view with the ``targets'' track displayed in ``full''
+  mode, instead of ``packed''.
+\end{enumerate}
+
+<<sol-6, eval=FALSE, echo=FALSE, results=hide>>=
+viewOut <- browserView(session, range(view) * -2)
+viewFull <- browserView(session, full = "targets")
+@ 
+
+\subsubsection{A shortcut}
+
+There is also a shortcut to the above steps. The \texttt{browseGenome}
+function creates a session for a specified browser, loads one or more
+tracks into the session and creates a view of a given genome segment.
+In the following code, we create a new \textbf{UCSC} session, load the
+track and view the first two features, all in one call:
+<<browseGenome, eval=FALSE>>=
+browseGenome(targetTrack, range = subTargetTrack * -10)
+@
+It is even simpler to view the subtrack in \textbf{UCSC} by
+relying on parameter defaults:
+<<browseGenome-simple, eval=FALSE>>=
+browseGenome(subTargetTrack)
+@ 
+
+\subsubsection{Downloading Tracks from your Web Browser}
+@ 
+It is possible to query the browser to obtain the names of the loaded
+tracks and to download the tracks into R. To list the tracks loaded in
+the browser, enter the following:
+%
+<<get-track-names, eval=FALSE>>=
+loaded_tracks <- trackNames(session)
+@
+%
+One may download any of the tracks, such as the ``targets'' track that
+was loaded previously in this example.
+%
+<<get-track-data, eval=FALSE>>=
+subTargetTrack <- track(session, "targets")
+@
+%
+The returned object is a \Rclass{GRanges}, even if the data was
+originally uploaded as another object.
+By default, the segment of the track downloaded is the current default
+genome segment associated with the session. One may download track
+data for any genome segment, such as those on a particular
+chromosome. Note that this does not distinguish by strand; we are only
+indicating a position on the genome.
+%
+<<get-track-segment, eval=FALSE>>=
+chr1Targets <- track(session, "targets", chr1Targets)
+@
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Get the SNP under the first target, displayed in \texttt{view}.
+\item Get the UCSC gene for the same target.
+\end{enumerate}
+
+<<sol-7, eval=FALSE, echo=FALSE, results=hide>>=
+region <- range(subTargetTrack) + 500
+targetSNP <- track(session, "snp130", region)
+as.data.frame(targetSNP)
+targetGene <- track(session, "knownGene", region)
+as.data.frame(targetGene)
+@ 
+
+\subsubsection{Accessing view state}
+
+The \texttt{view} variable is an instance of \textit{BrowserView},
+which provides an interface for getting and setting view
+attributes. Note that for the UCSC browser, changing the view state
+opens a new view, as a new page must be opened in the web browser. 
+
+To programmatically query the segment displayed by a view, use the
+\texttt{range} method for a \textit{BrowserView}.
+%
+<<genomeSegment-view, eval=FALSE>>=
+segment <- range(view)
+@
+%
+Similarly, one may get and set the names of the visible tracks in the view.
+<<tracks-view, eval=FALSE>>=
+visible_tracks <- trackNames(view)
+trackNames(view) <- visible_tracks
+@
+The visibility mode (hide, dense, pack, squish, full) of the tracks
+may be retrieved with the \texttt{ucscTrackModes} method.
+%
+<<track-modes-view, eval=FALSE>>=
+modes <- ucscTrackModes(view)
+@
+%
+The returned value, \texttt{modes}, is of class
+\textit{UCSCTrackModes}. The modes may be accessed using the
+\texttt{[} function. Here, we set the mode of our ``targets'' track to
+``full'' visibility.
+<<set-track-modes, eval=FALSE>>=
+modes["targets"]
+modes["targets"] <- "full"
+ucscTrackModes(view) <- modes
+@
+
+Existing browser views for a session may be retrieved by calling the
+\texttt{browserViews} method on the \textit{browserSession} instance.
+%
+<<browserViews, eval=FALSE>>=
+views <- browserViews(session)
+length(views)
+@ 
+%
+
+\paragraph{Exercises}
+
+\begin{enumerate}
+\item Retrieve target currently visible in the view.
+\item Limit the view to display only the SNP, UCSC gene and target track.
+\item Hide the UCSC gene track.
+\end{enumerate}
+
+<<sol-8, eval=FALSE, echo=FALSE, results=hide>>=
+viewTarget <- track(session, "targets", range(view))
+trackNames(view) <- c("snp130", "knownGene", "targets")
+ucscTrackModes(view)["knownGene"] <- "hide"
+@ 
+
+\section{CPNE1 expression and HapMap SNPs}
+
+Included with the \textbf{rtracklayer} package is a track object
+(created by the \textbf{GGtools} package) with features from a subset
+of the SNPs on chromosome 20 from 60 HapMap founders in the CEU
+cohort. Each SNP has an associated data value indicating its
+association with the expression of the CPNE1 gene according to a
+Cochran-Armitage 1df test. The top 5000 scoring SNPs were selected for
+the track.
+
+We load the track presently.
+<<load-snp>>=
+library(rtracklayer)
+data(cpneTrack)
+@
+
+\subsection{Loading and manipulating the track}
+
+The data values for a track are stored in the metadata columns of the
+\textit{GRanges} instance. Often, a track contains a single column
+of numeric values, conventionally known as the \textit{score}. The
+\texttt{score} function retrieves the metadata column named \textit{score}
+or, if one does not exist, the first metadata column in the
+\textit{GRanges}, as long as it is numeric. Otherwise,
+\texttt{NULL} is returned.
+<<datavals-accessor>>=
+head(score(cpneTrack))
+@
+
+% Sometimes, it may be convenient to extract the track information as a
+% \textit{data.frame}. The \textit{trackData} function does this by
+% combining the \textit{featureData} matrix with the \textit{dataVals}.
+% It also adds a column named \textit{featMid}, which gives the
+% mid-points (the mean of the start and end positions) of each feature
+% in the track. Here is an example of using \textit{trackData} to plot
+% the test value for each SNP vs. its position.
+
+One use of extracting the data values is to plot the data.
+<<trackData, fig=TRUE, png=TRUE>>=
+plot(start(cpneTrack), score(cpneTrack))
+@ 
+
+\subsection{Browsing the SNPs}
+
+We now aim to view some of the SNPs in the UCSC browser. Unlike the
+microRNA target site example above, this track has quantitative
+information, which requires special consideration for visualization.
+
+\subsubsection{Laying a WIG track}
+
+To view the SNP locations as a track in a genome browser, we first
+need to upload the track to a fresh session. In the code below, we use
+the \texttt{[[<-} alias of \texttt{track<-}.
+<<layTrack-snp, eval=FALSE>>=
+session <- browserSession()
+session$cpne <- cpneTrack
+@
+%
+Note that because \texttt{cpneTrack} contains data values and its
+features do not overlap, it is uploaded to the browser in the WIG
+format. One limitation of the WIG format is that it is not possible to
+encode strand information. Thus, each strand needs to have its own
+track, and \textbf{rtracklayer} does this automatically, unless only
+one strand is represented in the track (as in this case). One could
+pass ``bed'' to the \textit{format} parameter of \texttt{track<-} to
+prevent the split, but tracks uploaded as BED are much more limited
+compared to WIG tracks in terms of visualization options.
+
+To form the labels for the WIG subtracks, `` p'' is concatenated onto
+the plus track and `` m'' onto the minus track. Features with missing
+track information are placed in a track named with the `` na''
+postfix. It is important to note that the subtracks must be identified
+individually when, for example, downloading the track or changing
+track visibility.
+
+\subsubsection{Plotting the SNP track}
+
+To plot the data values for the SNP's in a track, we need to create a
+\textit{browserView}. We will view the region spanning the first 5
+SNPs in the track, which will be displayed in the ``full'' mode.
+%
+<<browserView-snp, eval=FALSE>>=
+view <- browserView(session, range(cpneTrack[1:5,]), full = "cpne")
+@ 
+%
+The UCSC browser will plot the data values as bars. There are several
+options available for tweaking the plot, as described in the help for
+the \textit{GraphTrackLine} class. These need to be specified laying the
+track, so we will lay a new track named ``cpne2''. First, we will
+turn the \textit{autoScale} option off, so that the bars will be
+scaled globally, rather than locally to the current view. Then we
+could turn on the \textit{yLineOnOff} option to add horizontal line
+that could represent some sort of cut-off. The position of the line is
+specified by \textit{yLineMark}. We set it arbitrarily to the 25\%
+quantile.
+%
+<<layTrack-snp2, eval=FALSE>>=
+track(session, "cpne2", autoScale = FALSE, yLineOnOff = TRUE, 
+      yLineMark = quantile(score(cpneTrack), .25)) <- cpneTrack
+view <- browserView(session, range(cpneTrack[1:5,]), full = "cpne2")
+@
+%
+
+\section{Binding sites for NRSF}
+\label{sec:binding}
+
+Another common type of genomic feature is transcription factor binding
+sites. Here we will use the \textbf{Biostrings} package to search for
+matches to the binding motif for NRSF, convert the result to
+a track, and display a portion of it in the \textbf{UCSC} browser.
+
+\subsection{Creating the binding site track}
+
+We will use the \textbf{Biostrings} package to search human chromosome
+1 for NRSF binding sites. The binding sequence motif is assumed to be
+\textit{TCAGCACCATGGACAG}, though in reality it is more variable.
+To perform the search, we run \textit{matchPattern} on the positive
+strand of chromosome 1.
+%
+<<search-nrsf>>=
+library(BSgenome.Hsapiens.UCSC.hg19)
+nrsfHits <- matchPattern("TCAGCACCATGGACAG", Hsapiens[["chr1"]])
+length(nrsfHits)  # number of hits
+@ 
+%
+
+We then convert the hits, stored as a \textit{Views} object, to a
+\textit{GRanges} instance.
+%
+<<track-nrsf>>=
+nrsfTrack <- GenomicData(ranges(nrsfHits), strand="+", chrom="chr1",
+                         genome = "hg19")
+@ 
+%
+\Rfunction{GenomicData} is a convenience function that constructs a
+\Rclass{GRanges} object.
+
+\subsection{Browsing the binding sites}
+
+Now that the NRSF binding sites are stored as a track, we can upload
+them to the UCSC browser and view them. Below, load the track and we
+view the region around the first hit in a single call to
+\texttt{browseGenome}.
+%
+<<browserView-nrsf, eval=FALSE>>=
+session <- browseGenome(nrsfTrack, range = range(nrsfTrack[1]) * -10)
+@ 
+%
+We observe significant conservation across mammal species in the
+region of the motif.
+
+\section{Downloading tracks from UCSC}
+
+\Rclass{rtracklayer} can be used to download annotation tracks from
+the UCSC table browser, thus providing a convenient programmatic
+alternative to the web interface available at
+\url{http://genome.ucsc.edu/cgi-bin/hgTables}.  
+
+\textbf{Note} that not all tables are output in parseable form, and
+that \textbf{UCSC will truncate responses} if they exceed certain
+limits (usually around 100,000 records). The safest (and most
+efficient) bet for large queries is to download the file via FTP and
+query it locally.
+
+\subsection{Example 1: the RepeatMasker Track}
+
+This simple example identifies repeat-masked regions in and around the transcription start site (TSS)
+of the human E2F3 gene, in hg19:
+<<rmsk.e2f3, eval=FALSE>>=
+library (rtracklayer)
+mySession = browserSession("UCSC")
+genome(mySession) <- "hg19"
+e2f3.tss.grange <- GRanges("chr6", IRanges(20400587, 20403336))
+tbl.rmsk <- getTable(
+   ucscTableQuery(mySession, track="rmsk", 
+                   range=e2f3.tss.grange, table="rmsk"))
+@ 
+There are several important points to understand about this example:
+\begin{enumerate}
+\item The \Rcode{ucscTableQuery} used above is a proxy for, and provides communication with,
+  the remote UCSC table browser (see \url{http://genome.ucsc.edu/cgi-bin/hgTables}).
+\item You must know the name of the track and table (or sub-track) that you want.  The 
+  way to do this is explained in detail below, in section 5.3.
+\item If the track contains multiple tables (which is the case for 
+  many ENCODE tracks, for instance), then you must also specify that table name.
+\item When the track contains a single table only, you may omit the \Rcode{table} 
+  parameter, or reuse the track name (as we did above).
+\item If you omit the range parameter, the full track table is returned, covering the entire
+  genome.  
+\item The amount of time required to download a track is roughly a function of the number
+  of features in the track, which is in turn a function of the density of those features,
+  and the length of the genomic range you request.  To download the entire RepeatMasker
+  track, for all of h19, would take a very long time, and is a task poorly 
+  suited to rtracklayer.  By contrast, one full-genome DNaseI track takes less than a minute (see below).
+\end{enumerate}
+
+
+\subsection{Example 2: DNaseI hypersensitivity regions in the K562 Cell Line}
+
+The ENCODE project (\url{http://encodeproject.org/ENCODE}) provides many
+hundreds of annotation tracks to the UCSC table browser.  One of these
+describes DNaseI hypersensitivity for K562 cells (an immortalized erythroleukemia
+line) measured at the University of Washington using 'Digital Genome
+Footprinting' (see \url{http://www.ncbi.nlm.nih.gov/pubmed?term=19305407}).
+Obtain DNaseI hypersensitive regions near the E2F3 TSS, and for all of hg19:
+
+<<uwDgfEncodeExample, eval=FALSE>>=
+track.name <- "wgEncodeUwDgf"
+table.name <- "wgEncodeUwDgfK562Hotspots"
+e2f3.grange <- GRanges("chr6", IRanges(20400587, 20403336))
+mySession <- browserSession ()
+tbl.k562.dgf.e2f3 <- getTable(ucscTableQuery (mySession, track=track.name, 
+                              range=e2f3.grange, table=table.name))
+tbl.k562.dgf.hg19 <- getTable(ucscTableQuery (mySession, track=track.name, 
+                                              table=table.name))
+@ 
+
+\subsection{Discovering Which Tracks and Tables are Available from UCSC}
+  
+As the examples above demonstrate, you must know the exact UCSC-style name for
+the track and table you wish to download.  You may browse these interactively at
+\url{http://genome.ucsc.edu/cgi-bin/hgTables?org=Human&db=hg19} or
+programmatically, as we demonstrate here.
+
+<<trackAndTableNameDiscovery, eval=FALSE>>=
+mySession <- browserSession ()
+genome(mySession) <- "hg19"
+  # 177 tracks in October 2012
+track.names <- trackNames(ucscTableQuery(mySession))
+  # chose a few tracks at random from this set, and discover how 
+  # many tables they hold
+tracks <- track.names [c (99, 81, 150, 96, 90)]
+sapply(tracks, function(track) {
+     length(tableNames(ucscTableQuery(mySession, track=track)))
+     })
+@ 
+
+
+
+\section{Conclusion}
+
+These case studies have demonstrated a few of the most important
+features of \textbf{rtracklayer}.
+Please see the package documentation for more details.
+
+The following is the session info that generated this vignette:
+<<session-info>>=
+  sessionInfo()
+@ 
+
+\end{document}

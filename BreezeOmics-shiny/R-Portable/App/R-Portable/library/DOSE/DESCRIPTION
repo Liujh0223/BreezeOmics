@@ -1,0 +1,44 @@
+Package: DOSE
+Type: Package
+Title: Disease Ontology Semantic and Enrichment analysis
+Version: 3.24.2
+Authors@R: c( person(given = "Guangchuang", family = "Yu",        email = "guangchuangyu@gmail.com",   role = c("aut", "cre")),
+              person(given = "Li-Gen",      family = "Wang",      email = "reeganwang020@gmail.com",   role = "ctb"),
+              person(given = "Vladislav",   family = "Petyuk",    email = "petyuk@gmail.com",          role = "ctb"),
+              person(given = "Giovanni",    family = "Dall'Olio", email = "giovanni.dallolio@upf.edu", role = "ctb"),
+              person(given = "Erqiang",     family = "Hu",        email = "13766876214@163.com",       role = "ctb"))
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Description: This package implements five methods proposed by
+    Resnik, Schlicker, Jiang, Lin and Wang respectively
+    for measuring semantic similarities among DO terms and
+    gene products. Enrichment analyses including hypergeometric
+    model and gene set enrichment analysis are also implemented
+    for discovering disease associations of high-throughput
+    biological data.
+Depends: R (>= 3.5.0)
+Imports: AnnotationDbi, HDO.db, BiocParallel, fgsea, ggplot2, GOSemSim
+        (>= 2.23.1), methods, qvalue, reshape2, stats, utils
+Suggests: prettydoc, clusterProfiler, gson (>= 0.0.5), knitr,
+        rmarkdown, org.Hs.eg.db, testthat
+VignetteBuilder: knitr
+ByteCompile: true
+License: Artistic-2.0
+Encoding: UTF-8
+URL: https://yulab-smu.top/biomedical-knowledge-mining-book/
+BugReports: https://github.com/GuangchuangYu/DOSE/issues
+Packaged: 2022-11-21 23:12:29 UTC; biocbuild
+biocViews: Annotation, Visualization, MultipleComparison,
+        GeneSetEnrichment, Pathways, Software
+RoxygenNote: 7.2.2
+git_url: https://git.bioconductor.org/packages/DOSE
+git_branch: RELEASE_3_16
+git_last_commit: 2d3de40
+git_last_commit_date: 2022-11-20
+Date/Publication: 2022-11-21
+NeedsCompilation: no
+Author: Guangchuang Yu [aut, cre],
+  Li-Gen Wang [ctb],
+  Vladislav Petyuk [ctb],
+  Giovanni Dall'Olio [ctb],
+  Erqiang Hu [ctb]
+Built: R 4.2.2; ; 2022-11-22 11:39:55 UTC; windows

@@ -1,0 +1,13 @@
+bconv	keggConv
+color.pathway.by.objects	mark.pathway.by.objects
+conv	keggConv
+info	keggInfo
+keggConv	keggConv
+keggFind	keggFind
+keggGet	keggGet
+keggInfo	keggInfo
+keggLink	keggLink
+keggList	keggList
+link	keggLink
+listDatabases	listDatabases
+mark.pathway.by.objects	mark.pathway.by.objects

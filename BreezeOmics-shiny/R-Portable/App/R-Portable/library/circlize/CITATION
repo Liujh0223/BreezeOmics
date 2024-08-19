@@ -1,0 +1,12 @@
+
+bibentry(
+   bibtype="Article",
+   title = "circlize implements and enhances circular visualization in R",
+   author = "Zuguang Gu, Lei Gu, Roland Eils, Matthias Schlesner and Benedikt Brors",
+   journal = "Bioinformatics",
+   volume = 30,
+   issue = 19,
+   pages = "2811-2812",
+   year = 2014,
+   textVersion = "Gu, Z. (2014) circlize implements and enhances circular visualization in R. Bioinformatics."
+)

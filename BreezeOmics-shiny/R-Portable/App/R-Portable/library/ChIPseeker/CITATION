@@ -1,0 +1,50 @@
+citHeader("Please cite Q. Wang (2022) or G. Yu (2015) for using ChIPseeker. In addition, please cite clusterProfiler/DOSE/ReactomePA when using functional enrichment analyses.")
+
+
+citEntry(entry  ="ARTICLE",
+         title  = "Exploring epigenomic datasets by ChIPseeker",
+         author = personList(
+             as.person("Qianwen Wang"),
+             as.person("Ming Li"),
+             as.person("Tianzhi Wu"),
+             as.person("Li Zhan"),
+             as.person("Lin Li"),
+             as.person("Meijun Chen"),
+             as.person("Wenqin Xie"),
+             as.person("Zijing Xie"),
+             as.person("Erqiang Hu"),
+             as.person("Shuangbin Xu"),
+             as.person("Guangchuang Yu")
+             ),
+         journal = "Current Protocols",
+         year    = "2022",
+         volume  = "2",
+         number  = "10",
+         pages   = "e585",
+         PMID    = "36286622",
+         doi     = "10.1002/cpz1.585",
+         url     = "https://onlinelibrary.wiley.com/share/author/GYJGUBYCTRMYJFN2JFZZ?target=10.1002/cpz1.585",
+         textVersion = paste("Qianwen Wang, Ming Li, Tianzhi Wu, Li Zhan, Lin Li, Meijun Chen, Wenqin Xie, Zijing Xie, Erqiang Hu, Shuangbin Xu, Guangchuang Yu.",
+         "Exploring epigenomic datasets by ChIPseeker.",
+         "Current Protocols 2022, 2(10): e585")
+         )
+
+
+citEntry(entry  ="ARTICLE",
+         title  = "ChIPseeker: an R/Bioconductor package for ChIP peak annotation, comparison and visualization",
+         author = personList(
+             as.person("Guangchuang Yu"),
+             as.person("Li-Gen Wang"),
+             as.person("Qing-Yu He")
+             ),
+         journal = "Bioinformatics",
+         year    = "2015",
+         volume  = "31",
+         number  = "14",
+         pages   = "2382-2383",
+         PMID    = "25765347",
+         doi     = "10.1093/bioinformatics/btv145",
+         textVersion = paste("Guangchuang Yu, Li-Gen Wang, and Qing-Yu He.",
+             "ChIPseeker: an R/Bioconductor package for ChIP peak annotation, comparison and visualization.",
+             "Bioinformatics 2015, 31(14):2382-2383")
+         )

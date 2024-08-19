@@ -1,0 +1,22 @@
+Package: DynDoc
+Title: Dynamic document tools
+Version: 1.76.0
+Author: R. Gentleman, Jeff Gentry
+Description: A set of functions to create and interact with dynamic
+        documents and vignettes.
+Depends: methods, utils
+Imports: methods
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+License: Artistic-2.0
+LazyLoad: Yes
+Collate: tangleToR.R DynDoc.R vignetteClass.R vigList.R vignetteCode.R
+        zzz.R
+biocViews: ReportWriting, Infrastructure
+git_url: https://git.bioconductor.org/packages/DynDoc
+git_branch: RELEASE_3_16
+git_last_commit: 98230b2
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-01 23:58:18 UTC; biocbuild
+Built: R 4.2.1; ; 2022-11-02 13:32:38 UTC; windows

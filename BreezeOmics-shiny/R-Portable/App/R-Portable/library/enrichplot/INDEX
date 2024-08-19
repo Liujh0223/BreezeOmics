@@ -1,0 +1,31 @@
+autofacet               automatically split barplot or dotplot into
+                        several facets
+barplot.enrichResult    barplot
+cnetplot                cnetplot
+color_palette           color_palette
+dotplot                 dotplot
+drag_network            Drag the nodes of a network to update the
+                        layout of the network
+emapplot                emapplot
+emapplot_cluster        Functional grouping network diagram for
+                        enrichment result of over-representation test
+                        or gene set enrichment analysis
+fortify.compareClusterResult
+                        fortify
+geom_gsea_gene          geom_gsea_gene
+ggtable                 ggtable
+goplot                  goplot
+gsInfo                  gsInfo
+gseadist                gseadist
+gseaplot                gseaplot
+gseaplot2               gseaplot2
+gsearank                gsearank
+heatplot                heatplot
+pairwise_termsim        pairwise_termsim
+plotting.clusterProfile
+                        plotting-clusterProfile
+pmcplot                 pmcplot
+ridgeplot               ridgeplot
+ssplot                  ssplot
+treeplot                treeplot
+upsetplot               upsetplot method

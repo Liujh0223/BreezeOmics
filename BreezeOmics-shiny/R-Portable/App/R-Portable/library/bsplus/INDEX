@@ -1,0 +1,18 @@
+bs_accordion            Accordion panel-group
+bs_accordion_sidebar    Accordion-sidebar panel-group
+bs_append.bsplus_carousel
+                        Carousel
+bs_button               Button
+bs_carousel_caption     Carousel caption
+bs_carousel_image       Carousel image
+bs_collapse             Collapsible element
+bs_embed_popover        Popover
+bs_embed_tooltip        Tooltip
+bs_modal                Modal window
+bs_panel                Panel
+bs_set_data             Sets Bootstrap data- and aria- attributes.
+render_html_fragment    Renders and returns an HTML fragment
+shinyInput_label_embed
+                        Embed an element into the label of a
+                        Shiny-input tag
+shiny_iconlink          Create link containing Shiny icon

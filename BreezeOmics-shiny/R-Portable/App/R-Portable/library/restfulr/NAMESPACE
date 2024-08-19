@@ -1,0 +1,26 @@
+useDynLib(restfulr, .registration = TRUE)
+
+import(methods)
+importFrom(RCurl, getURLContent, base64, curlOptions, postForm, dynCurlReader,
+           getCurlHandle, parseHTTPHeader)
+importFrom(utils, URLencode, URLdecode, read.csv, head, tail, write.csv)
+importFrom(XML, xmlInternalTreeParse, parseURI, htmlTreeParse)
+importFrom(rjson, fromJSON, toJSON)
+importFrom(S4Vectors, isSingleString, isTRUEorFALSE, recycleArg, unstrsplit)
+importFrom(yaml, as.yaml, yaml.load_file)
+importClassesFrom(S4Vectors, character_OR_NULL)
+
+export(RestUri, mediaCoercionTable, RestContainer,
+       MediaCache, globalRestClientCache, embedCredentials)
+
+exportMethods(create, read, update, delete, purgeCache, mediaTarget,
+              container, "container<-", credentials, username, password,
+              authenticate)
+
+exportClasses(Media, "application/*", "audio/*", "image/*", "message/*",
+              "model/*", "multipart/*", "text/*", "video/*",
+              "text/plain", "text/html", "text/csv", "application/xml",
+              "application/json", RestUri, RestContainer, CRUDProtocol,
+              MediaCache)
+
+S3method(as.list, Media)

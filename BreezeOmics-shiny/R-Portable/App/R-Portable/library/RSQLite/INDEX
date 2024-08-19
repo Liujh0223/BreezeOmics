@@ -1,0 +1,14 @@
+SQLite                  Connect to an SQLite database
+datasetsDb              A sample sqlite database
+dbBegin_SQLiteConnection
+                        SQLite transaction management
+dbReadTable_SQLiteConnection_character
+                        Read a database table
+dbWriteTable_SQLiteConnection_character_character
+                        Write a local data frame or file to the
+                        database
+initExtension           Add useful extension functions
+rsqliteVersion          RSQLite version
+sqliteCopyDatabase      Copy a SQLite database
+sqliteSetBusyHandler    Configure what SQLite should do when the
+                        database is locked

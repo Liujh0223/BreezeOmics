@@ -1,0 +1,15 @@
+export("GetOptions")
+export("GetoptLong")
+export("GetoptLong.options")
+export("get_scriptdir")
+export("get_scriptname")
+export("qq")
+export("qq.options")
+export("qqcat")
+export("source_script")
+
+import("crayon")
+import("methods")
+importFrom("GlobalOptions", setGlobalOptions)
+importFrom("rjson", fromJSON)
+

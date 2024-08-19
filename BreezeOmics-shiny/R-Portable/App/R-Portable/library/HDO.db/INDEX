@@ -1,0 +1,20 @@
+HDO.db                  Bioconductor annotation data package
+HDOALIAS                Map from HDO alias to HDO terms
+HDOANCESTOR             Annotation of HDO Identifiers to their
+                        Ancestors
+HDOCHILDREN             Annotation of HDO Identifiers to their Children
+HDODb-class             AnnotationDb objects and their progeny, methods
+                        etc.
+HDOMAPCOUNTS            Number of mapped keys for the maps in package
+                        HDO.db
+HDOOBSOLETE             Annotation of HDO identifiers by terms defined
+                        by Disease Ontology Consortium and their status
+                        are obsolete
+HDOOFFSPRING            Annotation of HDO Identifiers to their
+                        Offspring
+HDOPARENTS              Annotation of HDO Identifiers to their Parents
+HDOSYNONYM              Map from HDO synonyms to HDO terms
+HDOTERM                 Annotation of HDO Identifiers to HDO Terms
+HDO_dbconn              Collect information about the package
+                        annotation DB
+HDOmetadata             Annotation of HDO Identifiers to HDO Terms

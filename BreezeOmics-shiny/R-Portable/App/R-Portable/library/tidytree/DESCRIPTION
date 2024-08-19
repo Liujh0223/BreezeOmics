@@ -1,0 +1,31 @@
+Package: tidytree
+Title: A Tidy Tool for Phylogenetic Tree Data Manipulation
+Version: 0.4.6
+Authors@R: c(
+           person("Guangchuang", "Yu",   email = "guangchuangyu@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-6485-8781")),
+           person("Bradley", "Jones",    email = "brj1@sfu.ca",             role = "ctb"),
+           person("Zebulun", "Arendsee", email = "zbwrnz@gmail.com",        role = "ctb")
+           )
+Description: Phylogenetic tree generally contains multiple components including node, edge, branch and associated data. 'tidytree' provides an approach to convert tree object to tidy data frame as well as provides tidy interfaces to manipulate tree data.
+Depends: R (>= 3.4.0)
+Imports: ape, dplyr, lazyeval, magrittr, methods, rlang, tibble, tidyr,
+        tidyselect, yulab.utils (>= 0.0.4), pillar, cli
+Suggests: knitr, rmarkdown, prettydoc, testthat, utils
+VignetteBuilder: knitr
+ByteCompile: true
+License: Artistic-2.0
+URL:
+        https://www.amazon.com/Integration-Manipulation-Visualization-Phylogenetic-Computational-ebook/dp/B0B5NLZR1Z/
+BugReports: https://github.com/YuLab-SMU/tidytree/issues
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2023-12-12 11:11:12 UTC; HUAWEI
+Author: Guangchuang Yu [aut, cre, cph]
+    (<https://orcid.org/0000-0002-6485-8781>),
+  Bradley Jones [ctb],
+  Zebulun Arendsee [ctb]
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-12-12 11:40:02 UTC
+Built: R 4.2.3; ; 2024-04-24 02:34:11 UTC; windows

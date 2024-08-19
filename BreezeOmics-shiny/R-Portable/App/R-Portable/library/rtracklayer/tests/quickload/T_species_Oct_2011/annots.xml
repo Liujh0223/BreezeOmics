@@ -1,0 +1,4 @@
+<files>
+  <file name="bedData.bed.gz" title="bedData" description="bedData"/>
+  <file name="bedGraphData.bw" title="bedGraphData" description="bedGraphData"/>
+</files>

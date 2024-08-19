@@ -1,0 +1,788 @@
+CHANGES IN VERSION 1.50.0
+-------------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Use useEnsemblGenomes() instead of useMart() wherever possible.
+
+    o Improve pcoverageByTranscript() implementation. The function now uses
+      a chunking strategy to handle bigger CompressedGRangesList objects and
+      to reduce memory footprint. Note that even with this improvement, the
+      function is still not very efficient.
+
+    o Rename proteinToGenome() argument 'txdb' -> 'db'.
+
+BUG FIXES
+
+    o Change test for 'circ_seqs' argument in makeTxDbPackageFromUCSC() from
+      an error to a warning if argument set to NULL.
+
+
+CHANGES IN VERSION 1.48.0
+-------------------------
+
+NEW FEATURES
+
+    o Add proteinToGenome() generic and methods. Loosely modeled on
+      ensembldb::proteinToGenome().
+
+    o Add extendExonsIntoIntrons().
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Use useEnsembl() instead of useMart() wherever possible.
+
+    o makeTxDbFromGFF() and makeTxDbFromGRanges() now recognize and
+      import features of type "gene_segment", "pseudogenic_gene_segment",
+      "antisense_RNA", "three_prime_overlapping_ncrna", or "vault_RNA",
+      as transcripts.
+      Note that, according to the Sequence Ontology, the "gene_segment"
+      and "pseudogenic_gene_segment" terms are NOT offsprings of the
+      "transcript" term via the **is_a** relationship but we still treat
+      them as if they were because that's what Ensembl does in their GFF3
+      files!
+
+DEPRECATED AND DEFUNCT
+
+    o Add warning about FeatureDb-related functionalities no longer being
+      actively maintained.
+
+    o disjointExons() is now defunct after being deprecated in BioC 3.13.
+
+
+CHANGES IN VERSION 1.46.0
+-------------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Small update to makeTxDbFromGFF()/makeTxDbFromGRanges():
+      makeTxDbFromGFF() and makeTxDbFromGRanges() now recognize and import
+      features of type protein_coding_gene (or of type any offspring of
+      the protein_coding_gene term) as genes. This was achieved by adding
+      protein_coding_gene + its offsprings to GenomicFeatures:::.GENE_TYPES.
+
+
+CHANGES IN VERSION 1.44.0
+-------------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Several improvements to makeTxDbFromGFF():
+      - More GFF3 feature types are recognized as transcripts or genes (commit
+        d7f5980f).
+      - Improve handling of GFF3 files from Ensembl (commit c1e3fb92).
+      - Handle exons with no Parent attribute. GFF3 files that contain exons
+        with no Parent attribute no longer break makeTxDbFromGRanges() or
+        makeTxDbFromGFF(). Orphan exons are dropped.
+
+DEPRECATED AND DEFUNCT
+
+    o Deprecate disjointExons() in favor of exonicParts().
+
+    o Remove species() method for TxDb objects (was deprecated in BioC 3.3
+      and defunct in BioC 3.4).
+
+
+CHANGES IN VERSION 1.42.0
+-------------------------
+
+NEW FEATURES
+
+    o Implement a restricted seqinfo() setter for TxDb objects that supports
+      altering only the seqlevels and/or genome of the object, but not its
+      seqlengths or circularity flags. This is all we need to make the improved
+      seqlevelsStyle() setter work on TxDb objects (see below).
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The seqlevelsStyle() getter and setter do a better job when the
+      underlying genome is known. See NEWS file in the GenomeInfoDb package
+      for more information.
+
+
+CHANGES IN VERSION 1.40.0
+-------------------------
+
+NEW FEATURES
+
+    o Small improvements to makeTxDbFromEnsembl():
+      - check validity of user supplied transcript attribute code
+      - report nb of fetched transcripts and genes during progress
+      - produced TxDb will "remember" which transcript attribute code was used
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o genes() now prints a message when genes are dropped.
+
+    o getChromInfoFromUCSC() is now defined in the GenomeInfoDb package.
+      Note that the new function is a much improved version of the old one
+      but also the returned data frame has its columns named differently!
+      See ?getChromInfoFromUCSC in the GenomeInfoDb package for the details.
+
+    o Argument 'goldenPath_url' was renamed 'goldenPath.url' in functions
+      makeTxDbFromUCSC(), makeFeatureDbFromUCSC(), makeTxDbPackageFromUCSC(),
+      and makeFDbPackageFromUCSC().
+
+    o Default value for argument 'circ_seqs' was changed from DEFAULT_CIRC_SEQS
+      to NULL in all functions that have this argument.
+
+    o Global constant DEFAULT_CIRC_SEQS (character vector) was removed. It is
+      now defined in GenomeInfoDb but no longer exported, at least for now.
+
+BUG FIXES
+
+    o Make asGFF() method for TxDb objects robust to absence of CDS ranges.
+
+
+CHANGES IN VERSION 1.38.0
+-------------------------
+
+NEW FEATURES
+
+    o Small improvement to exonicParts() and intronicParts():
+      - When 'linked.to.single.gene.only' is set to TRUE, exonicParts() now
+        returns an additional "exonic_part" metadata column that indicates the
+        rank of each exonic part within all the exonic parts linked to the same
+        gene. This is for compatibility with old disjointExons().
+      - intronicParts() does something similar except that the additional
+        metadata column is named "intronic_part".
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o makeTxDbFromGRanges() and makeTxDbFromGFF() now recognize more features
+      as transcripts, exons, or CDS (see commits 822665f8 and 6281f856)
+
+BUG FIXES
+
+    o Fix makeTxDbFromUCSC(..., "refGene") for bosTau9/galGal6/panTro6/rheMac10
+
+
+CHANGES IN VERSION 1.36.0
+-------------------------
+
+NEW FEATURES
+
+    o Export and document helper functions tidyTranscripts(), tidyExons(),
+      and tidyIntrons()
+
+    o Add support for mapToTranscripts() to map ranges that span introns
+
+BUG FIXES
+
+    o Fix bug in makeTxDbFromGFF() when file is a GFF3File or GTFFile object
+
+    o Fix bug in makeFeatureDbFromUCSC()
+      (see https://github.com/Bioconductor/GenomicFeatures/issues/15)
+
+    o Fix makeTxDbFromUCSC() on hg19/refGene and hg38/refGene tables
+      (see message of commit ee575ee8 for more information)
+
+
+CHANGES IN VERSION 1.34.0
+-------------------------
+
+NEW FEATURES
+
+    o 2 changes to makeTxDbFromGFF() / makeTxDbFromGRanges():
+      - Now they support GFF3 files where the CDS parent is an exon instead
+        of a transcript. Note that such GFF3 files are rare and not following
+        the well established convention documented in the GFF3 specs:
+        https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md
+      - Now they accept missing/invalid CDS phases (with a warning).
+
+    o makeTxDb() now accepts missing CDS phases.
+
+
+CHANGES IN VERSION 1.32.0
+-------------------------
+
+NEW FEATURES
+
+    o The first argument of mapToTranscripts() and pmapToTranscripts() now can
+      be a GPos object and a GPos object is returned in that case.
+
+    o Add 'use.names' argument to "transcripts", "exons", "cds, and "promoters"
+      methods for TxDb objects.
+
+    o makeTxDbFromUCSC() now uses direct SQL queries (to the UCSC MySQL server
+      at genome-mysql.soe.ucsc.edu) instead of rtracklayer::getTable() to fetch
+      data from the Genome Browser. This avoids the issue reported here
+      https://github.com/lawremi/rtracklayer/issues/5 . Another benefit is
+      that direct SQL queries are much faster than rtracklayer::getTable().
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The GRanges object returned by mapToTranscripts() or pmapToTranscripts()
+      takes the transcript lengths as seqlengths.
+
+    o pmapToTranscripts() always takes the transcript name as the seqname,
+      even when there is no overlap. Before, it used "UNMAPPED" as the seqname
+      when there was no overlap.
+
+BUG FIXES
+
+    o Fix bug where 'coverageByTranscript(x, transcripts)' was erroring in
+      situations where 'transcripts' contains transcripts with an exon that
+      receives no coverage and is located on a sequence for which the seqlength
+      is not available in 'seqinfo(x)' nor in 'seqinfo(transcripts)'.
+
+
+CHANGES IN VERSION 1.30.0
+-------------------------
+
+NEW FEATURES
+
+    o Add makeTxDbFromEnsembl() for creating a TxDb object by querying
+      directly an Ensembl MySQL server. This seems to be faster and more
+      reliable than makeTxDbFromBiomart().
+
+    o Improve makeTxDbFromBiomart() support for EnsemblGenomes marts
+      fungal_mart, metazoa_mart, plants_mart, and protist_mart.
+
+    o makeTxDbFromGFF() and makeTxDbFromGRanges() now import the CDS phase.
+      This required a change in the schema of the underlying SQLite db of
+      TxDb objects. This is still a work-in-progress e.g. cdsBy(txdb, by="tx")
+      still needs to be modified to return the phase info.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The *ByOverlaps() functions now use the same 'maxgap' and 'minoverlap'
+      defaults as subsetByOverlaps().
+
+DEPRECATED AND DEFUNCT
+
+    o Remove 'force' argument from seqinfo() and seqlevels() setters (the
+      argument got deprecated in BioC 3.5 in favor of new and more flexible
+      'pruning.mode' argument).
+
+BUG FIXES
+
+    o exonicParts() and intronicParts() are now documented.
+
+    o Address a couple of issues pointed out by Matt Chambers in
+      internal helpers get_organism_from_Ensembl_Mart_dataset() and
+      .extractEnsemblReleaseFromDbVersion() used by makeTxDbFromBiomart().
+
+    o Fix internal utility .Ensembl_getMySQLCoreDir(). Was failing for some
+      of the 69 datasets from the Ensembl mart, causing makeTxDbFromBiomart()
+      to fail loopking up the organism scientific name and the chromosome
+      lengths. Thanks to Matt Chambers for reporting this.
+
+    o Some tweaks and fixes needed to support RSQLite 2.0.
+
+
+CHANGES IN VERSION 1.28.0
+-------------------------
+
+NEW FEATURES
+
+    o makeTxDbFromUCSC() supports new composite "NCBI RefSeq" track for hg38.
+
+    o Add 'metadata' argument to makeTxDbFromGFF().
+
+    o Add exonicParts() as an alternative to disjointExons():
+      - exonicParts() has a 'linked.to.single.gene.only' argument (FALSE by
+        default) that is similar to the 'aggregateGenes' argument of
+        disjointExons() but with opposite meaning. More precisely
+        'exonicParts(txdb, linked.to.single.gene.only=TRUE)' returns the same
+        exonic parts as 'disjointExons(txdb, aggregateGenes=FALSE)'.
+      - Unlike 'disjointExons(txdb, aggregateGenes=TRUE)',
+        'exonicParts(txdb, linked.to.single.gene.only=FALSE)' does NOT discard
+        exon parts that are not linked to a gene.
+      - exonicParts() is almost twice more efficient than disjointExons().
+
+    o Add intronicParts(): similar to exonicParts() but returns intronic parts.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Some work on distance,GenomicRanges,TxDb method:
+      - pass ignore.strand to range() and distance()
+      - return NA when 'id' cannot be collapsed into a single range or when
+        'id' is not found in 'y'
+
+DEPRECATED AND DEFUNCT
+
+    o Argument 'force' of seqlevels() setters is deprecated in favor of new and
+      more flexible 'pruning.mode' argument.
+
+    o Remove the 'vals' argument of the "transcripts", "exons", "cds", and
+      "genes" methods for TxDb objects (was defunct in BioC 3.4).
+
+BUG FIXES
+
+    o Fix bug in seqlevels() setter for TxDb objects reported here:
+        https://support.bioconductor.org/p/90226/
+
+
+CHANGES IN VERSION 1.26.0
+-------------------------
+
+NEW FEATURES
+
+    o makeTxDbFromGRanges() now recognizes features of type lnc_RNA,
+     antisense_lncRNA, transcript_region, and pseudogenic_tRNA, as transcripts.
+
+    o Add 'intronJunctions' argument to mapToTranscripts().
+
+DEPRECATED AND DEFUNCT
+
+    o The 'vals' argument of the "transcripts", "exons", "cds", and "genes"
+      methods for TxDb objects is now defunct (was deprecated in BioC 3.3).
+
+    o The "species" method for TxDb object is now defunct (was deprecated in
+      BioC 3.3).
+
+
+CHANGES IN VERSION 1.24.0
+-------------------------
+
+NEW FEATURES
+
+    o Add mapRangesToIds() and mapIdsToRanges() for mapping genomic ranges to
+      IDs and vice-versa.
+
+    o Support makeTxDbFromUCSC("hg38", "knownGene") (gets "GENCODE v22" track).
+
+    o Add pmapToTranscripts,GRangesList,GRangesList method.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Rename the 'vals' argument of the transcripts(), exons(), cds(), and
+      genes() extractors -> 'filter'. The 'vals' argument is still available
+      but deprecated.
+
+    o Rename the 'filters' argument of makeTxDbFromBiomart() and
+      makeTxDbPackage() -> 'filter'.
+
+    o When grouping the transcripts by exon or CDS, transcriptsBy() now returns
+      a GRangesList object with the "exon_rank" information (as an inner
+      metadata column).
+
+    o For transcripts with no exons (like in the GFF3 files from GeneDB),
+      makeTxDbFromGRanges() now infers the exons from the CDS.
+
+    o For transcripts with no exons and no CDS (like in the GFF3 files from
+      miRBase), makeTxDbFromGRanges() now infers the exon from the transcript.
+
+    o makeTxDbFromGRanges() and makeTxDbFromGFF() now support GFF/GTF files
+      with one (or both) of the following peculiarities:
+      - The file is GTF and contains only lines of type transcript but no
+        transcript_id tag (not clear this is valid GTF but some users are
+        working with this kind of file).
+      - Each transcript in the file is reported to be on its own contig and
+        spans it (start=1) but no strand is reported for the transcript.
+        makeTxDbFromGRanges() now sets the strand to "+" for all these
+        transcripts.
+
+    o makeTxDbFromGRanges() now recognizes features of type miRNA,
+      miRNA_primary_transcript, SRP_RNA, RNase_P_RNA, RNase_MRP_RNA, misc_RNA,
+      antisense_RNA, and antisense as transcripts. It also now recognizes
+      features of type transposable_element_gene as genes.
+
+    o makeTxDbFromBiomart() now points to the Ensembl mart by default instead
+      of the central mart service.
+
+    o Add some commonly used alternative names (Mito, mitochondrion,
+      dmel_mitochondrion_genome, Pltd, ChrC, Pt, chloroplast, Chloro, 2uM) for
+      the mitochondrial and chloroplast genomes to DEFAULT_CIRC_SEQS.
+
+DEPRECATED AND DEFUNCT
+
+    o Remove the makeTranscriptDb*() functions (were defunct in BioC 3.2).
+
+    o Remove the 'exonRankAttributeName', 'gffGeneIdAttributeName',
+      'useGenesAsTranscripts', 'gffTxName', and 'species' arguments from the
+      makeTxDbFromGFF() function (were defunct in BioC 3.2).
+
+BUG FIXES
+
+    o Try to improve heuristic used in makeTxDbFromGRanges() for detecting the
+      format (GFF3 or GTF) of input GRanges object 'x'.
+
+
+CHANGES IN VERSION 1.22.0
+-------------------------
+
+NEW FEATURES
+
+    o Add coverageByTranscript() and pcoverageByTranscript(). See
+      ?coverageByTranscript for more information.
+
+    o Various improvements to makeTxDbFromGFF():
+      - Now supports 'format="auto"' for auto-detection of the file format.
+      - Now supports naming features by dbxref tag (like GeneID). This has
+        proven useful when importing GFFs from NCBI.
+
+    o Improvements to the coordinate mapping methods:
+      - Support recycling when length(transcripts) == 1 for parallel
+        mapping functions.
+      - Add pmapToTranscripts,Ranges,GRangesList and
+        pmapFromTranscripts,Ranges,GRangesList methods.
+
+    o Adds 'taxonomyId' argument to the makeTxDbFrom*() functions.
+
+    o Improvements to makeTxDbPackage():
+      - Add 'pkgname' argument to makeTxDbPackage() to let the user override
+        the automatic naming of the package to be generated.
+      - Support person objects for 'maintainer' and 'author' arguments to
+        makeTxDbPackage().
+
+    o The 'chrominfo' vector passed to makeTxDb() can now mix NAs and non-NAs.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o 2 significant changes to makeTxDbFromGRanges() and makeTxDbFromGFF():
+      - They now also import transcripts of type pseudogenic_transcript and
+        pseudogenic_exon.
+      - They normally get the "gene_id" and "[tx|exon|CDS]_name" columns from
+        the Name tag. Now they will also infer these columns from the ID tag
+        when the Name tag is missing.
+
+    o Improve handling of 'circ_seqs' argument by makeTxDbFromUCSC(),
+      makeTxDbFromGFF(), and makeTxDbFromBiomart(): no more annoying warning
+      when none of the strings in DEFAULT_CIRC_SEQS matches the seqlevels of
+      the TxDb object to be made.
+
+    o 2 minor changes to makeTxDbFromBiomart():
+      - Now drops unneeded chromosome info when importing an incomplete
+        transcript dataset.
+      - Now returns a TxDb object with 'Full dataset' field set to 'no' when
+        makeTxDbFromBiomart() is called with user-supplied 'filters'.
+
+    o makeTxDbPackage() now includes data source in the package name by default
+      (for non UCSC and BioMart databases).
+
+    o The following changes were made to the coordinate mapping methods:
+      - mapToTranscripts() now reports mapped position with respect to the
+        transcription start site regardless of strand.
+      - Change 'ignore.strand' default from TRUE to FALSE in all coordinate
+        mapping methods for consistency with other functions that already have
+        the 'ignore.strand' argument.
+      - Name matching in mapFromTranscripts() is now done with seqnames(x) and
+        names(transcripts).
+      - The pmapFromTranscripts,*,GRangesList methods now return a GRangesList
+        object. Also they no longer use 'UNMAPPED' seqname for unmapped ranges.
+      - Remove uneeded ellipisis from the argument list of various coordinate
+        mapping methods.
+
+    o Change behavior of seqlevels0() getter so it does what it was always
+      intended to do.
+
+    o The order of the transcripts returned by transcripts() has changed: now
+      they are guaranteed to be in the same order as in the GRangesList object
+      returned by exonsBy().
+
+    o Code improvements and speedup to the transcripts(), exons(), cds(),
+      exonsBy(), and cdsBy() extractors.
+
+    o In order to avoid loss of information (and make it reversible with
+      makeTxDbFromGRanges()), the "asGFF" method for TxDb objects now
+      propagates the "exon_name" and "cds_name" columns to the GRanges object.
+
+DEPRECATED AND DEFUNCT
+
+    o After being deprecated in BioC 3.1, the makeTranscriptDb*() functions
+      are now defunct.
+
+    o After being deprecated in BioC 3.1, the 'exonRankAttributeName',
+      'gffGeneIdAttributeName', 'useGenesAsTranscripts', 'gffTxName', and
+      'species' arguments of makeTxDbFromGFF() are now defunct.
+
+    o Remove sortExonsByRank() (was defunct in BioC 3.1).
+
+BUG FIXES
+
+    o Fix bug in fiveUTRsByTranscript() and threeUTRsByTranscript() extractors
+      when the TxDb object had "user defined" seqlevels and/or a set of
+      "active/inactive" seqlevels defined on it.
+
+    o Fix bug in isActiveSeq() setter when the TxDb object had "user defined"
+      seqlevels on it.
+
+    o Fix many issues with seqlevels() setter for TxDb objects. In particular
+      make the 'seqlevels(x) <- seqlevels0(x)' idiom work on TxDb objects.
+
+    o Fix bug in makeTxDbFromBiomart() when using it to retrieve a dataset that
+      doesn't provide the cds_length attribute (e.g. sitalica_eg_gene dataset
+      in plants_mart_26).
+
+
+CHANGES IN VERSION 1.20.0
+-------------------------
+
+NEW FEATURES
+
+    o Add makeTxDbFromGRanges() for extracting gene, transcript, exon, and CDS
+      information from a GRanges object structured as GFF3 or GTF, and
+      returning that information as a TxDb object.
+
+    o TxDb objects have a new column ("tx_type" in the "transcripts" table)
+      that the user can request thru the 'columns' arg of the transcripts()
+      extractor. This column is populated when the user makes a TxDb object
+      from Ensembl (using makeTxDbFromBiomart()) or from a GFF3/GTF file (using
+      makeTxDbFromGFF()), but not yet (i.e. it's set to NA) when s/he makes it
+      from a UCSC track (using makeTxDbFromUCSC()). However it seems that UCSC
+      is also providing that information for some tracks so we're planning to
+      have makeTxDbFromUCSC() get it from these tracks in the near future.
+      Also low-level makeTxDb() now imports the "tx_type" column if supplied.
+
+    o Add transcriptLengths() for extracting the transcript lengths from a
+      TxDb object. It also returns the CDS and UTR lengths for each transcript
+      if the user requests them.
+
+    o extractTranscriptSeqs() now works on a FaFile or GmapGenome object (or,
+      more generally, on any object that supports seqinfo() and getSeq()).
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Renamed makeTranscriptDbFromUCSC(), makeTranscriptDbFromBiomart(),
+      makeTranscriptDbFromGFF(), and makeTranscriptDb() -> makeTxDbFromUCSC(),
+      makeTxDbFromBiomart(), makeTxDbFromGFF(), and makeTxDb(). Old names
+      still work but are deprecated.
+
+    o Many changes and improvements to makeTxDbFromGFF():
+      - Re-implemented it on top of makeTxDbFromGRanges().
+      - The geneID tag, if present, is now used to assign an external gene id
+        to transcripts that couldn't otherwise be linked to a gene. This is
+        for compatibility with some GFF3 files from FlyBase (see for example
+        dmel-1000-r5.11.filtered.gff included in this package).
+      - Arguments 'exonRankAttributeName', 'gffGeneIdAttributeName',
+        'useGenesAsTranscripts', and 'gffTxName', are not needed anymore so
+        they are now ignored and deprecated.
+      - Deprecated 'species' arg in favor of new 'organism' arg.
+
+    o Some tweaks to makeTxDbFromBiomart():
+      - Drop transcripts with UTR anomalies with a warning instead of failing.
+        We've started to see these hopeless transcripts with the release 79 of
+        Ensembl in the dmelanogaster_gene_ensembl dataset (based on FlyBase
+        r6.02 / FB2014_05). With this change, the user can still make a TxDb
+        for dmelanogaster_gene_ensembl but some transcripts will be dropped
+        with a warning.
+      - BioMart data anomaly warnings and errors now show the first 3
+        problematic transcripts instead of 6.
+
+    o 'gene_id' metadata column returned by genes() is now a character vector
+      instead of a CharacterList object.
+
+    o Use # prefix instead of | in "show" method for TxDb objects.
+
+DEPRECATED AND DEFUNCT
+
+    o Deprecated makeTranscriptDbFromUCSC(), makeTranscriptDbFromBiomart(),
+      makeTranscriptDbFromGFF(), and makeTranscriptDb(), in favor of
+      makeTxDbFromUCSC(), makeTxDbFromBiomart(), and makeTxDbFromGFF(), and
+      makeTxDb().
+
+    o Deprecated species() accessor in favor of organism() on TxDb objects.
+
+    o sortExonsByRank() is now defunct (was deprecated in GenomicFeatures
+      1.18)
+
+    o Removed extractTranscriptsFromGenome(), extractTranscripts(),
+      determineDefaultSeqnameStyle() (were defunct in GenomicFeatures 1.18).
+
+BUG FIXES
+
+    o makeTxDbFromBiomart():
+      - Fix issue causing the download of 'chrominfo' data frame to fail when
+        querying the primary Ensembl mart (with host="ensembl.org" and
+        biomart="ENSEMBL_MART_ENSEMBL").
+      - Fix issue with error reporting code: when some transcripts failed to
+        pass the sanity checks, the error message was displaying the wrong
+        transcripts. More precisely, many good transcripts were mistakenly
+        added to the set of bad transcripts and included in the error message.
+
+    o extractTranscriptSeqs(): fix error message when internal call to
+      exonsBy() fails on 'transcripts'.
+
+
+CHANGES IN VERSION 1.18.0
+-------------------------
+
+NEW FEATURES
+
+    o Add extractUpstreamSeqs().
+
+    o makeTranscriptDbFromUCSC() now supports the "flyBaseGene" table
+      (FlyBase Genes track).
+
+    o makeTranscriptDbFromBiomart() now knows how to fetch the sequence
+      lengths from the Ensembl Plants db.
+
+    o makeTranscriptDbFromGFF() is now more tolerant of bad strand
+      information.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Replace toy TxDb UCSC_knownGene_sample.sqlite (based on hg18) with
+      hg19_knownGene_sample.sqlite (based on hg19) and use hg19 instead of
+      hg18 in all examples (and unit tests).
+
+    o Rename TranscriptDb class -> TxDb.
+
+    o Now when GTF files are processed into TxDbs with exon ranking being
+      inferreed, if the exons are on separate chromosomes, we toss out that
+      transcript (since we cannot possibly guess the exon ranking correctly).
+
+DEPRECATED AND DEFUNCT
+
+    o extractTranscripts() and extractTranscriptsFromGenome() are now defunct.
+
+    o Deprecate sortExonsByRank().
+
+BUG FIXES
+
+    o Bug fixes and improvements to makeTranscriptDbFromBiomart():
+      (a) Fix long standing bug where the code in charge of inferring the
+          CDSs from the UTRs would return CDSs spanning all the exons of a
+          non-coding transcript.
+      (b) Fix an issue that was preventing the function from extracting the
+          CDS information added recently to the datasets in the Ensembl Fungi,
+          Ensembl Metazoa, Ensembl Plants, and Ensembl Protists databases.
+      (c) Make the code in charge of extracting the CDSs more robust by taking
+          advantage of new attributes (genomic_coding_start and
+          genomic_coding_end) added by Ensembl in release 74 (Dec 2013),
+          and by adding more sanity checks.
+
+
+CHANGES IN VERSION 1.14.0
+-------------------------
+
+NEW FEATURES
+
+    o keys method now has new arguments to allow for more
+      sophisticated filtering.
+
+    o adds genes() extractor
+
+    o makeTranscriptDbFromGFF() now handles even more different kinds
+      of GFF files.
+
+
+BUG FIXES
+
+    o better argument checking for makeTranscriptDbFromGFF()
+
+    o cols arguments and methods will now be columns arguments and methods
+
+
+CHANGES IN VERSION 1.12.0
+-------------------------
+
+NEW FEATURES
+
+    o Support for new UCSC species
+
+    o Better support for GTF and GFF processing into TranscriptDb objects
+
+    o Methods for making TranscriptDb objects from general sources
+      have been made more useful
+
+BUG FIXES
+
+    o Updates to allow continued access to ever changing services like UCSC
+
+    o Corrections for seqnameStyle methods
+
+    o Over 10X performance gains for processing of GTF and GFF files
+
+
+CHANGES IN VERSION 1.10.0
+-------------------------
+
+NEW FEATURES
+
+    o Add makeTranscriptDbFromGFF().  Users can now use GFF files to
+      make TranscriptDb resources.
+
+    o Add *restricted* "seqinfo<-" method for TranscriptDb objects. It only
+      supports replacement of the sequence names (for now), i.e., except for
+      their sequence names, Seqinfo objects 'value' (supplied) and 'seqinfo(x)'
+      (current) must be identical.
+
+    o Add promoters() and getPromoterSeq().
+
+    o Add 'reassign.ids' arg (FALSE by default) to makeTranscriptDb().
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o Updated vignette.
+
+    o Improve how makeTranscriptDbFromUCSC() and makeTranscriptDbFromBiomart()
+      assign internal ids (see commit 65144 for the details).
+
+    o 2.5x speedup of fiveUTRsByTranscript() and threeUTRsByTranscript().
+
+DEPRECATED AND DEFUNCT
+
+    o Are now defunct: transcripts_deprecated(), exons_deprecated(), and
+      introns_deprecated().
+
+    o Deprecate loadFeatures() and saveFeatures() in favor of loadDb() and
+      saveDb(), respectively.
+
+BUG FIXES
+
+    o Better handling of BioMart data anomalies.
+
+
+CHANGES IN VERSION 1.8.0
+------------------------
+
+NEW FEATURES
+
+    o Added asBED and asGFF methods to convert a TranscriptDb to a
+      GRanges that describes transcript structures according to either
+      the BED or GFF format. This enables passing a TranscriptDb
+      object to rtracklayer::export directly, when targeting GFF/BED.
+
+
+CHANGES IN VERSION 1.6.0
+------------------------
+
+NEW FEATURES
+
+    o TranscriptDbs are now available as standard packages.  Functions
+    that were made available before the last release allow users to
+    create these packages.
+
+    o TranscriptDb objects now can be used with select
+
+    o select method for TranscriptDb objects to extract data.frames of
+    available annotations.  Users can specify keys, along with the
+    keytype, and the columns of data that they want extracted from the
+    annotation package.
+
+    o keys now will operate on TranscriptDB objects to expose ID types
+    as potential keys
+
+    o keytypes will show which kinds of IDs can be used as a key by select
+
+    o cols will display the kinds of data that can be extracted by select
+
+    o isActiveSeq has been added to allow entire chromosomes to be
+    toggled active/inactive by the user.  By default, everything is
+    exposed, but if you wish you can now easily hide everything that
+    you don't want to see.  Subsequence to this, all your accessors
+    will behave as if only the "active" things are present in the
+    database.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o saveDb and loadDb are here and will be replacing saveFeatures
+    and loadFeatures.  The reason for the name change is that they
+    dispatch on (and should work with a wider range of object types
+    than just trancriptDb objects (and their associated databases).
+
+BUG FIXES
+
+    o ORDER BY clause has been added to SQL statements to enforce more
+    consistent ordering of returned rows.
+
+    o bug fixes to enable DB construction to still work even after
+    changes in schemas etc at UCSC, and ensembl sources.
+
+    o bug fixes to makeFeatureDbFromUCSC allow it to work more
+    reliably (it was being a little too optimistic about what UCSC
+    would actually supply data for)
+

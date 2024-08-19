@@ -1,0 +1,35 @@
+Package: edgeR
+Version: 3.40.2
+Date: 2022-11-01
+Title: Empirical Analysis of Digital Gene Expression Data in R
+Description: Differential expression analysis of RNA-seq expression profiles with biological replication. Implements a range of statistical methodology based on the negative binomial distributions, including empirical Bayes estimation, exact tests, generalized linear models and quasi-likelihood tests. As well as RNA-seq, it be applied to differential signal analysis of other types of genomic data that produce read counts, including ChIP-seq, ATAC-seq, Bisulfite-seq, SAGE and CAGE.
+Author: Yunshun Chen, Aaron TL Lun, Davis J McCarthy, Matthew E Ritchie, Belinda Phipson, Yifang Hu, Xiaobei Zhou, Mark D Robinson, Gordon K Smyth
+Maintainer: Yunshun Chen <yuchen@wehi.edu.au>, Gordon Smyth <smyth@wehi.edu.au>, Aaron Lun <infinite.monkeys.with.keyboards@gmail.com>, Mark Robinson <mark.robinson@imls.uzh.ch>
+License: GPL (>=2)
+Depends: R (>= 3.6.0), limma (>= 3.41.5)
+Imports: methods, graphics, stats, utils, locfit, Rcpp
+Suggests: jsonlite, readr, rhdf5, splines, Biobase, AnnotationDbi,
+        SummarizedExperiment, org.Hs.eg.db
+LinkingTo: Rcpp
+URL: http://bioinf.wehi.edu.au/edgeR,
+        https://bioconductor.org/packages/edgeR
+biocViews: GeneExpression, Transcription, AlternativeSplicing,
+        Coverage, DifferentialExpression, DifferentialSplicing,
+        DifferentialMethylation, GeneSetEnrichment, Pathways, Genetics,
+        DNAMethylation, Bayesian, Clustering, ChIPSeq, Regression,
+        TimeCourse, Sequencing, RNASeq, BatchEffect, SAGE,
+        Normalization, QualityControl, MultipleComparison,
+        BiomedicalInformatics, CellBiology, FunctionalGenomics,
+        Epigenetics, Genetics, ImmunoOncology, SystemsBiology,
+        Transcriptomics
+NeedsCompilation: yes
+SystemRequirements: C++11
+git_url: https://git.bioconductor.org/packages/edgeR
+git_branch: RELEASE_3_16
+git_last_commit: ddb1cb9
+git_last_commit_date: 2023-01-19
+Date/Publication: 2023-01-19
+Packaged: 2023-01-19 23:21:24 UTC; biocbuild
+Built: R 4.2.2; x86_64-w64-mingw32; 2023-01-20 12:42:47 UTC; windows
+ExperimentalWindowsRuntime: ucrt
+Archs: x64

@@ -1,0 +1,18 @@
+importFrom(utils, getFromNamespace)
+import(methods)
+import(AnnotationDbi)
+
+### Only put what is statically exported here. All the AnnObj instances
+### created at load time are dynamically exported (refer to R/zzz.R for
+### the details).
+export(
+    HDO,
+    HDO_dbconn,
+    HDO_dbfile,
+    HDO_dbschema,
+    HDO_dbInfo,
+    columns,
+    keytypes,
+    select,
+    keys
+)

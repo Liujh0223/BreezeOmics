@@ -1,0 +1,52 @@
+DPExplorer              Functions constuct a widget to explore BioC's
+                        data packages
+WName                   Accessors for Primitive Widget Objects
+appendSepDir            List File and Directories for a Given Path
+args2XML                Converting the formal arguments to a function
+                        and converts into an XML format
+argsWidget              Functions to construct a widget that takes
+                        inputs from users
+colInfo-class           Class "colInfo" presents column information for
+                        a data frame
+dataViewer              Function to view a data object passed
+dbArgsWidget            Function to build a widget for inputing
+                        database arguments
+eExplorer               A widget that allows users to explore the
+                        example code and help files of a given R
+                        package
+fileBrowser             Simple Interface to View and Pick Files
+fileWizard              A function that import a text file into R
+getLightTW              Function to create a light weight widget
+                        showing a text string
+getWvalues              Obtaining values of widgets on a given widget
+guess.sep               Automatically determines whether a data file
+                        has a header and what delimiter is used to
+                        separate data columns
+hasChar                 String Prefix and Suffix Checking
+importPhenoData         Functions to input data for an
+                        AnnotatedDataFrame object
+importWizard            A widget for importing data to R
+listSelect              Utilities Creating a Widget With Selection
+                        Boxes
+objNameToList           Convert Object Names to List of Lists with
+                        (name, object) Pairs
+objViewer               Show the Content of an R Object in a Widget
+objectBrowser           View the Objects in the Workspace
+pExplorer               A widget to explore R packages
+pickFiles               Pick Elements From Vector of Strings
+pickItems               Function that builds a widget to allow users to
+                        select items from available sources
+pickObjs                Determine What to Be Sent to a Widget
+setArgsList             Functions to support importWizard
+stdType                 Provide Default Behavior for listSelect Helper
+                        Functions
+tkMIAME                 Simple Interface to enter experimental design
+                        information
+tkSampleNames           Simple interface to associate sample names with
+                        files
+tkphenoData             Simple interface to enter AnnotatedDataFrame
+vExplorer               An interface to interact with vignette code
+                        chunks
+values.Widget           Deal with Names and Values of Widget Created by
+                        widgetRender()
+widgetRender            Render a Tk Widget from Given Specifications

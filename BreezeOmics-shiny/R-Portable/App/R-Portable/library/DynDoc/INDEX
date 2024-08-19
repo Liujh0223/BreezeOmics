@@ -1,0 +1,14 @@
+DynDoc-class            A Class For Dynamic Documents
+SweaveOptions-class     Class "SweaveOptions", a class to handle
+                        options in Sweave
+Vignette-class          A Class To Represent Vignettes
+chunkList-class         Class "chunkList"
+codeChunk-class         Class "codeChunk"
+getPkgVigList           A function to retrieve a listing of package
+                        vignettes
+getVignette             A function to handle vignette files
+getVignetteCode         Functionality to manage code chunks from a
+                        vignette
+getVignetteHeader       A function to read vignette header information
+tangleToR               An Sweave driver to retrieve code chunks
+vignetteCode-class      Class "vignetteCode"

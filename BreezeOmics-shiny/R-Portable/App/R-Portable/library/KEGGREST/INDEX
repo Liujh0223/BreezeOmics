@@ -1,0 +1,17 @@
+keggConv                Convert KEGG identifiers to/from outside
+                        identifiers
+keggFind                Finds entries with matching query keywords or
+                        other query data in a given database
+keggGet                 Retrieves given database entries
+keggInfo                Displays the current statistics of a given
+                        database
+keggLink                Find related entries by using database
+                        cross-references.
+keggList                Returns a list of entry identifiers and
+                        associated definition for a given database or a
+                        given set of database entries.
+listDatabases           Lists the KEGG databases which may be searched.
+mark.pathway.by.objects
+                        Client-side interface to obtain an url for a
+                        KEGG pathway diagram with a given set of genes
+                        marked

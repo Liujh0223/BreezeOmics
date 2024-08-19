@@ -1,0 +1,15 @@
+citEntry(entry="article",
+         title = "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2",
+         author = personList( as.person("Michael I. Love"),
+                              as.person("Wolfgang Huber"),
+                              as.person("Simon Anders")),
+         year = 2014,
+         journal = "Genome Biology",
+         doi = "10.1186/s13059-014-0550-8",
+         volume = 15,
+         issue = 12,
+         pages = 550,
+         textVersion = 
+         paste("Love, M.I., Huber, W., Anders, S.", 
+               "Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2",
+                "Genome Biology 15(12):550 (2014)" ) )

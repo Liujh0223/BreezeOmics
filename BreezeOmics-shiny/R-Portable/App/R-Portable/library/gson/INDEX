@@ -1,0 +1,7 @@
+GSON-class              Class "GSON" This class represents gene set
+                        information.
+gson                    construct a 'GSON' object
+gsonList                construct a 'GSONList' object
+read.gmt                read.gmt
+read.gson               read and write gson file
+show                    show method

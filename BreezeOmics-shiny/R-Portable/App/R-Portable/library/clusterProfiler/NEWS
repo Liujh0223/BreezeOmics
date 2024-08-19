@@ -1,0 +1,484 @@
+CHANGES IN VERSION 3.5.6
+------------------------
+ o fixed R check <2017-09-28, Thu>
+
+CHANGES IN VERSION 3.5.5
+------------------------
+ o ko2name <2017-08-14, Mon>
+ o bioc git transition <2017-07-18, Tue>
+
+CHANGES IN VERSION 3.5.4
+------------------------
+ o change keytype parameter in enrichGO to keyType for consistent <2017-06-28, Wed>
+   + https://github.com/GuangchuangYu/clusterProfiler/issues/91#issuecomment-311657933
+ o bug fixed of simplify for compareCluster result <2017-06-19, Mon>
+   + https://github.com/GuangchuangYu/clusterProfiler/issues/67#issuecomment-307815402
+
+CHANGES IN VERSION 3.5.3
+------------------------
+ o fixed https://github.com/GuangchuangYu/clusterProfiler/issues/88 <2017-05-24, Wed>
+ o accept background gene list via `universe` parameter in `enrichDAVID` <2017-05-16, Tue>
+   + https://github.com/GuangchuangYu/clusterProfiler/issues/87
+
+CHANGES IN VERSION 3.5.2
+------------------------
+ o support keyType in enrichMKEGG <2017-05-10, Wed>
+ o bug fixed of maintaining input list order in plotting compareCluster result <2017-05-02, Tue>
+   + https://support.bioconductor.org/p/95400/#95426
+
+CHANGES IN VERSION 3.5.1
+------------------------
+ o bug fixed of converting KEGG PATH ID to NAME using KEGG.db <2017-04-28, Fri>
+   + https://github.com/GuangchuangYu/clusterProfiler/issues/85
+
+CHANGES IN VERSION 3.4.0
+------------------------
+ o BioC 3.5 release <2017-04-26, Wed>
+
+CHANGES IN VERSION 3.3.6
+------------------------
+ o update kegg_species information <2017-03-26, Sun>
+ o bug fixed of bitr_kegg for converting ID to kegg <2017-03-01, Wed>
+   + https://support.bioconductor.org/p/93170/#93174
+ o better support of plotGOgraph for gseGO, use core enriched gene info <2017-02-27, Mon>
+
+CHANGES IN VERSION 3.3.5
+------------------------
+ o solve #81 <2017-02-12, Sun>
+ o bitr_kegg support converting Path/Module to geneID and vice versa <2017-01-03, Tue>
+
+CHANGES IN VERSION 3.3.4
+------------------------
+ o bug fixed of download_KEGG for supporting different keyType <2017-01-02, Mon>
+ o split 3 GO sub-ontologies for enrichGO <2016-12-12, Mon>
+ o dotplot for compareClusterResult to support 3 GO sub-ontologies <2016-12-8, Thu>
+ o bug fixed of determine `ont` from `expand.dots` <2016-12-06, Mon>
+   + see https://github.com/GuangchuangYu/clusterProfiler/issues/72
+
+CHANGES IN VERSION 3.3.3
+------------------------
+ o switch from BiocStyle to prettydoc <2016-11-30, Wed>
+ o change summary to as.data.frame in internal calls to prevent warning message <2016-11-14, Mon>
+
+CHANGES IN VERSION 3.3.2
+------------------------
+ o define simplify generics as it was removed from IRanges <2016-11-11, Fri>
+
+CHANGES IN VERSION 3.3.1
+------------------------
+ o update startup message <2016-11-09, Wed>
+ o bug fixed in enrichDAVID <2016-11-06, Sun>
+   + https://guangchuangyu.github.io/2015/10/use-simplify-to-remove-redundancy-of-enriched-go-terms/#comment-2987574851
+ o bug fixed in head, tail and dim for compareCluster object <2016-10-18, Tue>
+
+CHANGES IN VERSION 3.2.0
+------------------------
+ o BioC 3.4 released <2016-10-18, Tue>
+
+CHANGES IN VERSION 3.1.9
+------------------------
+ o bug fixed of simplify method for compareCluster object <2016-08-17, Mon>
+   + use semData parameter according to the change of GOSemSim
+
+CHANGES IN VERSION 3.1.8
+------------------------
+ o as.data.frame method for compareClusterResult <2016-09-29, Thu>
+ o geneID and geneInCategory methods <2016-09-19, Mon>
+
+CHANGES IN VERSION 3.1.7
+------------------------
+ o [, [[, head, tail, dim methods for compareClusterResult <2016-08-28, Sun>
+ o fixed R-devel check <2016-08-16, Tue>
+
+CHANGES IN VERSION 3.1.6
+------------------------
+ o update vignette <2016-08-16, Tue>
+ o browseKEGG <2016-08-15, Mon>
+ o unit test <2016-08-15, Mon>
+
+CHANGES IN VERSION 3.1.5
+------------------------
+ o move enrichMeSH & gseMeSH to meshes <2016-08-11, Thu>
+
+CHANGES IN VERSION 3.1.4
+------------------------
+ o MeSH term enrichment analysis (enrichMeSH and gseMeSH) <2016-07-28, Thu>
+
+CHANGES IN VERSION 3.1.3
+------------------------
+ o export download_KEGG <2016-07-25, Mon>
+ o according to the changes of GOSemSim and DOSE <2016-07-05, Tue>
+
+CHANGES IN VERSION 3.1.2
+------------------------
+ o 'by' parameter for GSEA analysis <2016-07-04, Mon>
+ o duplicated KEGG path id for KEGG orthology, only use ko <2016-06-28, Tue>
+   + e.g. map00010 and ko00010
+   + http://www.kegg.jp/dbget-bin/www_bget?ko+ko00010
+   + http://www.kegg.jp/dbget-bin/www_bget?ko+map00010
+
+CHANGES IN VERSION 3.1.1
+------------------------
+ o getGOLevel and dropGO support using a vector of GO level <2016-05-20, Fri>
+   + https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/clusterprofiler/zNYHLI6RpJI/1u4XRKfNAQAJ
+ o use byte compiler <2016-05-18, Wed>
+ o https://github.com/Bioconductor-mirror/clusterProfiler/commit/2949fe8db5464c419c9d1665cb24f43c49ac54ec
+
+CHANGES IN VERSION 3.0.0
+------------------------
+ o BioC 3.3 released <2016-05-05, Thu>
+
+CHANGES IN VERSION 2.99.2
+------------------------
+ o add keyType parameter in enrichKEGG, enrichMKEGG, gseKEGG and gseMKEGG <2016-05-03, Tue>
+ o search_kegg_species function <2016-05-03, Tue>
+ o bitr_kegg function <2016-05-03, Tue>
+
+CHANGES IN VERSION 2.99.1
+------------------------
+ o go2ont function <2016-04-28, Thu>
+   + https://www.biostars.org/p/188863/
+ o go2term function <2016-04-21, Thu>
+ o export buildGOmap <2016-04-08, Fri>
+ o fixed enrichDAVID according to https://support.bioconductor.org/p/72188/ <2016-04-08, Fri>
+
+CHANGES IN VERSION 2.99.0
+------------------------
+ o version bump, ready to release version 3. <2016-03-29, Tue>
+   + KEGG pathway and module support all species listed in KEGG website.
+   + GO supports all species that have OrgDb which can be accessed online by AnnotationHub
+   + User's defined/customized annotation is supported via enricher & GSEA
+
+CHANGES IN VERSION 2.5.6
+------------------------
+ o write my own code to parse KEGG REST instead of using KEGGREST package <2016-03-10, Thu>
+   + due to the issue of KEGGREST can't work with network of HTTP proxy with password
+   + see: http://guangchuangyu.github.io/2015/02/kegg-enrichment-analysis-with-latest-online-data-using-clusterprofiler/#comment-2561443364
+
+CHANGES IN VERSION 2.5.5
+------------------------
+ o maxGSSize paramter <2016-03-9, Wed>
+ o update show method of compareClusterResult <2016-03-06, Sun>
+ o fixed R check <2016-03-06, Sun>
+ o update ReactomePA citation info <2016-02-17, Wed>
+
+CHANGES IN VERSION 2.5.4
+------------------------
+ o add use_internal_data=FALSE parameter in gseKEGG <2016-01-19, Tue>
+ o fixed bug in simplify for organism extracted from OrgDb is not consistent to GOSemSim. <2016-01-05, Tue>
+ o update vignette <2015-12-29, Tue>
+ o re-designed internal function <2015-12-20, Sun>
+
+CHANGES IN VERSION 2.5.3
+------------------------
+ o enrichMKEGG and gseMKEGG functions to support enrichment analysis of KEGG Module <2015-12-03, Thu>
+   + see https://github.com/GuangchuangYu/clusterProfiler/issues/37
+
+CHANGES IN VERSION 2.5.2
+------------------------
+ o facet with compareCluster result <2015-11-03, Tue>
+   + see https://github.com/GuangchuangYu/clusterProfiler/issues/32
+
+CHANGES IN VERSION 2.5.1
+------------------------
+ o read.gmt function for parsing gmt file for enricher and GSEA <2015-10-28, Wed>
+ o gofilter to filt result at specific GO level <2015-10-23, Fri>
+ o simplify function <2015-10-21, Wed>
+   + see https://github.com/GuangchuangYu/clusterProfiler/issues/28
+
+CHANGES IN VERSION 2.5.0
+------------------------
+ o BioC 3.3 branch
+
+CHANGES IN VERSION 2.3.8
+------------------------
+ o dropGO function <2015-09-24, Thu>
+   + see https://github.com/GuangchuangYu/clusterProfiler/issues/26
+ o use_internal_data = TRUE in enrichKEGG example to speedup compilation of vignette and prevent error when online is not available <2015-09-23, Wed>
+
+CHANGES IN VERSION 2.3.7
+------------------------
+ o bug fixed in sorting pvalue of compareClusterResult. <2015-09-16, Wed>
+   For compareCluster(fun=groupGO), there is no pvalue, use Count for sorting
+ o use_internal_data= TRUE in enrichKEGG and gseKEGG demonstrated in vignette due to the issue
+   https://github.com/GuangchuangYu/clusterProfiler/issues/20 <2015-08-26, Wed>
+
+CHANGES IN VERSION 2.3.6
+------------------------
+ o merge_result function <2015-07-15, Wed>
+ o add citation of ChIPseeker <2015-07-09, Thu>
+ o add 'Functional analysis of NGS data' section in vignette <2015-06-29, Mon>
+ o update vignette <2015-06-24, Wed>
+
+CHANGES IN VERSION 2.3.5
+------------------------
+ o import dotplot from DOSE <2015-06-21, Sun>
+
+CHANGES IN VERSION 2.3.4
+------------------------
+ o bug fixed in getGeneSet.GO <2015-06-16, Tue>
+
+CHANGES IN VERSION 2.3.3
+------------------------
+ o convert vignette from Rnw to Rmd format <2015-05-17, Sun>
+
+CHANGES IN VERSION 2.3.2
+------------------------
+ o bug fixed of build_Anno <2015-05-07, Thu>
+ o add plotGOgraph function <2015-05-05, Tue>
+
+CHANGES IN VERSION 2.3.1
+------------------------
+ o remove import RDAVIDWebService <2015-04-29, Wed>
+ o update buildGOmap <2015-04-29, Wed>
+ o remove import KEGG.db <2015-04-29, Wed>
+
+CHANGES IN VERSION 2.1.14
+------------------------
+ o [enrichDAVID] report NA in qvalue column when it fail to calculate instead of throw error <2015-03-10, Fri>
+
+CHANGES IN VERSION 2.1.13
+------------------------
+ o update vignette <2015-03-07, Tue>
+
+CHANGES IN VERSION 2.1.12
+------------------------
+ o user input is now supported with enricher and GSEA function <2015-04-01, Wed>
+ o change use_internal_data parameter to ... according to the change of DOSE <2015-04-01, Wed>
+
+CHANGES IN VERSION 2.1.11
+------------------------
+ o add example of bitr in vignette <2015-03-31, Tue>
+
+CHANGES IN VERSION 2.1.10
+------------------------
+ o idType and bitr function for translating biological ID. <2015-03-20, Fri>
+
+CHANGES IN VERSION 2.1.9
+------------------------
+ o throw stop msg when gene can not be mapped by DAVID <2015-03-12, Thu>
+ o add return NULL when DAVID fail (no enrichment found or wrong ID type) <2015-03-11, Wed>
+
+CHANGES IN VERSION 2.1.8
+------------------------
+ o implement enrichDAVID <2015-03-07, Fri>
+
+CHANGES IN VERSION 2.1.7
+------------------------
+ o set includeAll = TRUE by default <2015-03-03, Tue>
+ o added an includeAll option in plot(compareCluster) <2015-02-26, Thu>
+     refer to: https://github.com/GuangchuangYu/clusterProfiler/issues/9
+ o fixed typo in groupGO <2015-02-26, Thu>
+
+CHANGES IN VERSION 2.1.6
+------------------------
+ o add DOSE citation <2015-02-13, Fri>
+
+CHANGES IN VERSION 2.1.5
+------------------------
+ o gseKEGG is also use online KEGG data by default. <2015-02-11, Wed>
+ o change 'use.KEGG.db' parameter to 'use_internal_data', that can be used
+   when I implement GO analysis with user specific annotation data <2015-02-11, Wed>
+
+CHANGES IN VERSION 2.1.4
+------------------------
+ o update vignette <2015-02-11, Wed>
+ o support formula like x ~ y + z, contributed by Giovanni Dall'Olio <2015-02-11, Wed>
+ o add example of formula interface <2015-02-11, Wed>
+ o formula interface for compareCluster contributed by Giovanni Dall'Olio <2015-02-11, Wed>
+
+CHANGES IN VERSION 2.1.3
+------------------------
+ o update vignettes <2015-01-28, Wed>
+ o fully support of using online version of KEGG in enrichKEGG,
+   using online version is now by default of enrichKEGG <2015-01-28, Wed>
+ o update CITATION <2015-01-28, Wed>
+
+CHANGES IN VERSION 2.1.2
+------------------------
+ o support downloading latest KEGG annotation data <2015-01-27, Tue>
+ o update vignette to use BiocStyle <2015-01-27, Tue>
+
+CHANGES IN VERSION 2.1.1
+------------------------
+ o add BugReports URL <2014-12-17, Wed>
+
+CHANGES IN VERSION 1.99.0
+------------------------
+ o set version to 1.99.0 and will release version 2.0.0 in next BioConductor release. <2014-09-03, Wed>
+   + In version 2.0.0, the package was extended to support about 20 species for both of GO and KEGG analyses.
+   + support gene set enrichment analysis algorithm for both of GO and KEGG.
+   + support enrichMap visualization.
+ o support about 20 species of KEGG analyses. <2014-09-03, Wed>
+ o update man file to indicate that enrichGO is now support more than 20 species <2014-09-03, Wed>
+
+CHANGES IN VERSION 1.13.3
+------------------------
+ o add keepGOlevel, keepGOterm, excludeGOlevel, excludeGOterm, not exported yet <2014-08-28, Thu>
+
+CHANGES IN VERSION 1.13.2
+------------------------
+ o implement gseGO and gseKEGG for gene set enrichment analysis <2014-07-31, Thu>
+ o import enrichMap from DOSE <2014-07-31, Thu>
+ o add corresponding section in vignettes <2014-07-31, Thu>
+
+CHANGES IN VERSION 1.13.1
+------------------------
+ o update man files according to the change of roxygen2 (ver 4.0.0) <2014-05-16, Fri>
+
+CHANGES IN VERSION 1.11.3
+------------------------
+ o now plotting compareClusterResult support scale the dot size by geneRatio, and it is now setting as default. <2014-01-14, Tue>
+ o The original default parameter by="percentage" is now changing to "rowPercentage" <2014-01-14, Tue>
+
+CHANGES IN VERSION 1.11.2
+------------------------
+ o remove viewKEGG function <2013-11-12, Tue>
+ o In vignette, illustrates how to visualize KEGG pathway using use pathview package. <2013-11-12, Tue>
+
+CHANGES IN VERSION 1.9.4
+------------------------
+ o bug fixed of readGff, add default parameter fill=TRUE in read.table function <2013-07-09, Mon>
+
+CHANGES IN VERSION 1.9.3
+------------------------
+ o extend enrichGO to support 20 species <2013-07-09, Mon>
+ o update vignettes. <2013-07-09, Mon>
+
+CHANGES IN VERSION 1.9.1
+------------------------
+ o enrichGO and enrichKEGG support rat organism <2013-05-20, Mon>
+ o change some code according to DOSE <2013-03-27, Wed>
+ o modify enrichGO and enrichKEGG according to the change of enrich.internal, remove qvalueCutoff parameter, add pAdjustMethod, add universe paramter for user to specify background. <2013-05-29, Wed>
+ o add function viewKEGG for visualizing KEGG pathway and update vignette. <2013-06-14, Fri>
+
+CHANGES IN VERSION 1.7.1
+------------------------
+ o support GO enrichment analysis for organism celegans <2013-01-22, Fri>
+ o add compress parameter in buildGOmap <2013-01-16, Wed>
+ o import ggtitle from ggplot2 <2012-09-07, Fri>
+ o update codes of plot functions accompaning with ggplot2 (version 0.9.2) <2012-09-06, Thu>
+ o bug fixed of buildGOmap due to the empty GO annotation query from biomaRt <2012-07-18, Wed>
+
+Changes IN VERSION 1.5.0
+------------------------
+ o bump up version to 1.5.0 for BioC 2.11 devel
+ o add URL in DESCRIPTION
+ o update citation and add biocView GeneSetEnrichment <2012-05-09, Wed>
+ o support zebrafish <2012-05-18, Mon>
+
+ CHANGES IN VERSION 1.3.15
+------------------------
+ o add support to organsims other than human, mouse, and yeast. <2012-03-22, Thu>
+ o add GFFparser.R, which provide function Gff2GeneTable to parse Gff files and
+   build gene information table.<2012-03-22, Thu>
+ o add function buildGOmap for building GO mapping files for unsurported organisms,
+   which can be analyzed now. <2012-03-22, Thu>
+ o add vignette explaining how to run GO analysis for unsupported organism. <2012-03-12, Thu>
+
+CHANGES IN VERSION 1.3.14
+------------------------
+ o re-implement enrichGO by import enrich.internal in DOSE
+   implement S3 methods for mapping IDs for GO analysis. <2012-03-18, Sun>
+ o re-implement enrichKEGG by import enrich.internal in DOSE
+   implement S3 methods for mapping IDs for KEGG analysis. <2012-03-19, Mon>
+ o re-implement groupGOResult class by extended from enrichResult,
+   and modified groupGO by using S3 methods designed for enrichGO. <2012-03-19,Mon>
+ o bug fixed for importing setReadable<- instead of setReadable. <2012-03-20, Tue>
+ o bug fixed of TERM2NAME.GO. <2012-03-21, Wed>
+
+CHANGES IN VERSION 1.3.13
+------------------------
+ o import plot summary from stats4, for BiocGenerics (version 0.1.10)
+   removed them <2012-03-03, Sat>
+
+CHANGES IN VERSION 1.3.12
+------------------------
+ o fixed BibTeX database file .bib.
+   month = , must be month = someMonth, or totally deleted,
+   leave it blank will cause texi2dvi failed. <2012-03-01, Thu>
+
+CHANGES IN VERSION 1.3.11
+------------------------
+ o update vignette. <2012-02-28, Tue>
+
+CHANGES IN VERSION 1.3.10
+------------------------
+ o fixed warnings concerning documents of plot generics. <2012-02-27, Mon>
+ o import summary generic from BiocGenerics instead of stats4. <2012-02-27, Mon>
+
+CHANGES IN VERSION 1.3.9
+------------------------
+ o fixed build error in bioc repos <2012-02-26 Sun>
+
+CHANGES IN VERSION 1.3.8
+------------------------
+ o add visualization section in vignette <2012-02-16 Thu>
+
+CHANGES IN VERSION 1.3.7
+------------------------
+ o @exportMethod plot <2012-02-15 Wed>
+ o fix bug when calling summary method from plot,
+   for summary defined in base is S3 method,
+   instead import summary generic from stats4 <2012-02-15 Wed>
+
+CHANGES IN VERSION 1.3.6
+------------------------
+ o remove generic definition of show, summary and plot, add NAMESPACE import show
+   from methods and plot from graphics. summary need not to import, for is defined
+   in the base package. <2012-02-13 Mon>
+ o rewrite vignette <2012-02-13 Mon>
+
+CHANGES IN VERSION 1.3.5
+------------------------
+ o update plot codes accompany with new version of ggplot2(>=0.9.0) <2012-02-07 Tue>
+
+CHANGES IN VERSION 1.3.4
+------------------------
+ o using apply instead of mdply to improve speed <2012-02-03 Fri>
+ o add citation of clusterProfiler <2012-02-03 Fri>
+
+CHANGES IN VERSION 1.3.3
+------------------------
+ o add showCategory parameter for plot functions <2011-01-11 Wed>
+
+CHANGES IN VERSION 1.3.2
+------------------------
+ o add qvalueCutoff parameter. <2011-01-05 Thu>
+
+CHANGES IN VERSION 1.3.1
+------------------------
+ o add plot.categoryNet for enrichGOResult. <2011-11-10 Thu>
+
+CHANGES IN VERSION 1.1.22
+------------------------
+ o update vignette. <2011-07-23 Thu>
+
+ CHANGES IN VERSION 1.1.21
+------------------------
+ o update roxygen docs. <2011-07-23 Sat>
+
+CHANGES IN VERSION 1.1.20
+------------------------
+ o update roxygen docs. <2011-07-19 Wed>
+
+CHANGES IN VERSION 1.1.19
+------------------------
+ o change to using roxygen for generating Rd file. <2011-07-19 Tue>
+
+CHANGES IN VERSION 1.1.18
+------------------------
+ o clean up some codes. <2011-07-19 Tue>
+
+CHANGES IN VERSION 1.1.17
+------------------------
+ o Remove dependence of GOstats and Category. <2011-07-18 Mon>
+
+CHANGES IN VERSION 1.1.16
+------------------------
+ o Re-implement function enrichGO. <2011-07-18 Mon>
+ o add parameter readable, for mapping gene IDs to gene names. <2011-07-18 Mon>
+
+CHANGES IN VERSION 1.1.15
+------------------------
+ o Modified plot method of groupGOResult, with colour coded. <2011-06-15 Wed>

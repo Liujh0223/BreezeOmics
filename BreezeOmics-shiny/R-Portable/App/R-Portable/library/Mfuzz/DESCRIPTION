@@ -1,0 +1,22 @@
+Package: Mfuzz
+Version: 2.58.0
+Date: 2022-05-26
+Title: Soft clustering of time series gene expression data
+Author: Matthias Futschik <matthias.futschik@sysbiolab.eu>
+Maintainer: Matthias Futschik <matthias.futschik@sysbiolab.eu>
+Depends: R (>= 2.5.0), Biobase (>= 2.5.5), e1071
+Imports: tcltk, tkWidgets
+Suggests: marray
+Description: Package for noise-robust soft clustering of gene expression time-series data (including a graphical user interface) 
+biocViews: Microarray, Clustering, TimeCourse, Preprocessing,
+        Visualization
+License: GPL-2
+URL: http://mfuzz.sysbiolab.eu/
+git_url: https://git.bioconductor.org/packages/Mfuzz
+git_branch: RELEASE_3_16
+git_last_commit: 5d926ad
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-02 01:25:21 UTC; biocbuild
+Built: R 4.2.1; ; 2022-11-02 13:54:02 UTC; windows

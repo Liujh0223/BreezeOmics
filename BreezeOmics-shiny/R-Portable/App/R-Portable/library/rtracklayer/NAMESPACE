@@ -1,0 +1,136 @@
+useDynLib(rtracklayer, .registration = TRUE)
+
+## ============================================================
+## Import
+## ============================================================
+
+import(methods)
+import(BiocGenerics)
+import(zlibbioc)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### base packages
+###
+
+importFrom("stats", offset, setNames)
+importFrom("utils", count.fields, URLdecode, URLencode, browseURL,
+           download.file, read.table, read.csv, type.convert, write.table,
+           packageVersion, strcapture)
+importFrom("tools", file_path_as_absolute, file_ext, file_path_sans_ext)
+importFrom("grDevices", col2rgb, rgb)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Non-bioconductor packages
+###
+
+importFrom("XML", getNodeSet, xmlValue, xmlAttrs, htmlTreeParse, xmlTreeParse,
+           xmlInternalTreeParse, parseURI, newXMLNode, xmlChildren,
+           addChildren, removeChildren, readHTMLTable)
+importMethodsFrom("XML", saveXML)
+
+importFrom("RCurl", curlUnescape, fileUpload, getCurlHandle, getForm, getURL,
+           postForm, url.exists, getCurlInfo)
+
+import(restfulr)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Bioconductor packages
+###
+
+import(S4Vectors)
+import(XVector)
+import(GenomeInfoDb)
+import(IRanges)
+import(GenomicRanges)
+import(BiocIO)
+
+importFrom("Biostrings", get_seqtype_conversion_lookup, writeXStringSet,
+           DNAStringSet, DNA_BASES, DNA_ALPHABET, alphabetFrequency,
+           reverseComplement, uniqueLetters)
+importMethodsFrom("Biostrings", masks, "masks<-", getSeq)
+importClassesFrom("Biostrings", DNAStringSet, XStringSet)
+
+importFrom("Rsamtools", indexTabix, bgzip, TabixFile, index)
+importMethodsFrom("Rsamtools", ScanBamParam, asBam, headerTabix, isOpen,
+                  scanTabix)
+importClassesFrom("Rsamtools", RsamtoolsFile, TabixFile, BamFile)
+
+importMethodsFrom("GenomicAlignments", readGAlignments, cigar,
+                  last, readGAlignmentPairs)
+importClassesFrom("GenomicAlignments", GAlignments)
+
+## ============================================================
+## Export
+## ============================================================
+
+exportClasses(BrowserSession, BrowserView, BrowserViewList,
+              UCSCSession, UCSCView,
+              UCSCData, TrackLine, BasicTrackLine, GraphTrackLine,
+              Bed15TrackLine, UCSCTrackModes, BigWigSelection,
+              BigBedSelection, UCSCSchema, Quickload, QuickloadGenome,
+              TrackHub, TrackHubGenome, Track, TrackContainer)
+
+## File classes
+exportClasses(RTLFile, RTLFileList, GFFFile, UCSCFile, BEDFile,
+              WIGFile, ChainFile, FastaFile, GFF1File, GFF2File, GFF3File,
+              BEDGraphFile, BED15File, GTFFile, GVFFile, BigWigFile,
+              BigWigFileList, BigBedFile, TwoBitFile, BEDPEFile)
+
+exportMethods(activeView, "activeView<-", blocks, browseGenome,
+              browserSession, "browserSession<-",
+              browserView, browserViews,
+              close, export, export.bed, export.bed15,
+              export.bedGraph, export.gff, export.gff1, export.gff2,
+              export.gff3, export.ucsc, export.wig, export.bw,
+              export.bb, export.2bit,
+              import, import.bed, import.bed15, import.bedGraph,
+              import.gff, import.gff1, import.gff2, import.gff3,
+              import.ucsc, import.wig, import.bw, import.chain,
+              import.2bit, import.bb,
+              exportToTabix,
+              "track<-",
+              track, trackNames, "trackNames<-", getTable, hubUrl, "hubUrl<-",
+              tableNames, trackName, "trackName<-",
+              tableName, "tableName<-",
+              ucscTrackModes, "ucscTrackModes<-",
+              ucscSchema,
+              coerce, initialize,
+              show, summary, "[", ucscTableQuery,
+              genome, "genome<-", chrom, "chrom<-", range, "range<-",
+              visible, "visible<-",
+              liftOver, offset, reversed, nrow,
+              referenceSequence, "referenceSequence<-",
+              asBED, asGFF,
+              split, fileFormat,
+              hub, "hub<-", shortLabel, "shortLabel<-", longLabel, "longLabel<-",
+              genomesFile, "genomesFile<-", email, "email<-", descriptionUrl,
+              "descriptionUrl<-", genomeField, "genomeField<-", getTracks , writeTrackHub,
+              trackField, "trackField<-", genomeInfo, "genomeInfo<-",
+              ## from IRanges
+              start, end, "start<-", "end<-",
+              score, "score<-",
+              as.data.frame, space, mcols,
+              ## from GenomicRanges
+              strand, seqinfo, "seqinfo<-",
+              ## from BSgenome
+              organism, releaseDate, getSeq
+              )
+
+export(genomeBrowsers, start, end, strand, "start<-", "end<-", width, "width<-",
+       ranges, values, GenomicData, GenomicSelection,
+       score, "score<-", as.data.frame, space,
+       ucscGenomes, ucscTables,
+       readGFFPragmas, sniffGFFVersion, GFFcolnames, readGFF, readGFFAsGRanges,
+       BigWigSelection, BigBedSelection,
+       GRangesForUCSCGenome, GRangesForBSGenome,
+       summary, seqinfo, genome, "genome<-", Genome,
+       uri, Quickload, quickload, QuickloadGenome,
+       organism, releaseDate, mcols, TrackHub, trackhub, TrackHubGenome,
+       Track, TrackContainer, wigToBigWig,
+       SeqinfoForBSGenome, SeqinfoForUCSCGenome, resource, path,
+       FileForFormat, cleanupBigWigCache, cleanupBigBedCache, viewURL)
+
+export(GFFFile, UCSCFile, BEDFile, WIGFile,
+       ChainFile, FastaFile, GFF1File, GFF2File, GFF3File, BEDGraphFile,
+       BED15File, GTFFile, GVFFile, BigWigFile, BigWigFileList, TwoBitFile,
+       BEDPEFile, BigBedFile)

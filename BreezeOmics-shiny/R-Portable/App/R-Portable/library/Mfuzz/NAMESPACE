@@ -1,0 +1,10 @@
+export(acore, cselection,  Dmin,fill.NA, filter.NA, filter.std,
+        filter.std, kmeans2, kmeans2.plot, mestimate,membership,
+       mfuzz, mfuzz.plot,
+       mfuzz.plot2,Mfuzzgui, mfuzzColorBar, overlap,
+        overlap.plot, partcoef, randomise, standardise, standardise2,
+        top.count,table2eset)
+
+import(tcltk, tkWidgets)  
+      
+               

@@ -1,0 +1,54 @@
+DataSet                 Datasets gcSample contains a sample of gene
+                        clusters.
+GSEA                    GSEA
+Gff2GeneTable           Gff2GeneTable
+bitr                    bitr
+bitr_kegg               bitr_kegg
+browseKEGG              browseKEGG
+buildGOmap              buildGOmap
+clusterProfiler-package
+                        statistical analysis and visualization of
+                        functional profiles for genes and gene clusters
+compareCluster          Compare gene clusters functional profile
+download_KEGG           download_KEGG
+dropGO                  dropGO
+enrichDAVID             enrichDAVID
+enrichGO                GO Enrichment Analysis of a gene set. Given a
+                        vector of genes, this function will return the
+                        enrichment GO categories after FDR control.
+enrichKEGG              KEGG Enrichment Analysis of a gene set. Given a
+                        vector of genes, this function will return the
+                        enrichment KEGG categories with FDR control.
+enrichMKEGG             KEGG Module Enrichment Analysis of a gene set.
+                        Given a vector of genes, this function will
+                        return the enrichment KEGG Module categories
+                        with FDR control.
+enrichWP                enrichWP
+enricher                enricher
+get_wp_organisms        get_wp_organism
+go2ont                  go2ont
+go2term                 go2term
+gofilter                gofilter
+groupGO                 Functional Profile of a gene set at specific GO
+                        level. Given a vector of genes, this function
+                        will return the GO profile at a specific level.
+groupGOResult-class     Class "groupGOResult" This class represents the
+                        result of functional Profiles of a set of gene
+                        at specific GO level.
+gseGO                   gseGO
+gseKEGG                 gseKEGG
+gseMKEGG                gseMKEGG
+gseWP                   gseWP
+gson_GO                 gson_KEGG
+gson_KEGG               gson_KEGG
+gson_KEGG_mapper        Build KEGG annotation for novel species using
+                        KEGG Mapper
+gson_WP                 gson_WP
+idType                  idType
+ko2name                 ko2name
+merge_result            merge_result
+parse_gff               parse_gff
+plotGOgraph             plotGOgraph
+search_kegg_organism    search_kegg_organism
+simplify                simplify method
+uniprot_get             uniprot_get

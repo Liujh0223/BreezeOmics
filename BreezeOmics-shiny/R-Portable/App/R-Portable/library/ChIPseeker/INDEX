@@ -1,0 +1,73 @@
+.                       .
+ChIPseeker-package      ChIP-SEQ Annotation, Visualization and
+                        Comparison
+annotatePeak            annotatePeak
+as.GRanges              as.GRanges
+as.data.frame.csAnno    as.data.frame.csAnno
+check_upstream_and_downstream
+                        check upstream and downstream parameter
+combine_csAnno          combine_csAnno
+covplot                 covplot
+csAnno-class            Class "csAnno" This class represents the output
+                        of ChIPseeker Annotation
+downloadGEObedFiles     downloadGEObedFiles
+downloadGSMbedFiles     downloadGSMbedFiles
+dropAnno                dropAnno
+enrichAnnoOverlap       enrichAnnoOverlap
+enrichPeakOverlap       enrichPeakOverlap
+getAnnoStat             getAnnoStat
+getBioRegion            getBioRegion
+getGEOInfo              getGEOInfo
+getGEOgenomeVersion     getGEOgenomeVersion
+getGEOspecies           getGEOspecies
+getGeneAnno             getGeneAnno
+getGenomicAnnotation    getGenomicAnnotation
+getNearestFeatureIndicesAndDistances
+                        getNearestFeatureIndicesAndDistances
+getPromoters            getPromoters
+getSampleFiles          getSampleFiles
+getTagMatrix            getTagMatrix
+getTagMatrix.binning.internal
+                        getTagMatrix.binning.internal
+getTagMatrix.internal   getTagMatrix.internal
+getTagMatrix2           getTagMatrix2
+getTagMatrix2.binning.internal
+                        internal function
+getTagMatrix2.internal
+                        getTagMatrix2.internal
+info                    Information Datasets
+makeBioRegionFromGranges
+                        makeBioRegionFromGranges
+overlap                 overlap
+peakHeatmap             peakHeatmap
+plotAnnoBar             plotAnnoBar method generics
+plotAnnoBar.data.frame
+                        plotAnnoBar.data.frame
+plotAnnoPie             plotAnnoPie method generics
+plotAnnoPie.csAnno      plotAnnoPie
+plotAvgProf             plotAvgProf
+plotAvgProf.binning     plotAvgProf.binning
+plotAvgProf2            plotAvgProf
+plotDistToTSS           plotDistToTSS method generics
+plotDistToTSS.data.frame
+                        plotDistToTSS.data.frame
+plotMultiProf           internal function for plotPeakProf_MultiWindows
+plotMultiProf.binning   internal function
+plotMultiProf.binning.internal
+                        internal function
+plotMultiProf.normal    internal function
+plotMultiProf.normal.internal
+                        internal function
+plotPeakProf            plotPeakProf_MultiWindows
+plotPeakProf2           plotPeakProf2
+plotPeakProf_MultiWindows
+                        plotPeakProf_MultiWindows
+readPeakFile            readPeakFile
+seq2gene                seq2gene
+show                    show method
+shuffle                 shuffle
+tagHeatmap              tagHeatmap
+upsetplot               upsetplot method
+vennpie                 vennpie method generics
+vennplot                vennplot
+vennplot.peakfile       vennplot.peakfile

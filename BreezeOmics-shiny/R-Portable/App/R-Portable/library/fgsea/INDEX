@@ -1,0 +1,52 @@
+calcGseaStat            Calculates GSEA statistics for a given query
+                        gene set
+calcGseaStatBatchCpp    Calculates GSEA statistic valus for all gene
+                        sets in 'selectedStats' list.
+collapsePathways        Collapse list of enriched pathways to
+                        independent ones.
+collapsePathwaysGeseca
+                        Collapse list of enriched pathways to
+                        independent ones (GESECA version, highly
+                        experimental).
+collapsePathwaysORA     Collapse list of enriched pathways to
+                        independent ones. Version for ORA
+                        hypergeometric test.
+exampleExpressionMatrix
+                        Example of expression values obtained for
+                        GSE14308.
+examplePathways         Example list of mouse Reactome pathways.
+exampleRanks            Example vector of gene-level statistics
+                        obtained for Th1 polarization.
+fgsea                   Wrapper to run methods for preranked gene set
+                        enrichment analysis.
+fgseaLabel              Runs label-permuring gene set enrichment
+                        analysis.
+fgseaMultilevel         Runs preranked gene set enrichment analysis.
+fgseaSimple             Runs preranked gene set enrichment analysis.
+fgseaSimpleImpl         Runs preranked gene set enrichment analysis for
+                        preprocessed input data.
+fora                    Simple overrepresentation analysis based on
+                        hypergeometric test
+geseca                  Runs multilevel Monte-Carlo variant for
+                        performing gene sets co-regulation analysis
+gesecaSimple            Runs simple variant for performing gene sets
+                        co-regulation analysis
+gmtPathways             Returns a list of pathways from a GMT file.
+mapIdsList              Effeciently converts collection of pathways
+                        using AnnotationDbi::mapIds function.
+                        Parameters are the sames as for mapIds except
+                        for keys, which is assumed to be a list of
+                        vectors.
+multilevelError         Calculates the expected error for the standard
+                        deviation of the P-value logarithm.
+multilevelImpl          Calculates P-values for preprocessed data.
+plotCoregulationProfile
+                        Plots expression profile of a gene set
+plotEnrichment          Plots GSEA enrichment plot.
+plotGesecaTable         Plots table of gene set profiles.
+plotGseaTable           Plots table of enrichment graphs using ggplot
+                        and gridExtra.
+reactomePathways        Returns a list of Reactome pathways for given
+                        Entrez gene IDs
+writeGmtPathways        Write collection of pathways (list of vectors)
+                        to a gmt file

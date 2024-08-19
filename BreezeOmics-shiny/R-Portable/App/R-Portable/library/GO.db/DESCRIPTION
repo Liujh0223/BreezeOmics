@@ -1,0 +1,13 @@
+Package: GO.db
+Title: A set of annotation maps describing the entire Gene Ontology
+Description: A set of annotation maps describing the entire Gene Ontology assembled using data from GO
+Version: 3.16.0
+Author: Marc Carlson
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: R (>= 2.7.0), methods, AnnotationDbi (>= 1.59.1)
+Suggests: DBI
+License: Artistic-2.0
+biocViews: AnnotationData, FunctionalAnnotation
+NeedsCompilation: no
+Packaged: 2022-09-26 14:51:15 UTC; ubuntu
+Built: R 4.2.0; ; 2024-08-09 06:32:34 UTC; windows

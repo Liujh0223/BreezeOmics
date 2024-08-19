@@ -1,0 +1,42 @@
+Dmin                    Calculation of minimum centroid distance for a
+                        range of cluster numbers for estimation of
+                        optimised number of clusters
+Mfuzzgui                Graphical user interface for Mfuzz package
+acore                   Extraction of alpha cores for soft clusters
+cselection              Repeated soft clustering for detection of empty
+                        clusters for estimation of optimised number of
+                        clusters
+fill.NA                 Replacement of missing values
+filter.NA               Filtering of genes based on number of
+                        non-available expression values.
+filter.std              Filtering of genes based on their standard
+                        deviation.
+kmeans2                 K-means clustering for gene expression data
+kmeans2.plot            Plotting results for k-means clustering
+membership              Calculating of membership values for new data
+                        based on existing clustering
+mestimate               Estimate for optimal fuzzifier m
+mfuzz                   Function for soft clustering based on fuzzy
+                        c-means.
+mfuzz.plot              Plotting results for soft clustering
+mfuzz.plot2             Plotting results for soft clustering with
+                        additional options
+mfuzzColorBar           Plots a colour bar
+overlap                 Calculation of the overlap of soft clusters
+overlap.plot            Visualisation of cluster overlap and global
+                        clustering structure
+partcoef                Calculation of the partition coefficient matrix
+                        for soft clustering
+randomise               Randomisation of data
+standardise             Standardization of expression data for
+                        clustering.
+standardise2            Standardization in regards to selected
+                        time-point
+table2eset              Conversion of table to Expression set object.
+top.count               Determines the number for which each gene has
+                        highest membership value in all cluster
+yeast                   Gene expression data of the yeast cell cycle
+yeast.table             Gene expression data of the yeast cell cycle as
+                        table
+yeast.table2            Gene expression data of the yeast cell cycle as
+                        table

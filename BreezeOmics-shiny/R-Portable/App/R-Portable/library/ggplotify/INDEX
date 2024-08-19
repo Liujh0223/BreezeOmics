@@ -1,0 +1,4 @@
+as.ggplot               as.ggplot
+as.grob                 as.grob
+base2grob               base2grob
+grid2grob               grid2grob

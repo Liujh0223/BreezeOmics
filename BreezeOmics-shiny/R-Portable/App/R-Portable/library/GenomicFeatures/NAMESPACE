@@ -1,0 +1,174 @@
+import(methods)
+importFrom(stats, setNames)
+importFrom(utils, download.file, packageDescription, read.table, browseURL,
+                  as.person, capture.output, str)
+importFrom(tools, file_ext, file_path_sans_ext)
+
+importFrom(RCurl, getURL)
+importMethodsFrom(DBI, dbConnect, dbDisconnect,
+                       dbExecute, dbGetQuery,
+                       dbReadTable, dbWriteTable, dbListTables,
+                       dbListFields)
+
+importFrom(RSQLite, SQLite, SQLITE_RO)
+
+import(AnnotationDbi)
+import(BiocGenerics)
+import(S4Vectors)
+import(IRanges)
+import(GenomeInfoDb)
+import(XVector)
+import(GenomicRanges)
+
+importFrom(Biobase, createPackage)
+
+importClassesFrom(Biostrings, DNAString, DNAStringSet, MaskedDNAString)
+importFrom(Biostrings, DNAStringSet, reverseComplement, getSeq)
+
+importFrom(biomaRt, getBM, listAttributes, listDatasets, listFilters,
+                    listMarts, useDataset, useEnsembl, useEnsemblGenomes)
+
+importClassesFrom(BiocIO, BiocFile, CompressedFile)
+importFrom(BiocIO, FileForFormat)
+
+importFrom(rtracklayer, import, asBED, asGFF, browserSession,
+                        ucscTableQuery, tableNames, getTable, trackNames,
+                        ucscSchema, ucscTables)
+
+
+exportClasses(TxDb, FeatureDb)
+
+export(
+  ## makeTxDb.R:
+  makeTxDb,
+
+  ## makeTxDbFromUCSC.R:
+  supportedUCSCtables,
+  browseUCSCtrack,
+  makeTxDbFromUCSC,
+
+  ## makeTxDbFromBiomart.R:
+  getChromInfoFromBiomart,
+  makeTxDbFromBiomart,
+
+  ## makeTxDbFromEnsembl.R:
+  makeTxDbFromEnsembl,
+
+  ## makeTxDbFromGRanges.R:
+  makeTxDbFromGRanges,
+
+  ## makeTxDbFromGFF.R:
+  makeTxDbFromGFF,
+
+  ## makeFeatureDbFromUCSC.R:
+  supportedUCSCFeatureDbTracks,
+  supportedUCSCFeatureDbTables,
+  UCSCFeatureDbTableSchema,
+  makeFeatureDbFromUCSC,
+
+  ## id2name.R:
+  id2name,
+
+  ## transcripts.R:
+  transcripts, exons, cds, genes,
+
+  ## transcriptsBy.R:
+  transcriptsBy,
+  exonsBy,
+  cdsBy,
+  intronsByTranscript,
+  fiveUTRsByTranscript,
+  threeUTRsByTranscript,
+
+  ## transcriptsByOverlaps.R:
+  transcriptsByOverlaps,
+  exonsByOverlaps,
+  cdsByOverlaps,
+
+  ## transcriptLengths.R:
+  transcriptLengths,
+
+  ## exonicParts.R:
+  tidyTranscripts, tidyExons, tidyIntrons,
+  exonicParts, intronicParts,
+
+  ## disjointExons.R:
+  disjointExons,
+
+  ## extendExonsIntoIntrons.R:
+  extendExonsIntoIntrons,
+
+  ## features.R:
+  features,
+
+  ## microRNAs.R:
+  microRNAs,
+  tRNAs,
+
+  ## extractTranscriptSeqs.R:
+  extractTranscriptSeqs,
+
+  ## extractUpstreamSeqs.R:
+  extractUpstreamSeqs,
+
+  ## getPromoterSeq-methods.R:
+  getPromoterSeq,
+
+  ## makeTxDbPackage.R:
+  makePackageName,
+  makeTxDbPackage,
+  makeTxDbPackageFromUCSC,
+  makeTxDbPackageFromBiomart,
+  makeFDbPackageFromUCSC,
+  supportedMiRBaseBuildValues,
+  mapToTranscripts, pmapToTranscripts,
+  mapFromTranscripts, pmapFromTranscripts,
+
+  ## transcriptLocs2refLocs.R:
+  transcriptLocs2refLocs,
+  transcriptWidths,
+
+  ## coordinate-mapping-methods.R:
+  mapToTranscripts, pmapToTranscripts,
+  mapFromTranscripts, pmapFromTranscripts,
+
+  ## proteinToGenome.R:
+  proteinToGenome,
+
+  ## coverageByTranscript.R:
+  coverageByTranscript,
+  pcoverageByTranscript
+)
+
+exportMethods(
+  organism,
+  show,
+  as.list,
+  seqlevels0, "seqlevels<-", seqinfo,
+  transcripts, exons, cds, genes,
+  promoters,
+  transcriptsByOverlaps,
+  exonsByOverlaps,
+  cdsByOverlaps,
+  transcriptsBy,
+  exonsBy,
+  cdsBy,
+  intronsByTranscript,
+  fiveUTRsByTranscript,
+  threeUTRsByTranscript,
+  disjointExons,
+  microRNAs,
+  tRNAs,
+  extractTranscriptSeqs,
+  extractUpstreamSeqs,
+  getPromoterSeq,
+  isActiveSeq,
+  "isActiveSeq<-",
+  asBED, asGFF,
+  distance,
+  mapToTranscripts, pmapToTranscripts,
+  mapFromTranscripts, pmapFromTranscripts,
+  mapIdsToRanges, mapRangesToIds,
+  proteinToGenome
+)
+

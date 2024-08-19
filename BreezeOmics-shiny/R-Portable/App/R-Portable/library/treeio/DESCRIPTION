@@ -1,0 +1,48 @@
+Package: treeio
+Title: Base Classes and Functions for Phylogenetic Tree Input and
+        Output
+Version: 1.22.0
+Authors@R: c(
+    person("Guangchuang", "Yu",     email = "guangchuangyu@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")),
+    person("Tommy Tsan-Yuk", "Lam", email = "tylam.tommy@gmail.com",   role = c("ctb", "ths")),
+    person("Shuangbin", "Xu",       email = "xshuangbin@163.com",      role = "ctb",           comment = c(ORCID="0000-0003-3513-5362")),
+    person("Bradley", "Jones",      email = "brj1@sfu.ca",             role = "ctb"),
+    person("Casey", "Dunn",         email = "casey_dunn@brown.edu",    role = "ctb"),
+    person("Tyler", "Bradley",      email = "tcb85@drexel.edu",        role = "ctb"),
+    person("Konstantinos", "Geles", email = "konstantinos.geles@studenti.unicz.it", role = "ctb")
+	  )
+Description: 'treeio' is an R package to make it easier to import and store phylogenetic tree with associated data; and to link external data from different sources to phylogeny. It also supports exporting phylogenetic tree with heterogeneous associated data to a single tree file and can be served as a platform for merging tree with associated data and converting file formats.
+Depends: R (>= 3.6.0)
+Imports: ape, dplyr, jsonlite, magrittr, methods, rlang, tibble,
+        tidytree (>= 0.3.9), utils
+Suggests: Biostrings, ggplot2, ggtree, igraph, knitr, rmarkdown,
+        phangorn, prettydoc, testthat, tidyr, vroom, xml2, yaml, purrr
+VignetteBuilder: knitr
+ByteCompile: true
+License: Artistic-2.0
+Encoding: UTF-8
+URL: https://github.com/YuLab-SMU/treeio (devel),
+        https://docs.ropensci.org/treeio/ (docs),
+        https://www.amazon.com/Integration-Manipulation-Visualization-Phylogenetic-Computational-ebook/dp/B0B5NLZR1Z/
+        (book), https://doi.org/10.1093/molbev/msz240 (paper)
+BugReports: https://github.com/YuLab-SMU/treeio/issues
+biocViews: Software, Annotation, Clustering, DataImport,
+        DataRepresentation, Alignment, MultipleSequenceAlignment,
+        Phylogenetics
+RoxygenNote: 7.2.1
+git_url: https://git.bioconductor.org/packages/treeio
+git_branch: RELEASE_3_16
+git_last_commit: eb24a85
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-02 03:44:16 UTC; biocbuild
+Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
+  Tommy Tsan-Yuk Lam [ctb, ths],
+  Shuangbin Xu [ctb] (<https://orcid.org/0000-0003-3513-5362>),
+  Bradley Jones [ctb],
+  Casey Dunn [ctb],
+  Tyler Bradley [ctb],
+  Konstantinos Geles [ctb]
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Built: R 4.2.1; ; 2022-11-02 14:30:23 UTC; windows

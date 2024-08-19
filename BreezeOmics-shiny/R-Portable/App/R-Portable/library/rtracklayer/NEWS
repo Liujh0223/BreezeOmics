@@ -1,0 +1,146 @@
+CHANGES IN VERSION 1.30
+-----------------------
+
+NEW FEATURES
+
+    o Add readGFF(), a fast and flexible GFF/GTF parser implemented in C. See
+      ?readGFF for more information.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o import.gff() now uses readGFF() internally which makes it at least 5x
+      faster in most use cases and dramatically reduces its memory footprint.
+
+
+CHANGES IN VERSION 1.26
+-----------------------
+
+NEW FEATURES
+
+    o ucscGenomes() retrieves organism information
+
+    o New function exportToTabix() exports a GRanges to a
+      tabix-indexed tab separated file that contains all of the
+      metadata columns. Use import,TabixFile to load specific ranges
+      of data back into a GRanges.
+
+    o BigWig import/export to/from Integer/Numeric/RleList is now much
+      more efficient, and uses a more efficient storage format within
+      the BigWig file, when possible.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o BSgenome export methods are now in BSgenome.
+
+BUG FIXES
+
+    o Handling of quotes in GFF3 is now consistent with the spec.
+
+CHANGES IN VERSION 1.22
+-----------------------
+
+NEW FEATURES
+
+    o import,BigWigFile gains an asRle parameter that returns the data as an
+      RleList (assuming it tiles the sequence); much faster than importing a
+      GRanges and calling coverage() on it.
+
+    o add export,RleList,BigWigFile method for direct (and much more
+      efficient) output of RleLists (like coverage) to BigWig files.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o UCSCData now extends GRanges instead of RangedData (thanks Herve)
+    
+BUG FIXES
+
+    o handle different Set-Cookie header field casing; often due to proxies
+      (thanks to Altuna Akalin)
+    o attempt to more gracefully handle UCSC truncation of large data downloads
+    o handle re-directs due to UCSC mirroring (thanks Martin Morgan)
+    
+CHANGES IN VERSION 1.20
+-----------------------
+
+NEW FEATURES
+
+    o Table query interface supports multiple query ranges.
+
+    o Files (RTLFile objects) can be directly uploaded to UCSC, via track<-.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o All methods with asRangedData argument now have it default to
+      FALSE, instead of TRUE. A warning is issued if the argument is
+      missing. Eventually, we will drop all support for RangedData
+      import (export will still work via automatic coercion to
+      GRanges).
+    
+BUG FIXES
+
+    o Chromosome list for a genome is now downloaded from the table
+      browser, instead of the Genome Browser page. This supports
+      genomes with more than 1000 contigs.
+
+    o BEDX+Y formats now work when a track line is present, and the
+      extraCols argument is used for the column names.
+
+    o path.expand() is now called for paths passed off to the Kent library.
+
+    o Order of metadata columns upon GFF import no longer depends on LC_COLLATE.
+    
+CHANGES IN VERSION 1.17
+-----------------------
+
+NEW FEATURES
+
+    o Export of GappedAlignments objects as BAM files. There is also a
+      corresponding import method.
+
+    o Support for BEDX+Y import using the extraCols parameter to import.
+
+    o Direct export of RleList objects to BigWig files.
+    
+CHANGES IN VERSION 1.15
+-----------------------
+
+NEW FEATURES
+
+    o Integrated with tabix via Rsamtools. BED and GFF export methods
+      now generate a tabix index, if index=TRUE. Most import() methods
+      gain a 'which' argument that takes advantage of tabix, when
+      available.
+      
+    o Added wigToBigWig() function for efficient conversion of WIG to BigWig.
+    
+    o Added SeqinfoForBSGenome() and SeqinfoForUCSCGenome() for
+      conveniently retrieving Seqinfo objects for a given genome.
+    
+    o Added support for FASTA import/export via Biostrings.
+
+    o GTF and GVF files are now parsed as GFF.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The import/export API is now based on RTLFile objects, which
+      wrap a file path, URL or connection. There is an RTLFile
+      subclass for every file format. This makes it easier to extend
+      rtracklayer (export, import) with new file types. The existing
+      API is still supported (and even encouraged for most uses).
+
+    o Handle CSV attributes in GFF3 using CharacterList columns.
+
+    o BED columns thickStart/thickEnd translate to an IRanges column
+      named "thick". The blockStarts/Sizes/Count columns now map to a
+      single RangesList "blocks" column.
+    
+BUG FIXES
+
+    o Numerous fixes in the import/export methods, as a result of
+      implementing a full unit test suite. If something was not
+      working for you in the past, please try again.
+
+    o Compression and connections should now work fairly uniformly
+      across file types.
+
+(start date: 29 March, 2012)
