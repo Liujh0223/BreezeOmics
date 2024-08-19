@@ -1,4 +1,4 @@
-# BreezeOmics
+# 🍃🍃🍃BreezeOmics
 ## 1. Introduction
 **BreezeOmics**: A whole-stream RNA-seq analysis tools, fully graphical design requires no programming knowledge. With the built-in BreezeOmics-Index, BreezeOmics-RNAseq pipeline allows users to perform downstream RNAseq analysis using the Hisat2-stringtie protocol, and the BreezeOmics-Vis developed based on R shiny enables users to perform advanced downstream visual analysis based on gene expression matrix on the windows system.
 ## 2. Installation
