@@ -5,4 +5,4 @@
 Clone the BreezeOmics project(670Mb) locally and unzip it, and can be used immediately after running **BreezeOmics.exe**, and currently only supports windows system (it has been tested to be stable on windows 10 and windows 11)
 
 ## 3. History versions (BaiduNetdisk)
-🔗[**BreezeOmics_beta20240819**]([https://www.baidu.com](https://pan.baidu.com/share/init?surl=XFkdmqwJGiYbyeaSwelyVA?pwd=6666))
+🔗[**BreezeOmics_beta20240819**](https://pan.baidu.com/share/init?surl=XFkdmqwJGiYbyeaSwelyVA?pwd=6666)
