@@ -5,6 +5,7 @@
 1. Windows operating system (windows10 and windows11 have been tested).
 2. Due to UTF-8 encoding issues, only Windows 10 version 1903 （released on May 21, 2019） and above are supported.
 3. At least 50GB hard disk and 8GB memory free.
+4. Ensure that port 127.0.0.1:8000 is not occupied.
 ## 3. Installation
 Clone the BreezeOmics project(670Mb) locally and unzip it, and can be used immediately after running **BreezeOmics.exe**, and currently only supports windows system (it has been tested to be stable on windows 10 and windows 11)
 ## 4. Demo data sets
