@@ -1,0 +1,43 @@
+DOSE-package            Disease Ontology Semantic and Enrichment
+                        analysis Implemented five methods proposed by
+                        Resnik, Schlicker, Jiang, Lin and Wang
+                        respectively for measuring DO semantic
+                        similarities, and hypergeometric test for
+                        enrichment analysis.
+DataSet                 Datasets
+EXTID2NAME              EXTID2NAME
+GSEA_internal           GSEA_internal
+clusterSim              clusterSim
+compareClusterResult-class
+                        Class "compareClusterResult" This class
+                        represents the comparison result of gene
+                        clusters by GO categories at specific level or
+                        GO enrichment analysis.
+computeIC               compute information content
+doSim                   doSim
+enrichDGN               Enrichment analysis based on the DisGeNET
+                        (<http://www.disgenet.org/>)
+enrichDGNv              enrichDGN
+enrichDO                DO Enrichment Analysis
+enrichNCG               enrichNCG
+enrichResult-class      Class "enrichResult" This class represents the
+                        result of enrichment analysis.
+enricher_internal       enrich.internal
+gene2DO                 convert Gene ID to DO Terms
+geneID                  geneID generic
+geneInCategory          geneInCategory generic
+geneSim                 geneSim
+gseDGN                  DisGeNET Gene Set Enrichment Analysis
+gseDO                   DO Gene Set Enrichment Analysis
+gseNCG                  NCG Gene Set Enrichment Analysis
+gseaResult-class        Class "gseaResult" This class represents the
+                        result of GSEA analysis
+gsfilter                gsfilter
+mclusterSim             mclusterSim
+parse_ratio             parse_ratio
+rebuildAnnoData         rebuiding annotation data
+setReadable             setReadable
+show                    show method
+simplot                 simplot
+summary                 summary method
+theme_dose              theme_dose

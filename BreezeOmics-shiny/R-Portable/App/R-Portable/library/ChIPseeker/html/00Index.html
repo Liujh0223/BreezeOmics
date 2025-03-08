@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: ChIPseeker for ChIP peak Annotation, Comparison, and
+Visualization</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> ChIPseeker for ChIP peak Annotation, Comparison, and
+Visualization
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;ChIPseeker&rsquo; version 1.34.1</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+<li><a href="../NEWS">Package NEWS</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="ChIPseeker-package.html">ChIPseeker-package</a></td>
+<td>ChIP-SEQ Annotation, Visualization and Comparison</td></tr>
+<tr><td style="width: 25%;"><a href="dotFun.html">.</a></td>
+<td>.</td></tr>
+<tr><td style="width: 25%;"><a href="annotatePeak.html">annotatePeak</a></td>
+<td>annotatePeak</td></tr>
+<tr><td style="width: 25%;"><a href="as.data.frame.csAnno.html">as.data.frame.csAnno</a></td>
+<td>as.data.frame.csAnno</td></tr>
+<tr><td style="width: 25%;"><a href="as.GRanges.html">as.GRanges</a></td>
+<td>as.GRanges</td></tr>
+<tr><td style="width: 25%;"><a href="check_upstream_and_downstream.html">check_upstream_and_downstream</a></td>
+<td>check upstream and downstream parameter</td></tr>
+<tr><td style="width: 25%;"><a href="ChIPseeker-package.html">ChIPseeker</a></td>
+<td>ChIP-SEQ Annotation, Visualization and Comparison</td></tr>
+<tr><td style="width: 25%;"><a href="combine_csAnno.html">combine_csAnno</a></td>
+<td>combine_csAnno</td></tr>
+<tr><td style="width: 25%;"><a href="covplot.html">covplot</a></td>
+<td>covplot</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">csAnno-class</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="downloadGEObedFiles.html">downloadGEObedFiles</a></td>
+<td>downloadGEObedFiles</td></tr>
+<tr><td style="width: 25%;"><a href="downloadGSMbedFiles.html">downloadGSMbedFiles</a></td>
+<td>downloadGSMbedFiles</td></tr>
+<tr><td style="width: 25%;"><a href="dropAnno.html">dropAnno</a></td>
+<td>dropAnno</td></tr>
+<tr><td style="width: 25%;"><a href="enrichAnnoOverlap.html">enrichAnnoOverlap</a></td>
+<td>enrichAnnoOverlap</td></tr>
+<tr><td style="width: 25%;"><a href="enrichPeakOverlap.html">enrichPeakOverlap</a></td>
+<td>enrichPeakOverlap</td></tr>
+<tr><td style="width: 25%;"><a href="getAnnoStat.html">getAnnoStat</a></td>
+<td>getAnnoStat</td></tr>
+<tr><td style="width: 25%;"><a href="getBioRegion.html">getBioRegion</a></td>
+<td>getBioRegion</td></tr>
+<tr><td style="width: 25%;"><a href="getGeneAnno.html">getGeneAnno</a></td>
+<td>getGeneAnno</td></tr>
+<tr><td style="width: 25%;"><a href="getGenomicAnnotation.html">getGenomicAnnotation</a></td>
+<td>getGenomicAnnotation</td></tr>
+<tr><td style="width: 25%;"><a href="getGEOgenomeVersion.html">getGEOgenomeVersion</a></td>
+<td>getGEOgenomeVersion</td></tr>
+<tr><td style="width: 25%;"><a href="getGEOInfo.html">getGEOInfo</a></td>
+<td>getGEOInfo</td></tr>
+<tr><td style="width: 25%;"><a href="getGEOspecies.html">getGEOspecies</a></td>
+<td>getGEOspecies</td></tr>
+<tr><td style="width: 25%;"><a href="getNearestFeatureIndicesAndDistances.html">getNearestFeatureIndicesAndDistances</a></td>
+<td>getNearestFeatureIndicesAndDistances</td></tr>
+<tr><td style="width: 25%;"><a href="getPromoters.html">getPromoters</a></td>
+<td>getPromoters</td></tr>
+<tr><td style="width: 25%;"><a href="getSampleFiles.html">getSampleFiles</a></td>
+<td>getSampleFiles</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix.html">getTagMatrix</a></td>
+<td>getTagMatrix</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix.binning.internal.html">getTagMatrix.binning.internal</a></td>
+<td>getTagMatrix.binning.internal</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix.internal.html">getTagMatrix.internal</a></td>
+<td>getTagMatrix.internal</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix2.html">getTagMatrix2</a></td>
+<td>getTagMatrix2</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix2.binning.internal.html">getTagMatrix2.binning.internal</a></td>
+<td>internal function</td></tr>
+<tr><td style="width: 25%;"><a href="getTagMatrix2.internal.html">getTagMatrix2.internal</a></td>
+<td>getTagMatrix2.internal</td></tr>
+<tr><td style="width: 25%;"><a href="info.html">gsminfo</a></td>
+<td>Information Datasets</td></tr>
+<tr><td style="width: 25%;"><a href="info.html">info</a></td>
+<td>Information Datasets</td></tr>
+<tr><td style="width: 25%;"><a href="makeBioRegionFromGranges.html">makeBioRegionFromGranges</a></td>
+<td>makeBioRegionFromGranges</td></tr>
+<tr><td style="width: 25%;"><a href="overlap.html">overlap</a></td>
+<td>overlap</td></tr>
+<tr><td style="width: 25%;"><a href="peakHeatmap.html">peakHeatmap</a></td>
+<td>peakHeatmap</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoBar-methods.html">plotAnnoBar</a></td>
+<td>plotAnnoBar method generics</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">plotAnnoBar-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoBar-methods.html">plotAnnoBar-method</a></td>
+<td>plotAnnoBar method generics</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoBar.html">plotAnnoBar.data.frame</a></td>
+<td>plotAnnoBar.data.frame</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoPie-methods.html">plotAnnoPie</a></td>
+<td>plotAnnoPie method generics</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">plotAnnoPie-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoPie-methods.html">plotAnnoPie-method</a></td>
+<td>plotAnnoPie method generics</td></tr>
+<tr><td style="width: 25%;"><a href="plotAnnoPie.html">plotAnnoPie.csAnno</a></td>
+<td>plotAnnoPie</td></tr>
+<tr><td style="width: 25%;"><a href="plotAvgProf.html">plotAvgProf</a></td>
+<td>plotAvgProf</td></tr>
+<tr><td style="width: 25%;"><a href="plotAvgProf.binning.html">plotAvgProf.binning</a></td>
+<td>plotAvgProf.binning</td></tr>
+<tr><td style="width: 25%;"><a href="plotAvgProf2.html">plotAvgProf2</a></td>
+<td>plotAvgProf</td></tr>
+<tr><td style="width: 25%;"><a href="plotDistToTSS-methods.html">plotDistToTSS</a></td>
+<td>plotDistToTSS method generics</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">plotDistToTSS-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="plotDistToTSS-methods.html">plotDistToTSS-method</a></td>
+<td>plotDistToTSS method generics</td></tr>
+<tr><td style="width: 25%;"><a href="plotDistToTSS.data.frame.html">plotDistToTSS.data.frame</a></td>
+<td>plotDistToTSS.data.frame</td></tr>
+<tr><td style="width: 25%;"><a href="plotMultiProf.html">plotMultiProf</a></td>
+<td>internal function for plotPeakProf_MultiWindows</td></tr>
+<tr><td style="width: 25%;"><a href="plotMultiProf.binning.html">plotMultiProf.binning</a></td>
+<td>internal function</td></tr>
+<tr><td style="width: 25%;"><a href="plotMultiProf.binning.internal.html">plotMultiProf.binning.internal</a></td>
+<td>internal function</td></tr>
+<tr><td style="width: 25%;"><a href="plotMultiProf.normal.html">plotMultiProf.normal</a></td>
+<td>internal function</td></tr>
+<tr><td style="width: 25%;"><a href="plotMultiProf.normal.internal.html">plotMultiProf.normal.internal</a></td>
+<td>internal function</td></tr>
+<tr><td style="width: 25%;"><a href="plotPeakProf.html">plotPeakProf</a></td>
+<td>plotPeakProf_MultiWindows</td></tr>
+<tr><td style="width: 25%;"><a href="plotPeakProf2.html">plotPeakProf2</a></td>
+<td>plotPeakProf2</td></tr>
+<tr><td style="width: 25%;"><a href="plotPeakProf_MultiWindows.html">plotPeakProf_MultiWindows</a></td>
+<td>plotPeakProf_MultiWindows</td></tr>
+<tr><td style="width: 25%;"><a href="readPeakFile.html">readPeakFile</a></td>
+<td>readPeakFile</td></tr>
+<tr><td style="width: 25%;"><a href="seq2gene.html">seq2gene</a></td>
+<td>seq2gene</td></tr>
+<tr><td style="width: 25%;"><a href="show-methods.html">show</a></td>
+<td>show method</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">show-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="show-methods.html">show-method</a></td>
+<td>show method</td></tr>
+<tr><td style="width: 25%;"><a href="shuffle.html">shuffle</a></td>
+<td>shuffle</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">subset-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="tagHeatmap.html">tagHeatmap</a></td>
+<td>tagHeatmap</td></tr>
+<tr><td style="width: 25%;"><a href="info.html">tagMatrixList</a></td>
+<td>Information Datasets</td></tr>
+<tr><td style="width: 25%;"><a href="info.html">ucsc_release</a></td>
+<td>Information Datasets</td></tr>
+<tr><td style="width: 25%;"><a href="upsetplot-methods.html">upsetplot</a></td>
+<td>upsetplot method</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">upsetplot-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="vennpie-methods.html">vennpie</a></td>
+<td>vennpie method generics</td></tr>
+<tr><td style="width: 25%;"><a href="csAnno-class.html">vennpie-method</a></td>
+<td>Class "csAnno" This class represents the output of ChIPseeker Annotation</td></tr>
+<tr><td style="width: 25%;"><a href="vennplot.html">vennplot</a></td>
+<td>vennplot</td></tr>
+<tr><td style="width: 25%;"><a href="vennplot.peakfile.html">vennplot.peakfile</a></td>
+<td>vennplot.peakfile</td></tr>
+</table>
+</div></body></html>

@@ -1,0 +1,790 @@
+CHANGES IN VERSION 1.38.1
+-------------------------
+
+    o Removing genefilter as dependency, switching to matrixStats.
+      This should resolve gfortran.
+    
+CHANGES IN VERSION 1.31.16
+--------------------------
+
+    o Turning off outlier replacement with glmGamPoi fitting.
+
+CHANGES IN VERSION 1.31.15
+--------------------------
+
+    o Added 'saveCols' in results() and lfcShrink() to pass
+      metadata columns to output.
+
+CHANGES IN VERSION 1.31.13
+--------------------------
+
+    o Allow additional arguments to be passed to data-accessing
+      functions in integrateWithSingleCell().
+
+CHANGES IN VERSION 1.31.2
+-------------------------
+
+    o Fixed interface with glmGamPoi so that normalizationFactors
+      can be used. Thanks to Michael Schubert for spotting this
+      and to Constantin Ahlmann-Eltze for pointing out the fix.
+
+CHANGES IN VERSION 1.30.0
+-------------------------
+
+    o Major overhaul of dispersion estimation and GLM estimation
+      functions from Constantin Ahlmann-Eltze, which will allow use of
+      the glmGamPoi package from within DESeq2, in particular relevant
+      for single-cell datasets.  DESeq() can be directed to use
+      glmGamPoi for dispersion and GLM fitting by specifying
+      fitType="glmGamPoi". The glmGamPoi estimation is much faster
+      than original DESeq2 estimation for single-cell datasets,
+      e.g. for 30,000 cells, calling glmGamPoi was 13x faster than
+      original DESeq2. In addition, the dispersion estimation is more
+      accurate for genes with many small counts, as found in
+      single-cell datasets.
+      See glmGamPoi manuscript for details on methods,
+      doi: 10.1101/2020.08.13.249623.
+    o Added integrateWithSingleCell(), written by Kwame Forbes,
+      which directs user to a menu of single-cell datasets
+      available on Bioconductor and downloads/loads the one
+      chosen by the user for further analysis visualization.
+      (Interactive only)
+
+CHANGES IN VERSION 1.28.0
+-------------------------
+
+    o For lfcShrink(), changed order of `type` options:
+      "normal" will no longer be first, as it under-performed
+      "apeglm" and "ashr" in Zhu et al (2018). The new order
+      is type=c("apeglm", "ashr", "normal").
+    o Added arguments to estimateDispersions: useCR (logical),
+      and weightThreshold (numeric, default of 1e-2). The first
+      argument optionally avoid the calculation of Cox-Reid
+      adjustment term. The second argument sets the threshold for
+      subsetting the design matrix and GLM weights when calculating
+      the adjustment term. In addition, baseMean uses weights
+      when calculating the mean of normalized counts, if weights
+      matrix is provided.
+
+CHANGES IN VERSION 1.27.12
+--------------------------
+
+    o For lfcShrink(), changed order of `type` options:
+      "normal" will no longer be first, as it under-performed
+      "apeglm" and "ashr" in Zhu et al (2018). The new order
+      is type=c("apeglm", "ashr", "normal").
+
+CHANGES IN VERSION 1.27.9
+-------------------------
+
+    o Added arguments to estimateDispersions: useCR (logical),
+      and weightThreshold (numeric, default of 1e-2). The first
+      argument optionally avoid the calculation of Cox-Reid
+      adjustment term. The second argument sets the threshold for
+      subsetting the design matrix and GLM weights when calculating
+      the adjustment term. In addition, baseMean uses weights
+      when calculating the mean of normalized counts, if weights
+      matrix is provided.
+
+CHANGES IN VERSION 1.26.0
+--------------------------
+
+    o Incorporation of fast code from Constantin Ahlmann-Eltze
+      which speeds up DESeq2 for large sample sizes (n > 100)
+      by at least an order of magnitude. In fact the speed is
+      now linear with number of samples whereas previously
+      DESeq2 would scale quadratically. The critical merge
+      commits were:
+      c96c1c0ad43280c82403d3e6bc3501332a62e7b8 (2019-07-16)
+      0a47a0c750aa5c31df759a171c737d6ed782d6c2 (2019-07-30)
+    o Fixed a bug where rbind() in parallel=TRUE would
+      proliferate metadata items.
+    o Updated vignette to discuss tximeta (workflow also updated
+      to show use of tximeta instead of read counting).
+
+CHANGES IN VERSION 1.22.0
+-------------------------
+
+    o No replicate designs no longer supported (previous
+      version began deprecation with a warning).
+    o unmix() now optionally will return the correlation
+      (in the variance stabilized space)
+      of the fitted data to the original data, and the
+      matrix of fitted data (format="list"). Argument
+      'loss' was changed to 'power'. Will give warning
+      if the columns of 'pure' have high correlation
+      (in the variance stabilized space).      
+
+CHANGES IN VERSION 1.21.21
+--------------------------
+
+    o Improved code for 'linearModelMu' (an internal fitting function
+      used in dispersion estimation for some models) contributed 
+      by Wolfgang Huber speeds up an internal step by 2 orders
+      of magnitude.
+
+CHANGES IN VERSION 1.21.15
+--------------------------
+
+    o Rows of the weights matrix which would produce a degenerate
+      design matrix, instead of giving an error, will produce a
+      warning, and these rows will be treated as if they contained
+      all zeros (mcols(dds)$allZero and mcols(dds)$weightsFail will
+      be set to TRUE).
+
+CHANGES IN VERSION 1.21.14
+--------------------------
+
+    o The nbinom{WaldTest,LRT} functions will not stop if the
+      design produces a model matrix that is not full rank
+      and betaPrior=FALSE (default). This was assumed by the
+      DESeq2 code, because errors are produced at object
+      construction and at dispersion estimation, but it was
+      possible to call nbinomLRT() from DEXSeq after dispersion
+      estimation and end up with a full model matrix that was
+      not full rank. Instead testForDEU() should be called from
+      DEXSeq.
+
+CHANGES IN VERSION 1.21.13
+--------------------------
+
+    o Adding back a feature from version 1.15, where contrasts
+      of two groups where both had all zero counts would have
+      the LFC zero-ed out, rather than output a small but
+      non-zero value. It's preferable for the Wald test that
+      the LFC be set to zero for such contrasts.
+
+CHANGES IN VERSION 1.21.9
+-------------------------
+
+    o DESeq() now only says one time 'using supplied model matrix',
+      previously this was repeated three times from sub-functions.
+      Sub-functions therefore no longer print this message.
+    o Fixed bug when lfcShrink run directly after LRT
+      with supplied model matrices.
+    o Added heuristic to prevent Cook's outlier based filtering
+      when the max Cook's sample has lower counts than 3 other
+      samples. Restricted to two group comparison datasets.
+
+CHANGES IN VERSION 1.20.0
+--------------------------
+
+    o Added 'lfcThreshold' argument to lfcShrink() for use
+      with type="normal" and type="apeglm". For the latter,
+      lfcShrink() will compute FSOS s-values, for bounding
+      when the LFC will be "false sign or small", where
+      small is defined by lfcThreshold.
+    o Switching to a ~10x faster apeglm implementation for
+      use in the lfcShrink() function.    
+    o Beginning the deprecation of exploratory analysis of
+      designs without replicates. Analysis of designs without
+      replicates will be removed in the Oct 2018 release:
+      DESeq2 v1.22.0, after which DESeq2 will give an error.
+    o Elevate 'minmu' to DESeq() as this proves useful for
+      single cell applications and certain zero-inflated data.
+    o Elevate 'useT' to DESeq(), which will use (n - p) for the
+      degrees of freedom of the t distribution, and if weights
+      are provided, it will use the sum of weights as 'n'.
+
+CHANGES IN VERSION 1.18.0
+-------------------------
+
+    o lfcShrink() offers alternative estimators type="apeglm"
+      and type="ashr", making use of shrinkage estimators
+      in the 'apeglm' and 'ashr' packages, respectively.
+      See ?lfcShrink for more details and appropriate
+      references. The integration of these alternative
+      shrinkage estimators is still in development.
+      Additionally, the DESeqResults object gains priorInfo(res),
+      which passes along details of the fitted prior on LFC.
+    o Factor levels using characters other than letters,
+      numbers, '_' and '.' will print a message (not a warning
+      or error) that it is recommended to restrict to these
+      "safe characters". This follows a suggestion from the
+      Bioconductor support site to avoid user errors.
+
+CHANGES IN VERSION 1.16.0
+-------------------------
+
+    o DESeq() and nbinomWaldTest() the default setting
+      will be betaPrior=FALSE, and the recommended pipeline
+      will be to use lfcShrink() for producing shrunken LFC.
+    o Added a new function unmix(), for unmixing samples
+      according to linear combination of pure components,
+      e.g. "tissue deconvolution".
+    o Added a new size factor estimator, "poscounts",
+      which evolved out of use cases in Paul McMurdie's
+      phyloseq package.
+    o Ability to specify observation-specific weights,
+      using assays(dds)[["weights"]]. These weights are
+      picked up by dispersion and NB GLM fitting functions.
+
+CHANGES IN VERSION 1.15.40
+--------------------------
+
+    o Adding a new function unmix(), for
+      unmixing samples according to pure components,
+      e.g. "tissue deconvolution". The pure components
+      are added on the gene expression scale
+      (either normalized counts or TPMs), and the loss
+      is calculated in a variance stabilized space.
+
+CHANGES IN VERSION 1.15.39
+--------------------------
+
+    o Added a new size factor estimator, "poscounts",
+      which evolved out of use cases in Paul McMurdie's
+      phyloseq package.
+
+CHANGES IN VERSION 1.15.36
+--------------------------
+
+    o Ability to specify observation-specific weights,
+      using assays(dds)[["weights"]]. These weights are
+      picked up by dispersion and NB GLM fitting functions.
+
+CHANGES IN VERSION 1.15.28
+--------------------------
+
+    o Remove some code that would "zero out" LFCs
+      when both groups involved in a contrast had zero counts.
+      This lead to inconsistency when similarly contrasts
+      were performed by refactoring.
+
+CHANGES IN VERSION 1.15.12
+--------------------------
+
+    o DESeq() and nbinomWaldTest() the default setting
+      will be betaPrior=FALSE, and the recommended pipeline
+      will be to use lfcShrink() for producing shrunken
+      log2 fold changes for visualization and ranking.
+      Explanation for the change is presented in the
+      vignette section:
+      "Methods changes since the 2014 DESeq2 paper"
+
+CHANGES IN VERSION 1.15.9
+-------------------------
+
+    o Adding prototype function lfcShrink().
+
+    o Vignette conversion to Rmarkdown / HTML.
+
+CHANGES IN VERSION 1.15.3
+-------------------------
+
+    o Removing betaPrior option for nbinomLRT, in an effort
+      to clean up and reduce old un-used functionality.
+
+CHANGES IN VERSION 1.13.8
+-------------------------
+
+    o Use a linear model to estimate the expected counts
+      for dispersion estimation in estDispGeneEst()
+      if the number of groups in the model matrix
+      is equal to the number of columns of the model
+      matrix. Should provide a speed-up for dispersion
+      estimation for model matrices with many samples.
+
+CHANGES IN VERSION 1.13.3
+-------------------------
+
+    o Fixed bug: fpm() and fpkm() for tximport.
+    o Fixed bug: normalization factors and VST.
+    o Added an error if tximport lengths have 0.
+    o Added an error if user matrices are not full rank.
+    o More helpful error for constant factor in design.
+
+CHANGES IN VERSION 1.12.0
+-------------------------
+
+    o Added DESeqDataSetFromTximport() to import
+      counts using tximport.
+    o Added vst() a fast wrapper for the VST.
+    o Added support for IHW p-value adjustment.
+
+CHANGES IN VERSION 1.11.42
+--------------------------
+
+    o Update summary() to be IHW-results-aware.
+
+    o Small change to fitted mu values to improve fit stability
+      when counts are very low. Inference for high count genes
+      is not affected.
+
+    o Galaxy script inst/script/deseq2.R moves to Galaxy repo.
+
+CHANGES IN VERSION 1.11.33
+--------------------------
+
+    o Changed 'filterFun' API to accommodate IHW:
+      independent hypothesis weighting in results(),
+      see vignette for example code. 
+      Thanks to Nikolaos Ignatiadis, maintainer of IHW package.
+
+CHANGES IN VERSION 1.11.18
+--------------------------
+
+    o Added a function vst(), which is a fast wrapper for
+      varianceStabilizingTransformation(). The speed-up
+      is accomplished by subsetting to a smaller number
+      of genes for the estimation of the dispersion trend.
+
+CHANGES IN VERSION 1.11.5
+-------------------------
+
+    o Adding in functionality to import estimated counts and
+      average transcript length offsets from tximport,
+      using DESeqDataSetFromTximport().
+
+CHANGES IN VERSION 1.10.0
+-------------------------
+
+    o Added MLE argument to plotMA().
+
+    o Added normTransform() for simple log2(K/s + 1) transformation,
+      where K is a count and s is a size factor.
+
+    o When the design contains an interaction, DESeq() will use
+      betaPrior=FALSE. This makes coefficients easier to interpret.
+
+    o Independent filtering will be less greedy, using as a
+      threshold the lowest quantile of the filter such that the
+      number of rejections is within 1 SD from the maximum.
+      See ?results.
+
+    o summary() and plotMA() will use 'alpha' from results().
+
+CHANGES IN VERSION 1.9.42
+-------------------------
+
+    o New function 'normTranform', for making DESeqTransform objects
+      from normalized counts plus a pseudocount (default 1) then
+      applying a transformation (default log2).
+
+    o Added MLE argument to plotMA(), if results() was run with
+      addMLE=TRUE, this allows for comparison of shrunken and
+      unshrunken estimates of fold change.
+
+    o summary() and plotMA() use the 'alpha' which was specified
+      in results() rather than defaulting to 0.1.
+
+    o Removed rlog's fast option, and instead recommending VST for
+      very large matrices of counts (100s of samples).
+
+CHANGES IN VERSION 1.9.17
+-------------------------
+
+    o Independent filtering: results() no longer uses the maximum
+      of the number of rejections as calculated by the filter_p() function
+      from the genefilter package. Small numbers of rejections at a
+      high quantile of the filter threshold could result in
+      a high filter threshold. Instead, now the results() function
+      will use the lowest quantile of the filter for which the
+      number of rejections is close to the peak of a lowess curve fit
+      through the number of rejections over the filter quantiles.
+      'Close to' is defined as within 1 residual standard deviations.
+
+CHANGES IN VERSION 1.9.16
+-------------------------
+
+    o When the design formula contains interaction terms, the DESeq()
+      function will by default not use a beta prior (betaPrior=FALSE).
+      The previous implementation of a log fold change prior for
+      interaction terms returned accurate inference, but was confusing
+      for users to interpret. New instructions on building results tables
+      for designs with interactions will be included in the software
+      vignette.
+
+CHANGES IN VERSION 1.8.0
+------------------------
+
+    o Added support for user-supplied model matrices to DESeq(),
+      estimateDispersions() and nbinomWaldTest(). This helps
+      when the model matrix needs to be edited by the user.
+
+CHANGES IN VERSION 1.7.45
+-------------------------
+
+    o Added a test in rlog for sparse data, mostly zero and some 
+      very large counts, which will give a warning and suggestion 
+      for alternate transformations.
+
+    o Added plotSparsity() which will help diagnose issues for using rlog:
+      data which do not resemble negative binomial due to many genes 
+      with mostly zeros and a few very large counts.
+
+CHANGES IN VERSION 1.7.43
+-------------------------
+
+    o Added 'replaced' argument to counts() and plotCounts() such
+      that the assay in "replaceCounts" will be used if it exists.
+      Raised a minimum dispersion value used in Cook's calculation, 
+      so that other counts in a group with an outlier won't get extreme
+      Cook's distances themselves.
+
+CHANGES IN VERSION 1.7.32
+-------------------------
+
+    o Added logic to results() which will zero out the LFC, Wald
+      statistic and set p-value to 1, for 'contrast' argument
+      results tables where the contrasted groups all have zero count.
+      Non-zero LFCs were otherwise occuring due to large differences
+      in the size factors.
+
+CHANGES IN VERSION 1.7.11
+-------------------------
+
+    o Added support for user-supplied model matrices to DESeq(),
+      estimateDispersions() and nbinomWaldTest().
+
+CHANGES IN VERSION 1.7.9
+------------------------
+
+    o Added Genome Biology citation for the DESeq2 methods.
+
+    o Introduced type="iterate" for estimateSizeFactors, 
+      an alternative estimator for the size factors, which
+      can be used even when all genes have a sample with a 
+      count of zero. See man page for details.
+
+CHANGES IN VERSION 1.7.3
+------------------------
+
+    o Fixed two minor bugs: 
+      DESeq() with parallel=TRUE was dropping rows with all zero 
+      counts, instead of propogating NAs.
+      nbinomLRT() with matrices provided to 'full' and 'reduced' and 
+      a design of ~ 1, the matrices were being ignored.
+
+CHANGES IN VERSION 1.6.0
+------------------------
+
+    o DESeq() and results() gets a 'parallel' argument.
+
+    o results() gets an 'addMLE' argument.
+
+    o results() gets a 'test' argument, for constructing Wald tests
+      after DESeq() was run using the likelihood ratio test.
+
+    o results() argument 'format' for GRanges or GRangesList results.
+
+    o new plotCounts() function.
+
+    o Less outlier calling from Cook's distance for analyses with 
+      many samples and many conditions.
+
+    o More robust beta prior variance and log fold change shrinkage.
+
+CHANGES IN VERSION 1.5.70
+-------------------------
+
+    o Added 'parallel' also for results(), which can be slow if run with
+      100s of samples.
+
+CHANGES IN VERSION 1.5.54
+-------------------------
+
+    o Added 'parallel' argument to DESeq() which splits up the analysis
+      over genes for those steps which are easily done in parallel, 
+      leveraging BiocParallel's bplapply.
+
+CHANGES IN VERSION 1.5.50
+-------------------------
+
+    o A matrix can be provided to rlog or to the VST and will return 
+      a matrix. Also 'fitType' argument is included, in case dispersions
+      are not estimated which is passed on to estimateDispersions.
+
+CHANGES IN VERSION 1.5.49
+-------------------------
+
+    o The fast=TRUE implementation of rlog is even faster, subsetting
+      genes along the range of base mean to estimate the dispersion
+      trend and for fitting the optimal amount of shrinkage.
+
+CHANGES IN VERSION 1.5.40
+-------------------------
+
+    o Further improved code behind the robust estimation of variance
+      for Cook's cutoff, resulting in less outlier calls due to 
+      an individual condition with few samples and high variance.
+
+CHANGES IN VERSION 1.5.28
+-------------------------
+
+    o New results() argument 'addMLE' adds the unshrunken fold changes
+      for simple contrasts or interaction terms to the results tables.
+
+CHANGES IN VERSION 1.5.27
+-------------------------
+
+    o Applied the beta prior variance calculation from v1.5.22 to the 
+      regularized logarithm.
+
+    o Added MLE coefficients as MLE_condition_B_vs_A columns to mcols(dds).
+
+    o Fixed the statistic which is returned when lfcThreshold is used.
+      Previously, only the p-value and adjusted p-value was changed.
+
+    o plotPCA() with argument 'returnData' will return a data.frame 
+      which can be used for custom plotting.
+
+CHANGES IN VERSION 1.5.25
+-------------------------
+
+    o Improved the robust variance estimate used for calculating
+      Cook's distances. The previous estimate could lead to outlier 
+      calls in datasets with many conditions, and when a single 
+      condition had large, highly variable counts for all its samples.
+
+CHANGES IN VERSION 1.5.22
+-------------------------
+
+    o Adding an alternate method for beta prior variance calculation
+      in nbinomWaldTest. This helps to produce more robust prior 
+      variance estimates when many genes have small counts and highly
+      variable MLE log fold changes.
+
+CHANGES IN VERSION 1.5.15
+-------------------------
+
+    o For likelihood ratio test, expanded model matrices not default.
+      Some improvements in fit time from handling of genes with
+      dispersions that do not converge using line search.
+
+CHANGES IN VERSION 1.5.13
+-------------------------
+
+    o Adding test argument to results(), which allows users to perform
+      a Wald test after DESeq(dds, test="LRT") / nbinomLRT has been run.
+
+CHANGES IN VERSION 1.5.11
+------------------------
+
+    o Swapping in ggplot2 for lattice for the plotPCA function.
+
+CHANGES IN VERSION 1.5.9
+------------------------
+
+    o Added a VST for fitType = mean. Allowed designs with ~ 0 
+      and betaPrior = FALSE. Fixed some potential metadata
+      column insertion bugs.
+
+CHANGES IN VERSION 1.5.8
+------------------------
+
+    o Suppress the glm.fit convergence warning from parametric dispersion
+      curve fitting procedure, instead use this for the iterative
+      convergence test.
+
+CHANGES IN VERSION 1.5.3
+------------------------
+
+    o Speeding up and reducing copying for DESeqDataSet construction.
+
+CHANGES IN VERSION 1.5.2
+------------------------
+
+    o Added 'format' argument to results, which will attach results to
+      GRangesList or GRanges if requested (default is DataFrame).
+
+CHANGES IN VERSION 1.4.4
+------------------------
+
+    o Fixed a hang which could occur in the GLM fitting procedure.
+
+CHANGES IN VERSION 1.4.3
+------------------------
+
+    o Fixed simple bug when using normalizationFactors and running 
+      nbinomWaldTest, error was "no method for coercing this S4 class 
+      to a vector".
+
+CHANGES IN VERSION 1.4.2
+------------------------
+
+    o Fixed bugs: estimating beta prior for interaction between factor 
+      and numeric; not returning row names for counts(); construction
+      of DESeqDataSet gives wrong error when there are empty levels:
+      instead now drops the levels for the user.
+
+
+CHANGES IN VERSION 1.4.1
+------------------------
+
+    o Fixed bug where DESeqDataSetFromHTSeqCount() imported the special
+      rows, "_ambiguous", etc.
+
+CHANGES IN VERSION 1.4.0
+------------------------
+
+    o *** USAGE NOTE *** Expanded model matrices are now used when 
+      betaPrior = TRUE (the default). Therefore, level comparison results 
+      should be extracted using the 'contrast' argument to the results() 
+      function. Expanded model matrices produce shrinkage of log
+      fold changes that is independent of the choice of base level.
+      Expanded model matrices are not used in the case of designs
+      with an interaction term between factors with only 2 levels.
+
+    o The order of the arguments 'name' and 'contrast' to the results()
+      function are swapped, to indicate that 'contrast' should be used 
+      for the standard comparisons of levels against each other.
+      Calling results() with no arguments will still produce the 
+      same comparison: the fold change of the last level of the last 
+      design variable over the first level of the last design variable.
+      See ?results for more details.
+
+    o The DESeq() function will automatically replace count outliers
+      flagged by Cook's distance when there are 7 or more replicates.
+      The DESeq() argument 'minReplicatesForReplace' (default 7)
+      is used to decide which samples are eligible for automatic 
+      replacement. This default behavior helps to prevent filtering 
+      genes based on Cook's distance when there are many degrees of 
+      freedom.
+
+CHANGES IN VERSION 1.3.58
+-------------------------
+
+    o Added a list() option to the 'contrast' argument of results().
+      See examples in ?results.
+
+CHANGES IN VERSION 1.3.24
+-------------------------
+
+    o rlogTransformation() gains an argument 'fast', which switches to
+      an approximation of the rlog transformation. Speed-up is ~ 2x.
+
+    o A more robust estimator for the beta prior variance is used:
+      instead of taking the mean of squared MLE betas, the prior variance
+      is found by matching an upper quantile of the absolute value of
+      MLE betas with an upper quantile of a zero-centered Normal 
+      distribution.
+
+CHANGES IN VERSION 1.3.17
+-------------------------
+
+    o It is possible to use a log2 fold change prior (beta prior) 
+      and obtain likelihood ratio test p-values, although the default 
+      for test="LRT" is still betaPrior=FALSE.
+
+CHANGES IN VERSION 1.3.15
+-------------------------
+
+    o The DESeq() function will automatically replace count outliers
+      flagged by Cook's distance when there are 7 or more replicates.
+      The DESeq() argument 'minReplicatesForReplace' (default 7)
+      is used to decide which samples are eligible for automatic 
+      replacement. This default behavior helps to prevent filtering 
+      genes based on Cook's distance when there are many degrees of 
+      freedom.
+
+    o The results() function produces an object of class 'DESeqResults'
+      which is a simple subclass of 'DataFrame'. This class allows for 
+      methods to be written specifically for DESeq2 results. For example,
+      plotMA() can be called on a 'DESeqResults' object.
+
+CHANGES IN VERSION 1.3.12
+-------------------------
+
+    o Added a check in nbinomWaldTest which ensures that priors
+      on logarithmic fold changes are only estimated for interactions 
+      terms, in the case that interaction terms are present in the 
+      design formula.
+
+CHANGES IN VERSION 1.3.6
+------------------------
+
+    o Reduced the amount of filtering from Cook's cutoff:
+      maximum no longer includes samples from experimental groups 
+      with only 2 samples, the default F quantile is raised to 0.99,
+      and a robust estimate of dispersion is used to calculate
+      Cook's distance instead of the fitted dispersion.
+
+CHANGES IN VERSION 1.3.5
+------------------------
+
+    o New arguments to results(), 'lfcThreshold' and 
+      'alternativeHypothesis', allow for tests of log fold changes
+      which are above or below a given threshold.
+
+    o plotMA() function now passes ellipses arguments to the
+      results() function.
+    
+CHANGES IN VERSION 1.1.32
+-------------------------
+    
+    o By default, use QR decomposition on the design matrix X.
+      This stabilizes the GLM fitting. Can be turned off with
+      the useQR argument of nbinomWaldTest() and nbinomLRT().
+
+    o Allow for "frozen" normalization of new samples using
+      previous estimated parameters for the functions: 
+      estimateSizeFactors(), varianceStabilizingTransformation(),
+      and rlogTransformation(). See manual pages for details and
+      examples.
+
+CHANGES IN VERSION 1.1.31
+-------------------------
+
+    o The adjustment of p-values and use of Cook's distance
+      for outlier detection is moved to results() function
+      instead of nbinomWaldTest(), nbinomLRT(), or DESeq().
+      This allows the user to change parameter settings 
+      without having to refit the model.
+
+CHANGES IN VERSION 1.1.24
+-------------------------
+
+    o The results() function allows the user to specify a 
+      contrast of coefficients, either using the names of 
+      the factor and levels, or using a numeric contrast 
+      vector. Contrasts are only available for the Wald test
+      differential analysis.
+
+CHANGES IN VERSION 1.1.23
+-------------------------
+
+    o The results() function automatically performs independent
+      filtering using the genefilter package and optimizing 
+      over the mean of normalized counts.
+
+CHANGES IN VERSION 1.1.21
+-------------------------
+
+    o The regularized log transformation uses the fitted
+      dispersions instead of the MAP dispersions. This prevents
+      large, true log fold changes from being moderated due to
+      a large dispersion estimate blind to the design formula.
+      This behavior is also more consistent with the variance
+      stabilizing transformation.
+
+CHANGES IN VERSION 1.0.10
+-------------------------
+
+    o Outlier detection: Cook's distances are calculated for each
+      sample per gene and the matrix is stored in the assays list.
+      These values are used to determine genes in which a single 
+      sample disproportionately influences the fitted coefficients. 
+      These genes are flagged and the p-values set to NA.
+      The argument 'cooksCutoff' of nbinomWaldTest() and 
+      nbinomLRT() can be used to control this functionality.
+
+
+CHANGES IN VERSION 1.0.0
+------------------------
+
+    o Base class: SummarizedExperiment is used as the superclass 
+      for storing the data.
+
+    o Workflow: The wrapper function DESeq() performs all steps 
+      for a differential expression analysis. Individual steps are 
+      still accessible.
+
+    o Statistics: Incorporation of prior distributions into the 
+      estimation of dispersions and fold changes (empirical-Bayes 
+      shrinkage). A Wald test for significance is provided as the 
+      default inference method, with the likelihood ratio test of 
+      the previous version also available.
+
+    o Normalization: it is possible to provide a matrix of sample- 
+      *and* gene-specific normalization factors

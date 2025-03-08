@@ -1,0 +1,29 @@
+Package: HDO.db
+Type: Package
+Title: A set of annotation maps describing the entire Human Disease
+        Ontology
+Version: 0.99.1
+Authors@R: c(
+      person(given = "Erqiang", family = "Hu", email = "13766876214@163.com", role  = c("aut", "cre"), comment = c(ORCID = "0000-0002-1798-7513")),
+      person("Guangchuang", "Yu", email = "guangchuangyu@gmail.com", role = c("aut", "ctb"), comment = c(ORCID = "0000-0002-6485-8781"))
+      )
+Description: A set of annotation maps describing the entire Human Disease 
+    Ontology assembled using data from DO.
+    Its annotation data comes from 
+    https://github.com/DiseaseOntology/HumanDiseaseOntology/tree/main/src/ontology.
+License: Artistic-2.0
+BugReports: https://github.com/YuLab-SMU/HDO.db/issues
+biocViews: AnnotationData, FunctionalAnnotation
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Depends: R (>= 4.2.0)
+Imports: AnnotationDbi, methods, utils
+Suggests: rmarkdown, knitr, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2022-10-12 17:43:24 UTC; ka36530_ca
+Author: Erqiang Hu [aut, cre] (<https://orcid.org/0000-0002-1798-7513>),
+  Guangchuang Yu [aut, ctb] (<https://orcid.org/0000-0002-6485-8781>)
+Maintainer: Erqiang Hu <13766876214@163.com>
+Built: R 4.2.0; ; 2024-08-09 07:29:16 UTC; windows

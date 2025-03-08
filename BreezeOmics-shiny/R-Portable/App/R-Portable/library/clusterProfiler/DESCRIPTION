@@ -1,0 +1,49 @@
+Package: clusterProfiler
+Type: Package
+Title: A universal enrichment tool for interpreting omics data
+Version: 4.6.2
+Authors@R: c(
+    person(given = "Guangchuang", family = "Yu",        email = "guangchuangyu@gmail.com",   role  = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-6485-8781")),
+    person(given = "Li-Gen",      family = "Wang",      email = "reeganwang020@gmail.com",   role  = "ctb"),
+    person(given = "Erqiang",     family = "Hu",        email = "woshihuerqiang@qq.com",     role = "ctb"),
+    person(given = "Xiao",        family = "Luo",       email = "l77880853349@163.com",      role  = "ctb"),
+    person(given = "Meijun",      family = "Chen",      email = "mjchen1996@outlook.com",    role  = "ctb"),
+    person(given = "Giovanni",    family = "Dall'Olio", email = "giovanni.dallolio@upf.edu", role = "ctb"),
+    person(given = "Wanqian",     family = "Wei",       email = "altair_wei@outlook.com",    role = "ctb"),
+    person(given = "Chun-Hui",    family = "Gao",       email = "gaospecial@gmail.com",      role = "ctb", comment = c(ORCID = "0000-0002-1445-7939"))
+	)
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Description: This package supports functional characteristics of both coding and non-coding genomics data for thousands of species with up-to-date gene annotation. It provides a univeral interface for gene functional annotation from a variety of sources and thus can be applied in diverse scenarios. It provides a tidy interface to access, manipulate, and visualize enrichment results to help users achieve efficient data interpretation. Datasets obtained from multiple treatments and time points can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
+Depends: R (>= 3.5.0)
+Imports: AnnotationDbi, downloader, DOSE (>= 3.23.2), dplyr, enrichplot
+        (>= 1.9.3), GO.db, GOSemSim, gson (>= 0.0.7), magrittr,
+        methods, plyr, qvalue, rlang, stats, tidyr, utils, yulab.utils
+Suggests: AnnotationHub, knitr, rmarkdown, org.Hs.eg.db, prettydoc,
+        ReactomePA, testthat
+VignetteBuilder: knitr
+ByteCompile: true
+License: Artistic-2.0
+URL: https://yulab-smu.top/biomedical-knowledge-mining-book/ (docs),
+        https://doi.org/10.1016/j.xinn.2021.100141 (paper)
+BugReports: https://github.com/GuangchuangYu/clusterProfiler/issues
+Packaged: 2023-03-05 22:44:24 UTC; biocbuild
+biocViews: Annotation, Clustering, GeneSetEnrichment, GO, KEGG,
+        MultipleComparison, Pathways, Reactome, Visualization
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+git_url: https://git.bioconductor.org/packages/clusterProfiler
+git_branch: RELEASE_3_16
+git_last_commit: 7d3f3cd
+git_last_commit_date: 2023-03-05
+Date/Publication: 2023-03-05
+NeedsCompilation: no
+Author: Guangchuang Yu [aut, cre, cph]
+    (<https://orcid.org/0000-0002-6485-8781>),
+  Li-Gen Wang [ctb],
+  Erqiang Hu [ctb],
+  Xiao Luo [ctb],
+  Meijun Chen [ctb],
+  Giovanni Dall'Olio [ctb],
+  Wanqian Wei [ctb],
+  Chun-Hui Gao [ctb] (<https://orcid.org/0000-0002-1445-7939>)
+Built: R 4.2.2; ; 2023-03-06 12:31:28 UTC; windows

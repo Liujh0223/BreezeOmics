@@ -1,0 +1,53 @@
+Package: DESeq2
+Type: Package
+Title: Differential gene expression analysis based on the negative
+        binomial distribution
+Version: 1.38.3
+Authors@R: c(
+    person("Michael", "Love", email="michaelisaiahlove@gmail.com", role = c("aut","cre")),
+    person("Constantin", "Ahlmann-Eltze", role = c("ctb")),
+    person("Kwame", "Forbes", role = c("ctb")),
+    person("Simon", "Anders", role = c("aut","ctb")),
+    person("Wolfgang", "Huber", role = c("aut","ctb")),
+    person("RADIANT EU FP7", role="fnd"),
+    person("NIH NHGRI", role="fnd"),
+    person("CZI", role="fnd"))
+Maintainer: Michael Love <michaelisaiahlove@gmail.com>
+Description: Estimate variance-mean dependence in count data from
+    high-throughput sequencing assays and test for differential
+    expression based on a model using the negative binomial
+    distribution.
+License: LGPL (>= 3)
+VignetteBuilder: knitr, rmarkdown
+Imports: BiocGenerics (>= 0.7.5), Biobase, BiocParallel, matrixStats,
+        methods, stats4, locfit, geneplotter, ggplot2, Rcpp (>= 0.11.0)
+Depends: S4Vectors (>= 0.23.18), IRanges, GenomicRanges,
+        SummarizedExperiment (>= 1.1.6)
+Suggests: testthat, knitr, rmarkdown, vsn, pheatmap, RColorBrewer,
+        apeglm, ashr, tximport, tximeta, tximportData, readr, pbapply,
+        airway, pasilla (>= 0.2.10), glmGamPoi, BiocManager
+LinkingTo: Rcpp, RcppArmadillo
+URL: https://github.com/mikelove/DESeq2
+biocViews: Sequencing, RNASeq, ChIPSeq, GeneExpression, Transcription,
+        Normalization, DifferentialExpression, Bayesian, Regression,
+        PrincipalComponent, Clustering, ImmunoOncology
+RoxygenNote: 7.2.1
+Encoding: UTF-8
+git_url: https://git.bioconductor.org/packages/DESeq2
+git_branch: RELEASE_3_16
+git_last_commit: c470955
+git_last_commit_date: 2023-01-19
+Date/Publication: 2023-01-19
+NeedsCompilation: yes
+Packaged: 2023-01-19 23:12:39 UTC; biocbuild
+Author: Michael Love [aut, cre],
+  Constantin Ahlmann-Eltze [ctb],
+  Kwame Forbes [ctb],
+  Simon Anders [aut, ctb],
+  Wolfgang Huber [aut, ctb],
+  RADIANT EU FP7 [fnd],
+  NIH NHGRI [fnd],
+  CZI [fnd]
+Built: R 4.2.2; x86_64-w64-mingw32; 2023-01-20 12:40:00 UTC; windows
+ExperimentalWindowsRuntime: ucrt
+Archs: x64

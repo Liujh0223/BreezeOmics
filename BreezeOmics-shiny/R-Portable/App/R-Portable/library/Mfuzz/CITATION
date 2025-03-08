@@ -1,0 +1,20 @@
+bibentry(bibtype = "Article",
+         title = "Noise robust clustering of gene expression time-course data",
+         author = c(person("Matthias", "Futschik"),
+                    person("Bronwyn", "Carlisle")),
+         journal = "Journal of Bioinformatics and Computational Biology",
+	number = "3(4)",
+	pages= " 965-988",         
+         year = "2005",
+         url = "http://mfuzz.sysbiolab.eu")
+
+bibentry(bibtype = "Article",
+         title = "Mfuzz: a software package for soft clustering of microarray data",
+         author = c(person("Lokesh", "Kumar"),
+                    person("Matthias", "Futschik")),
+         journal = "Bioinformation",
+	number = "2(1)",
+	pages= "5-7
+",         
+         year = "2007",
+         url = "http://mfuzz.sysbiolab.eu")

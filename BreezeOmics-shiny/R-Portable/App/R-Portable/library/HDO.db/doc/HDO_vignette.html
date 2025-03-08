@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>HDO_vignette</title>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">HDO_vignette</h1>
+
+
+
+<div id="authors" class="section level2">
+<h2>Authors</h2>
+<p>Erqiang Hu</p>
+<p>Department of Bioinformatics, School of Basic Medical Sciences, Southern Medical University.</p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Disease Ontology (DO) was developed to create a consistent description of gene products with disease perspectives, and is essential for supporting functional genomics in disease context. Accurate disease descriptions can discover new relationships between genes and disease, and new functions for previous uncharacteried genes and alleles.We have developed the <a href="https://bioconductor.org/packages/DOSE/">DOSE</a> package for semantic similarity analysis and disease enrichment analysis, and <code>DOSE</code> import an Bioconductor package ‘DO.db’ to get the relationship(such as parent and child) between DO terms. But <code>DO.db</code> hasn’t been updated for years, and a lot of semantic information is <a href="https://github.com/YuLab-SMU/DOSE/issues/57">missing</a>. So we developed the new package <code>HDO.db</code> for Human Disease Ontology annotation.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(HDO.db)</a></code></pre></div>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(AnnotationDbi)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Loading required package: stats4</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; Loading required package: BiocGenerics</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; Attaching package: &#39;BiocGenerics&#39;</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;     IQR, mad, sd, var, xtabs</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;     Filter, Find, Map, Position, Reduce, anyDuplicated, aperm, append,</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;     as.data.frame, basename, cbind, colnames, dirname, do.call,</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;     duplicated, eval, evalq, get, grep, grepl, intersect, is.unsorted,</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;     lapply, mapply, match, mget, order, paste, pmax, pmax.int, pmin,</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;     pmin.int, rank, rbind, rownames, sapply, setdiff, sort, table,</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;     tapply, union, unique, unsplit, which.max, which.min</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; Loading required package: Biobase</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt; Welcome to Bioconductor</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;     Vignettes contain introductory material; view with</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;     &#39;browseVignettes()&#39;. To cite Bioconductor, see</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt; Loading required package: IRanges</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt; Loading required package: S4Vectors</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt; Attaching package: &#39;S4Vectors&#39;</span></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt;     I, expand.grid, unname</span></a></code></pre></div>
+<p>The annotation data comes from <a href="https://github.com/DiseaseOntology/HumanDiseaseOntology/tree/main/src/ontology" class="uri">https://github.com/DiseaseOntology/HumanDiseaseOntology/tree/main/src/ontology</a>, and HDO.db provide these AnnDbBimap object:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">ls</span>(<span class="st">&quot;package:HDO.db&quot;</span>)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt;  [1] &quot;HDO&quot;          &quot;HDO.db&quot;       &quot;HDOALIAS&quot;     &quot;HDOANCESTOR&quot;  &quot;HDOCHILDREN&quot; </span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt;  [6] &quot;HDOMAPCOUNTS&quot; &quot;HDOOFFSPRING&quot; &quot;HDOPARENTS&quot;   &quot;HDOSYNONYM&quot;   &quot;HDOTERM&quot;     </span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; [11] &quot;HDO_dbInfo&quot;   &quot;HDO_dbconn&quot;   &quot;HDO_dbfile&quot;   &quot;HDO_dbschema&quot; &quot;HDOmetadata&quot; </span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; [16] &quot;columns&quot;      &quot;keys&quot;         &quot;keytypes&quot;     &quot;select&quot;</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="kw">packageVersion</span>(<span class="st">&quot;HDO.db&quot;</span>)</a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; [1] &#39;0.99.1&#39;</span></a></code></pre></div>
+<p>You can use <code>help</code> function to get their documents: <code>help(DOOFFSPRING)</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">toTable</span>(HDOmetadata)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt;              name</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; 1        DBSCHEMA</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; 2 DBSCHEMAVERSION</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 3   HDOSOURCENAME</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; 4     HDOSOURCURL</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; 5   HDOSOURCEDATE</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 6         Db type</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;                                                                                        value</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; 1                                                                                     HDO_DB</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; 2                                                                                        1.0</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; 3                                                                           Disease Ontology</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 4 https://github.com/DiseaseOntology/HumanDiseaseOntology/blob/main/src/ontology/HumanDO.obo</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 5                                                                                   20220706</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 6                                                                                      HDODb</span></a>
+<a class="sourceLine" id="cb4-16" title="16">HDOMAPCOUNTS</a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  HDOANCESTOR  HDOCHILDREN HDOOFFSPRING   HDOPARENTS      HDOTERM </span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt;      &quot;66768&quot;      &quot;11034&quot;      &quot;66768&quot;      &quot;11034&quot;      &quot;11003&quot;</span></a></code></pre></div>
+</div>
+<div id="fetch-whole-do-terms" class="section level2">
+<h2>Fetch whole DO terms</h2>
+<p>In HDO.db, <code>HDOTERM</code> represet the whole DO terms and their names. The users can also get their aliases and synonyms from <code>HDOALIAS</code> and <code>HDOSYNONYM</code>, respectively.</p>
+<p>convert HDOTERM to table</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">doterm &lt;-<span class="st"> </span><span class="kw">toTable</span>(HDOTERM)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">head</span>(doterm)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#&gt;           doid                     term</span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; 1 DOID:0001816             angiosarcoma</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co">#&gt; 2 DOID:0002116                pterygium</span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="co">#&gt; 3 DOID:0014667    disease of metabolism</span></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="co">#&gt; 4 DOID:0040001           shrimp allergy</span></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="co">#&gt; 5 DOID:0040002          aspirin allergy</span></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; 6 DOID:0040003 benzylpenicillin allergy</span></a></code></pre></div>
+<p>convert HDOTERM to list</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">dotermlist &lt;-<span class="st"> </span><span class="kw">as.list</span>(HDOTERM)</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw">head</span>(dotermlist)</a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; $`DOID:0001816`</span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; [1] &quot;angiosarcoma&quot;</span></a>
+<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; $`DOID:0002116`</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; [1] &quot;pterygium&quot;</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; $`DOID:0014667`</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; [1] &quot;disease of metabolism&quot;</span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; $`DOID:0040001`</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="co">#&gt; [1] &quot;shrimp allergy&quot;</span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="co">#&gt; $`DOID:0040002`</span></a>
+<a class="sourceLine" id="cb6-16" title="16"><span class="co">#&gt; [1] &quot;aspirin allergy&quot;</span></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb6-18" title="18"><span class="co">#&gt; $`DOID:0040003`</span></a>
+<a class="sourceLine" id="cb6-19" title="19"><span class="co">#&gt; [1] &quot;benzylpenicillin allergy&quot;</span></a></code></pre></div>
+<p>get alias of <code>DOID:0001816</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">doalias &lt;-<span class="st"> </span><span class="kw">as.list</span>(HDOALIAS)</a>
+<a class="sourceLine" id="cb7-2" title="2">doalias[[<span class="st">&#39;DOID:0001816&#39;</span>]]</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; [1] &quot;DOID:267&quot;  &quot;DOID:4508&quot;</span></a></code></pre></div>
+<p>get synonym of <code>DOID:0001816</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">dosynonym &lt;-<span class="st"> </span><span class="kw">as.list</span>(HDOSYNONYM)</a>
+<a class="sourceLine" id="cb8-2" title="2">dosynonym[[<span class="st">&#39;DOID:0001816&#39;</span>]]</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; [1] &quot;\&quot;hemangiosarcoma\&quot; EXACT []&quot;</span></a></code></pre></div>
+</div>
+<div id="fetch-the-relationship-between-do-terms" class="section level2">
+<h2>Fetch the relationship between DO terms</h2>
+<p>Similar to <code>DO.db</code>, we provide four Bimap objects to represent relationship between DO terms: HDOANCESTOR,HDOPARENTS,HDOOFFSPRING, and HDOCHILDREN.</p>
+<div id="hdoancestor" class="section level3">
+<h3>HDOANCESTOR</h3>
+<p>HDOANCESTOR describes the association between DO terms and their ancestral terms based on a directed acyclic graph (DAG) defined by the Disease Ontology. We can use <code>toTable</code> function in <code>AnnotationDbi</code> package to get a two-column data.frame: the first column means the DO term ids, and the second column means their ancestor terms.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">anc_table &lt;-<span class="st"> </span><span class="kw">toTable</span>(HDOANCESTOR)</a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">head</span>(anc_table)</a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">#&gt;           doid     ancestor</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">#&gt; 1 DOID:0001816     DOID:175</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt; 2 DOID:0001816     DOID:176</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; 3 DOID:0001816 DOID:0050686</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; 4 DOID:0001816     DOID:162</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; 5 DOID:0001816   DOID:14566</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; 6 DOID:0001816       DOID:4</span></a></code></pre></div>
+<p>get ancestor of “DOID:0001816”</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">anc_list &lt;-<span class="st"> </span>AnnotationDbi<span class="op">::</span><span class="kw">as.list</span>(HDOANCESTOR)</a>
+<a class="sourceLine" id="cb10-2" title="2">anc_list[[<span class="st">&quot;DOID:0001816&quot;</span>]]</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">#&gt; [1] &quot;DOID:175&quot;     &quot;DOID:176&quot;     &quot;DOID:0050686&quot; &quot;DOID:162&quot;     &quot;DOID:14566&quot;  </span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">#&gt; [6] &quot;DOID:4&quot;</span></a></code></pre></div>
+</div>
+<div id="hdoparents" class="section level3">
+<h3>HDOPARENTS</h3>
+<p>HDOPARENTS describes the association between DO terms and their direct parent terms based on DAG. We can use <code>toTable</code> function in <code>AnnotationDbi</code> package to get a two-column data.frame: the first column means the DO term ids, and the second column means their parent terms.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">parent_table &lt;-<span class="st"> </span><span class="kw">toTable</span>(HDOPARENTS)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">head</span>(parent_table)</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="co">#&gt;           doid       parent</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="co">#&gt; 1 DOID:0001816     DOID:175</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="co">#&gt; 2 DOID:0002116   DOID:10124</span></a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="co">#&gt; 3 DOID:0014667       DOID:4</span></a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="co">#&gt; 4 DOID:0040001 DOID:0060524</span></a>
+<a class="sourceLine" id="cb11-8" title="8"><span class="co">#&gt; 5 DOID:0040002 DOID:0060500</span></a>
+<a class="sourceLine" id="cb11-9" title="9"><span class="co">#&gt; 6 DOID:0040003 DOID:0060519</span></a></code></pre></div>
+<p>get parent term of “DOID:0001816”</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">parent_list &lt;-<span class="st"> </span>AnnotationDbi<span class="op">::</span><span class="kw">as.list</span>(HDOPARENTS)</a>
+<a class="sourceLine" id="cb12-2" title="2">parent_list[[<span class="st">&quot;DOID:0001816&quot;</span>]]</a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="co">#&gt; [1] &quot;DOID:175&quot;</span></a></code></pre></div>
+</div>
+<div id="hdooffspring" class="section level3">
+<h3>HDOOFFSPRING</h3>
+<p>HDOPARENTS describes the association between DO terms and their offspring<br />
+terms based on DAG. it’s the exact opposite of <code>HDOANCESTOR</code>, whose usage is similar to it.</p>
+<p>get offspring of “DOID:0001816”</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">off_list &lt;-<span class="st"> </span>AnnotationDbi<span class="op">::</span><span class="kw">as.list</span>(HDO.db<span class="op">::</span>HDOOFFSPRING)</a>
+<a class="sourceLine" id="cb13-2" title="2">off_list[[<span class="st">&quot;DOID:0001816&quot;</span>]]</a>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt; [1] &quot;DOID:265&quot;  &quot;DOID:268&quot;  &quot;DOID:4505&quot; &quot;DOID:4510&quot; &quot;DOID:4512&quot; &quot;DOID:4513&quot;</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt; [7] &quot;DOID:4522&quot; &quot;DOID:4525&quot; &quot;DOID:4527&quot;</span></a></code></pre></div>
+</div>
+<div id="hdochildren" class="section level3">
+<h3>HDOCHILDREN</h3>
+<p>HDOCHILDREN describes the association between DO terms and their direct children terms based on DAG. it’s the exact opposite of <code>HDOPARENTS</code>, whose usage is similar to it.</p>
+<p>get children of “DOID:4”</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">child_list &lt;-<span class="st"> </span>AnnotationDbi<span class="op">::</span><span class="kw">as.list</span>(HDO.db<span class="op">::</span>HDOCHILDREN)</a>
+<a class="sourceLine" id="cb14-2" title="2">child_list[[<span class="st">&quot;DOID:4&quot;</span>]]</a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt; [1] &quot;DOID:0014667&quot; &quot;DOID:0050117&quot; &quot;DOID:0080015&quot; &quot;DOID:14566&quot;   &quot;DOID:150&quot;    </span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt; [6] &quot;DOID:225&quot;     &quot;DOID:630&quot;     &quot;DOID:7&quot;</span></a></code></pre></div>
+<p>The HDO.db support the <code>select()</code>, <code>keys()</code>, <code>keytypes()</code>, and <code>columns</code> interface.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">columns</span>(HDO.db)</a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; [1] &quot;alias&quot;     &quot;ancestor&quot;  &quot;children&quot;  &quot;doid&quot;      &quot;offspring&quot; &quot;parent&quot;   </span></a>
+<a class="sourceLine" id="cb15-3" title="3"><span class="co">#&gt; [7] &quot;synonym&quot;   &quot;term&quot;</span></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co">## use doid keys</span></a>
+<a class="sourceLine" id="cb15-5" title="5">dokeys &lt;-<span class="st"> </span><span class="kw">head</span>(<span class="kw">keys</span>(HDO.db))</a>
+<a class="sourceLine" id="cb15-6" title="6">res &lt;-<span class="st"> </span><span class="kw">select</span>(<span class="dt">x =</span> HDO.db, <span class="dt">keys =</span> dokeys, <span class="dt">keytype =</span> <span class="st">&quot;doid&quot;</span>, </a>
+<a class="sourceLine" id="cb15-7" title="7">    <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;offspring&quot;</span>, <span class="st">&quot;term&quot;</span>, <span class="st">&quot;parent&quot;</span>))</a>
+<a class="sourceLine" id="cb15-8" title="8"><span class="kw">head</span>(res)</a>
+<a class="sourceLine" id="cb15-9" title="9"><span class="co">#&gt;           doid offspring         term   parent</span></a>
+<a class="sourceLine" id="cb15-10" title="10"><span class="co">#&gt; 1 DOID:0001816  DOID:265 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-11" title="11"><span class="co">#&gt; 2 DOID:0001816  DOID:268 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-12" title="12"><span class="co">#&gt; 3 DOID:0001816 DOID:4505 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-13" title="13"><span class="co">#&gt; 4 DOID:0001816 DOID:4510 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-14" title="14"><span class="co">#&gt; 5 DOID:0001816 DOID:4512 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-15" title="15"><span class="co">#&gt; 6 DOID:0001816 DOID:4513 angiosarcoma DOID:175</span></a>
+<a class="sourceLine" id="cb15-16" title="16"><span class="co">## use term keys</span></a>
+<a class="sourceLine" id="cb15-17" title="17">dokeys &lt;-<span class="st"> </span><span class="kw">head</span>(<span class="kw">keys</span>(HDO.db, <span class="dt">keytype =</span> <span class="st">&quot;term&quot;</span>))</a>
+<a class="sourceLine" id="cb15-18" title="18">res &lt;-<span class="st"> </span><span class="kw">select</span>(<span class="dt">x =</span> HDO.db, <span class="dt">keys =</span> dokeys, <span class="dt">keytype =</span> <span class="st">&quot;term&quot;</span>, </a>
+<a class="sourceLine" id="cb15-19" title="19">    <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;offspring&quot;</span>, <span class="st">&quot;doid&quot;</span>, <span class="st">&quot;parent&quot;</span>))   </a>
+<a class="sourceLine" id="cb15-20" title="20"><span class="kw">head</span>(res)</a>
+<a class="sourceLine" id="cb15-21" title="21"><span class="co">#&gt;           doid offspring   parent</span></a>
+<a class="sourceLine" id="cb15-22" title="22"><span class="co">#&gt; 1 DOID:0001816  DOID:265 DOID:175</span></a>
+<a class="sourceLine" id="cb15-23" title="23"><span class="co">#&gt; 2 DOID:0001816  DOID:268 DOID:175</span></a>
+<a class="sourceLine" id="cb15-24" title="24"><span class="co">#&gt; 3 DOID:0001816 DOID:4505 DOID:175</span></a>
+<a class="sourceLine" id="cb15-25" title="25"><span class="co">#&gt; 4 DOID:0001816 DOID:4510 DOID:175</span></a>
+<a class="sourceLine" id="cb15-26" title="26"><span class="co">#&gt; 5 DOID:0001816 DOID:4512 DOID:175</span></a>
+<a class="sourceLine" id="cb15-27" title="27"><span class="co">#&gt; 6 DOID:0001816 DOID:4513 DOID:175</span></a></code></pre></div>
+</div>
+</div>
+<div id="semantic-similarity-analysis" class="section level2">
+<h2>Semantic similarity analysis</h2>
+<p>Please go to <a href="https://yulab-smu.top/biomedical-knowledge-mining-book/" class="uri">https://yulab-smu.top/biomedical-knowledge-mining-book/</a> for the vignette.</p>
+</div>
+<div id="disease-enrichment-analysis" class="section level2">
+<h2>Disease enrichment analysis</h2>
+<p>Please go to <a href="https://yulab-smu.top/biomedical-knowledge-mining-book/dose-enrichment.html" class="uri">https://yulab-smu.top/biomedical-knowledge-mining-book/dose-enrichment.html</a> for the vignette.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">sessionInfo</span>()</a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="co">#&gt; R version 4.2.0 Patched (2022-05-05 r82321)</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="co">#&gt; Platform: x86_64-apple-darwin19.6.0 (64-bit)</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="co">#&gt; Running under: macOS Catalina 10.15.7</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-6" title="6"><span class="co">#&gt; Matrix products: default</span></a>
+<a class="sourceLine" id="cb16-7" title="7"><span class="co">#&gt; BLAS:   /Users/ka36530_ca/R-stuff/bin/R-4-2/lib/libRblas.dylib</span></a>
+<a class="sourceLine" id="cb16-8" title="8"><span class="co">#&gt; LAPACK: /Users/ka36530_ca/R-stuff/bin/R-4-2/lib/libRlapack.dylib</span></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-10" title="10"><span class="co">#&gt; locale:</span></a>
+<a class="sourceLine" id="cb16-11" title="11"><span class="co">#&gt; [1] C/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8</span></a>
+<a class="sourceLine" id="cb16-12" title="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-13" title="13"><span class="co">#&gt; attached base packages:</span></a>
+<a class="sourceLine" id="cb16-14" title="14"><span class="co">#&gt; [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></a>
+<a class="sourceLine" id="cb16-15" title="15"><span class="co">#&gt; [8] base     </span></a>
+<a class="sourceLine" id="cb16-16" title="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-17" title="17"><span class="co">#&gt; other attached packages:</span></a>
+<a class="sourceLine" id="cb16-18" title="18"><span class="co">#&gt; [1] AnnotationDbi_1.59.1 IRanges_2.31.2       S4Vectors_0.35.4    </span></a>
+<a class="sourceLine" id="cb16-19" title="19"><span class="co">#&gt; [4] Biobase_2.57.1       BiocGenerics_0.43.4  HDO.db_0.99.1       </span></a>
+<a class="sourceLine" id="cb16-20" title="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb16-21" title="21"><span class="co">#&gt; loaded via a namespace (and not attached):</span></a>
+<a class="sourceLine" id="cb16-22" title="22"><span class="co">#&gt;  [1] Rcpp_1.0.9             GenomeInfoDb_1.33.7    XVector_0.37.1        </span></a>
+<a class="sourceLine" id="cb16-23" title="23"><span class="co">#&gt;  [4] bslib_0.4.0            compiler_4.2.0         jquerylib_0.1.4       </span></a>
+<a class="sourceLine" id="cb16-24" title="24"><span class="co">#&gt;  [7] bitops_1.0-7           zlibbioc_1.43.0        tools_4.2.0           </span></a>
+<a class="sourceLine" id="cb16-25" title="25"><span class="co">#&gt; [10] digest_0.6.29          bit_4.0.4              jsonlite_1.8.0        </span></a>
+<a class="sourceLine" id="cb16-26" title="26"><span class="co">#&gt; [13] RSQLite_2.2.17         evaluate_0.16          memoise_2.0.1         </span></a>
+<a class="sourceLine" id="cb16-27" title="27"><span class="co">#&gt; [16] pkgconfig_2.0.3        png_0.1-7              rlang_1.0.6           </span></a>
+<a class="sourceLine" id="cb16-28" title="28"><span class="co">#&gt; [19] DBI_1.1.3              cli_3.4.1              yaml_2.3.5            </span></a>
+<a class="sourceLine" id="cb16-29" title="29"><span class="co">#&gt; [22] xfun_0.33              fastmap_1.1.0          GenomeInfoDbData_1.2.9</span></a>
+<a class="sourceLine" id="cb16-30" title="30"><span class="co">#&gt; [25] stringr_1.4.1          httr_1.4.4             knitr_1.40            </span></a>
+<a class="sourceLine" id="cb16-31" title="31"><span class="co">#&gt; [28] Biostrings_2.65.6      sass_0.4.2             vctrs_0.4.2           </span></a>
+<a class="sourceLine" id="cb16-32" title="32"><span class="co">#&gt; [31] bit64_4.0.5            R6_2.5.1               rmarkdown_2.16        </span></a>
+<a class="sourceLine" id="cb16-33" title="33"><span class="co">#&gt; [34] blob_1.2.3             magrittr_2.0.3         htmltools_0.5.3       </span></a>
+<a class="sourceLine" id="cb16-34" title="34"><span class="co">#&gt; [37] KEGGREST_1.37.3        stringi_1.7.8          RCurl_1.98-1.8        </span></a>
+<a class="sourceLine" id="cb16-35" title="35"><span class="co">#&gt; [40] cachem_1.0.6           crayon_1.5.1</span></a></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

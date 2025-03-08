@@ -1,0 +1,34 @@
+Package: ComplexHeatmap
+Type: Package
+Title: Make Complex Heatmaps
+Version: 2.14.0
+Date: 2022-10-15
+Authors@R: person("Zuguang", "Gu", email = "z.gu@dkfz.de", role = c("aut", "cre"),
+                  comment = c('ORCID'="0000-0002-7395-8709"))
+Depends: R (>= 3.5.0), methods, grid, graphics, stats, grDevices
+Imports: circlize (>= 0.4.14), GetoptLong, colorspace, clue,
+        RColorBrewer, GlobalOptions (>= 0.1.0), png, digest, IRanges,
+        matrixStats, foreach, doParallel, codetools
+Suggests: testthat (>= 1.0.0), knitr, markdown, dendsort, jpeg, tiff,
+        fastcluster, EnrichedHeatmap, dendextend (>= 1.0.1), grImport,
+        grImport2, glue, GenomicRanges, gridtext, pheatmap (>= 1.0.12),
+        gridGraphics, gplots, rmarkdown, Cairo
+VignetteBuilder: knitr
+Description: Complex heatmaps are efficient to visualize associations 
+    between different sources of data sets and reveal potential patterns. 
+    Here the ComplexHeatmap package provides a highly flexible way to arrange 
+    multiple heatmaps and supports various annotation graphics.
+biocViews: Software, Visualization, Sequencing
+URL: https://github.com/jokergoo/ComplexHeatmap,
+        https://jokergoo.github.io/ComplexHeatmap-reference/book/
+License: MIT + file LICENSE
+git_url: https://git.bioconductor.org/packages/ComplexHeatmap
+git_branch: RELEASE_3_16
+git_last_commit: 57fcaa0
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-01 23:33:42 UTC; biocbuild
+Author: Zuguang Gu [aut, cre] (<https://orcid.org/0000-0002-7395-8709>)
+Maintainer: Zuguang Gu <z.gu@dkfz.de>
+Built: R 4.2.1; ; 2022-11-02 13:25:39 UTC; windows

@@ -1,0 +1,9 @@
+GetOptions	GetOptions
+GetoptLong	GetoptLong
+GetoptLong.options	GetoptLong.options
+get_scriptdir	get_scriptdir
+get_scriptname	get_scriptname
+qq	qq
+qq.options	qq.options
+qqcat	qqcat
+source_script	source_script

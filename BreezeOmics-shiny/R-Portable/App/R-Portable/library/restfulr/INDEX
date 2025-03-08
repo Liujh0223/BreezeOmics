@@ -1,0 +1,6 @@
+CRUDProtocol-class      CRUDProtocol
+Credentials-class       Credentials
+Media-class             Media
+MediaCache-class        MediaCache
+RestContainer-class     RestContainer
+RestUri-class           RestUri

@@ -1,0 +1,27 @@
+Package: scatterpie
+Title: Scatter Pie Plot
+Version: 0.2.3
+Authors@R: c(
+    person(given = "Guangchuang", family = "Yu", 
+            email = "guangchuangyu@gmail.com", role  = c("aut", "cre"), 
+            comment = c(ORCID = "0000-0002-6485-8781")),
+    person(given = "Shuangbin",   family = "Xu",       
+            email = "xshuangbin@163.com",      role = "ctb", 
+            comment = c(ORCID="0000-0003-3513-5362"))
+    )
+Description: Creates scatterpie plots, especially useful for plotting pies on a map.
+Depends: R (>= 4.1.0), ggplot2
+Imports: ggforce, rlang, ggfun, stats, tidyr, dplyr, utils
+Suggests: knitr, rmarkdown, prettydoc, maps, scales, cli
+VignetteBuilder: knitr
+License: Artistic-2.0
+Encoding: UTF-8
+RoxygenNote: 7.3.1
+NeedsCompilation: no
+Packaged: 2024-06-05 10:19:26 UTC; HUAWEI
+Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
+  Shuangbin Xu [ctb] (<https://orcid.org/0000-0003-3513-5362>)
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-06-05 16:10:02 UTC
+Built: R 4.2.0; ; 2024-08-08 18:25:44 UTC; windows

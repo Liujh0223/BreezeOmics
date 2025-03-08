@@ -1,0 +1,372 @@
+% \VignetteIndexEntry{widgetTools Introduction}
+% \VignetteDepends{widgetTools}
+% \VignettePackage{widgetTools}
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
+\begin{document}
+\author{Jianhua Zhang}
+
+\title{Building a widget using widgetTools}
+
+\maketitle
+
+\copyright{2002 Bioconductor}
+
+\begin{verbatim}
+$Id$
+\end{verbatim}
+
+\tableofcontents
+
+\section{Introduction}
+
+The purpose of \Rpackage{widgetTools} is to provide a simple interface for users
+to build interactive widgets. Although the underlying implementation
+of any widget built using \Rpackage{widgetTools} is through the R \Rpackage{tcltk}
+package, users of widgetTools do not need to know all of the low-level
+\texttt{Tcl/Tk} commands, because the widget functionality is encapsulated in
+S4 classes which interact directly with standard R objects.  For example, specifying the
+layout of some widgets (e.g. buttons and text labels) on a window can be as
+simple as supplying a list of lists, representing the list of rows of the
+grid of widgets, instead of using low level \texttt{Tcl/Tk} options to place and
+align each widget manually.
+
+The design of widgetTools follows the Model-View-Controller pattern, described in
+\texttt{[1]}.  This enables the separation of the information content of a widget
+(model) from the visual representation (view) and the actions/event-handlers
+associated with the widget (controller), in order to facilitate code reuse.
+
+A basic primary widget class \Robject{basicPW} is implemented in order to create
+\Robject{pWidget} objects (instances of this class) which contain the application
+data (i.e. the \emph{model}).  A widget controller class \Robject{widget} is
+implemented to keep track of the various \Robject{pWidget} objects (in a nested
+list structure) and their associated actions/event-handlers.  Finally, a
+\Robject{widgetView} class is implemented to store the low-level widget/window
+attributes, such as the ID attribute of an object created using the \Robject{tktoplevel}
+or \Robject{tkwidget} function in the R \Rpackage{tcltk} package.  These widget IDs are used
+to update the visual representation of the widget (view) if the internal data
+(model) changes.
+
+The system is designed in such a way that users only have to deal with
+\Robject{pWidget} and \Robject{widget} objects. \Robject{widgetView}
+will be managed by \Robject{widget}.
+
+\section{Build a widget}
+
+The remainder of the vignette will be used to illustrate the construction of a
+dialog box which allows the user to:
+\begin{itemize}
+\item browse for files (using the \Robject{fileBrowser} function from the \Rpackage{tkWidgets} package),
+\item read some text labels displayed on the dialog,
+\item enter some text,
+\item select an option from a set of radio buttons,
+\item select an option from a listbox, and
+\item make some yes/no decisions using checkbuttons (checkboxes).
+\end{itemize}.
+
+The basic steps are as follows:
+\begin{enumerate}
+\item Define an R environment for creating an manipulating \Robject{pWidget} objects,
+(rather than storing everything in the global environment).
+\item Define several \Robject{pWidget} objects of different types (text label,
+text entry, button, listbox, textbox, radiobutton and checkbutton (checkbox)) using the functions
+\Robject{label}, \Robject{entry}, \Robject{button}, \Robject{listBox},
+\Robject{textBox}, \Robject{radioButton} and \Robject{checkButton} respectively.
+  \begin{itemize}
+  \item Each of these functions creates a \Robject{pWidget} object (of class \Robject{basicPW})
+    with appropriate slot values for the particular widget, e.g. the widget type slot
+    (\Robject{wType}) would be ``list'' for a listbox.
+  \end{itemize}
+\item Define \Robject{pWidgets}, a list of lists of \Robject{pWidget} objects in order to define
+  the layout of widgets on the dialog, where the inner lists in the data structure correspond to
+  rows of widgets on the dialog.
+\item Use the \Robject{widget} function to construct and display a dialog containing the
+  widgets in the \Robject{pWidgets} list
+\item Use the \Robject{wValue} accessor function to extract the values specified by the
+user within the dialog and store them in standard R objects.
+\end{enumerate}
+
+Shorter examples of using some of the \Rpackage{widgetTools} functions can be found in the help files for
+\Robject{makeViewer} and \Robject{tooltip}.  The code shown in this vignette is a little longer,
+but illustrates the use of almost all of the most common widget elements in one dialog box.
+
+Defining an R environment in which to manipulate \Robject{pWidget} objects has several advantages.
+Not only does it avoid the risk of overwriting/masking existing objects in the global workspace,
+but it has the advantage that objects from this environment can be obtained using the \Robject{get}
+function, thus avoiding the unnecessary copying of data in memory which would result from excessive
+passing (by value) of \Robject{pWidget} objects between functions every time they needed to be
+updated.
+
+<<>>=
+library(widgetTools)
+PWEnv <- new.env(hash = TRUE, parent = parent.frame(1))
+@
+
+Then, we can create the \Robject{pWidget} objects that define the widget elements
+that are going to be rendered. A \Robject{pWidget} is an object of basicPW class
+defined below:
+
+\begin{verbatim}
+
+             |-----------------------|
+             |        basicPW        |
+             |-----------------------|
+             | wName: string         |
+             | wType: string         |
+             | wValue: string        |
+             | wWidth: string        |
+             | wFuns: list           |
+             | wPreFun: function     |
+             | wPostFun: function    |
+             | wView: widgetView     |
+             | wEnv: environment     |
+             | wNotify: list         |
+             |-----------------------|
+
+\end{verbatim}
+
+Where
+
+\begin{itemize}
+
+\item \Robject{wName} - a character string for the name to be associated with a
+  given pWidget;
+\item \Robject{wType} - type of a \texttt{Tk} widget ("text" for text box, "list"
+  for list box, "entry" for entry box, "button" for button, "radio" for radiobutton,
+  "check" for checkbutton,"label" for text label,...);
+\item \Robject{wValue}: an undefined data type used to store information that will
+  be displayed on the interface or updated using values obtained from
+  the interface;
+\item \Robject{wWidth} - the physical width (in pixels) of the \Robject{pWidget} to be
+  rendered. Applicable to most \Robject{pWidget} objects;
+\item \Robject{wFuns} - functions that will be associated with the given pWidget
+  and invoked when a given operation to the \Robject{pWidget} takes place
+  (e. g. clicked, get focused ...);
+\item \Robject{wPreFun} - the function defining the operations to be performed on
+  the text of the \Robject{pWidget} before rendering the text;
+\item \Robject{wPostFun} - the function defining the operations to be performed
+  on the text of the \texttt{pWidget} upon existing;
+\item \Robject{wView} - a \texttt{widgetView} object associated with each \Robject{pWidget} that
+  will be used for updating the data displayed;
+\item \Robject{wEnv} - an R environment object where data updating and retrieval
+  will take place;
+\item \Robject{wNotify} - a list of functions defining the actions to be performed
+  when the value of the \texttt{pWidget} changes.
+\end{itemize}
+
+The following code creates several \Robject{pWidget} objects of different types:
+
+<<>>=
+label1 <- label(wName = "label1", wValue = "File Name: ", wEnv = PWEnv)
+entry1 <- entryBox(wName = "entry1", wValue = "Feed me using browse",
+                   wEnv = PWEnv)
+browse2Entry1 <- function(){
+    tempValue <- tclvalue(tkgetOpenFile())
+    temp <- get(wName(entry1), env = PWEnv)
+    wValue(temp) <- paste(tempValue, sep = "", collapse = ";")
+    assign(wName(entry1), temp, env = PWEnv)
+}
+button1 <- button(wName = "button1", wValue = "Browse",
+                     wFuns = list(command = browse2Entry1), wEnv = PWEnv)
+list1 <- listBox(wName = "list1", wValue = c(Option1 = TRUE, Option2 = FALSE,
+                                 Option3 = FALSE), wEnv = PWEnv)
+text1 <- textBox(wName = "text1", wValue = "Feed me something",
+                 wEnv = PWEnv)
+label2 <- label(wName = "label2", wValue = "Select one:  ", wEnv = PWEnv)
+radios1 <- radioButton(wName = "radios1", wValue = c(radio1 = TRUE,
+                       radio2 = FALSE, radio3 = FALSE), wEnv = PWEnv)
+label3 <- label(wName = "label3", wValue = "Select one to many: ",
+                wEnv = PWEnv)
+checks1 <- checkButton(wName = "checks1", wValue = c(check1 = TRUE,
+                       check22 = FALSE, check3 = FALSE), wEnv = PWEnv)
+@
+
+The \Robject{fileBrowser} function from the \Rpackage{tkWidgets} package is
+specified to be the action associated with pushing the \texttt{Browse} button
+(\Robject{button1}).  The file name returned by the \Robject{fileBrowser} function
+is then displayed in the entry box (\Robject{entry1}) by assigning the filename
+to the \Robject{wName} slot in \Robject{entry1}. All the data
+manipulations will be done within the environment previously defined. At
+this time the environment does not contain the \Robject{pWidget} objects. They
+will be assigned to the environment by the system later. It is
+important that the \Robject{wName} for each widget element be the same as the
+name of the corresponding \Robject{pWidget} and to be unique. Values for
+{\texttt{list1}}, {\texttt{radios1}}, and {\texttt{checks1}} are named vectors.
+Names of the values will be displayed either as elements (for listboxes) or text
+descriptions (for radio and check buttons) of the corresponding widget
+elements to be rendered.
+
+Event-handlers can be defined for each \Robject{pWidget} object, using the
+\Robject{wFuns} parameter of the appropriate \Robject{pWidget}
+constructor function, e.g. \Robject{button}.  In the case of a button, the
+a function would be defined to be executed as the command for that button, and
+it would be specified in the \Robject{wFuns} list passed to the \Robject{button}
+constructor function as an attribute with name \Robject{command}.  Any button
+defined is assumed to have a command element in its \Robject{wFuns} list.
+List boxes, radio buttons, check buttons, and text entries will have default
+functions defined for them to update their values when the corresponding widget
+element is pressed or text is changed. If you want anything additional to
+that, you will have to define a function and list that function in
+funs. Adding functions to the \Robject{wFuns list} is not fully implemented
+right now but will be available later.
+
+Radio buttons and check buttons are defined as groups with the name
+and value of individual radio button or check button defined by the
+vector for value (see \Robject{radios1} and \Robject{checks1}).
+
+\Robject{pWidget} objects have \Robject{set} and \Robject{get} functions to
+access and modify the variables. For example, we can get and set the value
+for the type of a \Robject{pWidget}:
+
+<<>>=
+wName(label1)
+wName(label1) <- "YYY"
+wName(label1)
+wName(label1) <- "label1"
+@
+
+To specify the layout of the widgets on the interface, the \Robject{pWidget} objects need to
+be put in a list of lists in such a way that the inner lists in the data structure
+correspond to rows in the grid of widgets on the interface.  Each element (list) in the outer
+list will be treated as a unit and rendered one after another vertically and each element
+(\Robject{pWidget}) in the inner list will be treated as a unit and rendered one after another
+horizontally. For example, if we want to have the first three \Robject{pWidget}s namely {\texttt{label1}},
+{\texttt{entry1}}, and {\texttt{button1}} to appear in one row on top of the
+screen, {\texttt{list1}} and {\texttt{text1}} in one row below, {\texttt{label2}} and
+{\texttt{radios1}} in another row, and {\texttt{label3}} and {\texttt{checks1}} in yet
+another row, we will need to put the \Robject{pWidgets} in a list like the
+following. Naming of the lists for \Robject{pWidget} groups is arbitrary.
+
+<<>>=
+pWidgets <- list(topRow = list(label1 = label1, entry1 = entry1,
+                 button1 = button1), textRow = list(list1 = list1,
+                 text1 = text1), radGroup = list(label2 = label2,
+                 radios1 = radios1), chkGroup = list(label3 = label3,
+                                     checks1 = checks1))
+@
+
+When we have the list of \Robject{pWidget}s ready, we can proceed to create
+a \Robject{widget} object that will construct a \Robject{widgetView} object to
+render the widget elements. A \Robject{widget} object is defined as follows:
+
+\begin{verbatim}
+
+             |-----------------------|
+             |         widget        |
+             |-----------------------|
+             | pWidgets: list        |
+             | funs: list            |
+             | preFun: function      |
+             | postFun: function     |
+             | wTitle: string        |
+             | env: environment      |
+             |-----------------------|
+
+\end{verbatim}
+
+where
+
+\begin{itemize}
+\item \Robject{pWidgets} - a list of lists with each element being a \Robject{pWidget}
+  object to appear on the main interface represented by the \Robject{widget} object.;
+\item \Robject{funs} - a list of functions that will be associated with buttons
+  on the interface to be created. The name of a function in the list
+  will be the text which appears on the button and the function will be
+  executed when the button is pressed;
+\item \Robject{preFun} - a function that will be executed when the \texttt{Tk} widget
+  is constructed;
+\item \Robject{postFun} - a function that will be executed when the \texttt{Tk} widget
+  is destroyed.
+\item \Robject{wTitle} - a character string for the title to be displayed in the title
+  bar of the main interface represented by the \Robject{widget} object.
+\item \Robject{env} - an R environment object within which the original
+          values for the main \Robject{widget} object will be stored and updating
+          and retrieval of the values will take place
+\end{itemize}
+
+The following code constructs a {\texttt{widget}} object.  In practice it is not
+necessary to use \texttt{if(interactive())\{...\}}.  This is only included so that this
+vignette can be constructed automatically using \texttt{Sweave} without necessarily having a
+graphics device open.
+
+<<>>=
+if(interactive()){
+aWidget <- widget(wTitle = "A test widget", pWidgets, funs = list(),
+                 preFun = function() print("Hello"),
+                 postFun = function() print("Bye"), env = PWEnv)
+}
+@
+
+\includegraphics{widget.pdf}
+
+Now, we can change the values of the \texttt{pWidget} objects we have created
+through the interface. Click the \texttt{Browse} button to select a file using
+the \texttt{fileBrowser} widget from the \Rpackage{tkWidgets} package.  After
+clicking the \texttt{Finish} button on the \texttt{fileBrowser} widget (not
+shown), the File Name entry box on the test widget above will contain the file name
+which was selected (and returned by the \texttt{fileBrowser} function).
+Try selecting an item from the list box, selecting a radio button, toggling the
+check buttons, and typing in a few words in the text box.  Then click the
+\texttt{Finish} button on the test widget, and a \Robject{widget}
+object will be constructed. The \Robject{widget} object contains \texttt{pWidget}
+objects, the value of whose elements will be modified depending what has been
+performed on the interface we just played with. The values for
+{\texttt{entry1}}, {\texttt{list1}}, {\texttt{text1}}, {\texttt{radios1}}, and
+{\texttt{checks1}} now become:
+
+<<>>=
+if(interactive()){
+wValue(pWidgets(aWidget)[["topRow"]][["entry1"]])
+wValue(pWidgets(aWidget)[["textRow"]][["list1"]])
+wValue(pWidgets(aWidget)[["textRow"]][["text1"]])
+wValue(pWidgets(aWidget)[["radGroup"]][["radios1"]])
+wValue(pWidgets(aWidget)[["chkGroup"]][["checks1"]])
+}
+@
+
+\section*{References}
+\begin{enumerate}
+\item{MVC} Krasner, G. and Pope, S. 1988. Huynen, M.~A. and Bork, P. 1998.
+A Description of the Model-View-Controller User Interface Paradigm in the Smalltalk-80 system.
+{\em Journal of Object Oriented Programming}, vol. 1, no. 3, pp. 26--49, 1988.
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

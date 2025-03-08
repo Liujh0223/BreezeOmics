@@ -1,0 +1,96 @@
+Package: GenomicFeatures
+Title: Conveniently import and query gene models
+Description: A set of tools and methods for making and manipulating
+	transcript centric annotations. With these tools the user can
+	easily download the genomic locations of the transcripts, exons
+	and cds of a given organism, from either the UCSC Genome
+	Browser or a BioMart database (more sources will be supported
+	in the future). This information is then stored in a local
+	database that keeps track of the relationship between
+	transcripts, exons, cds and genes. Flexible methods are
+	provided for extracting the desired features in a convenient
+	format.
+biocViews: Genetics, Infrastructure, Annotation, Sequencing,
+        GenomeAnnotation
+URL: https://bioconductor.org/packages/GenomicFeatures
+BugReports: https://github.com/Bioconductor/GenomicFeatures/issues
+Version: 1.50.4
+License: Artistic-2.0
+Encoding: UTF-8
+Authors@R: c(
+	person("M.", "Carlson", role="aut"),
+	person("H.", "Pagès", role=c("aut", "cre"),
+		email="hpages.on.github@gmail.com"),
+	person("P.", "Aboyoun", role="aut"),
+	person("S.", "Falcon", role="aut"),
+	person("M.", "Morgan", role="aut"),
+	person("D.", "Sarkar", role="aut"),
+	person("M.", "Lawrence", role="aut"),
+	person("V.", "Obenchain", role="aut"),
+	person("S.", "Arora", role="ctb"),
+	person("J.", "MacDonald", role="ctb"),
+	person("M.", "Ramos", role="ctb"),
+	person("S.", "Saini", role="ctb"),
+	person("P.", "Shannon", role="ctb"),
+	person("L.", "Shepherd", role="ctb"),
+	person("D.", "Tenenbaum", role="ctb"),
+	person("D.", "Van Twisk", role="ctb"))
+Depends: R (>= 3.5.0), BiocGenerics (>= 0.1.0), S4Vectors (>= 0.17.29),
+        IRanges (>= 2.13.23), GenomeInfoDb (>= 1.34.7), GenomicRanges
+        (>= 1.31.17), AnnotationDbi (>= 1.41.4)
+Imports: methods, utils, stats, tools, DBI, RSQLite (>= 2.0), RCurl,
+        XVector (>= 0.19.7), Biostrings (>= 2.47.6), BiocIO,
+        rtracklayer (>= 1.51.5), biomaRt (>= 2.17.1), Biobase (>=
+        2.15.1)
+Suggests: RMariaDB, org.Mm.eg.db, org.Hs.eg.db, BSgenome,
+        BSgenome.Hsapiens.UCSC.hg19 (>= 1.3.17),
+        BSgenome.Celegans.UCSC.ce11, BSgenome.Dmelanogaster.UCSC.dm3
+        (>= 1.3.17), mirbase.db, FDb.UCSC.tRNAs,
+        TxDb.Hsapiens.UCSC.hg19.knownGene,
+        TxDb.Celegans.UCSC.ce11.ensGene,
+        TxDb.Dmelanogaster.UCSC.dm3.ensGene (>= 2.7.1),
+        TxDb.Mmusculus.UCSC.mm10.knownGene (>= 3.4.7),
+        TxDb.Hsapiens.UCSC.hg19.lincRNAsTranscripts,
+        TxDb.Hsapiens.UCSC.hg38.knownGene (>= 3.4.6),
+        SNPlocs.Hsapiens.dbSNP144.GRCh38, Rsamtools, pasillaBamSubset
+        (>= 0.0.5), GenomicAlignments (>= 1.15.7), ensembldb,
+        AnnotationFilter, RUnit, BiocStyle, knitr, markdown
+VignetteBuilder: knitr
+Collate: utils.R TxDb-schema.R TxDb-SELECT-helpers.R UCSC-utils.R
+        Ensembl-utils.R findCompatibleMarts.R TxDb-class.R
+        FeatureDb-class.R makeTxDb.R makeTxDbFromUCSC.R
+        makeTxDbFromBiomart.R makeTxDbFromEnsembl.R
+        makeTxDbFromGRanges.R makeTxDbFromGFF.R makeFeatureDbFromUCSC.R
+        mapIdsToRanges.R id2name.R transcripts.R transcriptsBy.R
+        transcriptsByOverlaps.R transcriptLengths.R exonicParts.R
+        disjointExons.R extendExonsIntoIntrons.R features.R microRNAs.R
+        extractTranscriptSeqs.R extractUpstreamSeqs.R
+        getPromoterSeq-methods.R makeTxDbPackage.R select-methods.R
+        nearest-methods.R transcriptLocs2refLocs.R
+        coordinate-mapping-methods.R proteinToGenome.R
+        coverageByTranscript.R zzz.R
+git_url: https://git.bioconductor.org/packages/GenomicFeatures
+git_branch: RELEASE_3_16
+git_last_commit: 68bf6e1
+git_last_commit_date: 2022-12-14
+Date/Publication: 2023-01-25
+NeedsCompilation: no
+Packaged: 2023-01-25 23:54:19 UTC; biocbuild
+Author: M. Carlson [aut],
+  H. Pagès [aut, cre],
+  P. Aboyoun [aut],
+  S. Falcon [aut],
+  M. Morgan [aut],
+  D. Sarkar [aut],
+  M. Lawrence [aut],
+  V. Obenchain [aut],
+  S. Arora [ctb],
+  J. MacDonald [ctb],
+  M. Ramos [ctb],
+  S. Saini [ctb],
+  P. Shannon [ctb],
+  L. Shepherd [ctb],
+  D. Tenenbaum [ctb],
+  D. Van Twisk [ctb]
+Maintainer: H. Pagès <hpages.on.github@gmail.com>
+Built: R 4.2.2; ; 2023-01-26 12:46:51 UTC; windows

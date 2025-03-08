@@ -1,0 +1,3 @@
+Rhtslib-package         An R packaged HTSlib 1.15.1
+pkgconfig               Compiler configuration arguments for use of
+                        Rhtslib

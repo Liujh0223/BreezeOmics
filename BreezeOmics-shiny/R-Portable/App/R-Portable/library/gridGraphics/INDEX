@@ -1,0 +1,2 @@
+grid.echo               Echo 'graphics' output using 'grid' graphics
+plotdiff                Test for identical output from 'grid.echo()'

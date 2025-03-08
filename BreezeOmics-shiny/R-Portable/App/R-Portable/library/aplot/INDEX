@@ -1,0 +1,10 @@
+as.patchwork            as.patchwork
+gglist                  construct a 'gglist' object
+gglistGrob              This function converts 'gglist' object to grob
+                        (i.e. gtable object)
+insert_left             plot-insertion
+plot_list               plot a list of ggplot objects
+xlab2                   display x or y axis label as an ordinary text,
+                        so that the label will not be aligned with axis
+                        label of another plot
+xlim2                   xlim2

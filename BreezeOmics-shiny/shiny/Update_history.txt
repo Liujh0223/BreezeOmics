@@ -1,0 +1,29 @@
+#############################################################################
+>>ShinyRNAseq updata history
+#############################################################################
+>>20240409 >>ShinyRNAseq v1.0.1
+1. Add the GUIDE module and optimize the page design and content.
+2. Optimized some page designs.
+3. Debug
+#############################################################################
+>>20240523 >>ShinyRNAseq v1.0.2
+1. Add the "CO-ANALYSIS" module (under development).
+2. The home page UI has been re-arranged.
+3. The UI of the results page of the "DATA CHECK" has been re-arranged.
+4. The "Quality control" module adds the function of hierarchical clustering.
+#############################################################################
+>>20240808 >>BreezeOmics-Vis v1.0.0
+1. ShinyRNAseq is classified as a component of BreezeOmics and named BreezeOmics-Vis.
+2. The Co-analysis module was developed.
+3. Co-analysis module including peak annotation and candidater exploration functions.
+4. Solve the bug that the bar chart and the gene are not correct in the DEGs module.
+5. Add a sample name detection mechanism .
+6. Sample naming is only supported: "A-Z a-z 0-9 _  .", Only letters are allowed to start with a letter.
+#############################################################################
+>>20250308 >>BreezeOmics-Vis v1.0.1
+1. Fix errors in the 'DEGs' module when using the edgeR method.
+2. Fix the crash in the 'DEGs' module caused by the deletion of system temporary files.
+3. Fix errors in the 'ENRICHMENT ANALYSIS' module when using log2FC.
+4. Disable the color setting feature in the 'TIME SERIES ANALYSIS' module.
+5. Restrict the 'WGCNA' module for use only with 10 or more samples.
+#############################################################################

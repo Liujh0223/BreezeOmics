@@ -1,0 +1,16 @@
+citHeader("To cite graphlayouts in publications use:")
+
+bibentry(
+  bibtype = "Article",
+  author = person("David Schoch"),
+  title = "graphlayouts: Layout algorithms for network visualizations in R",
+  year = "2023",
+  publisher = "The Open Journal",
+  volume = "8",
+  number = "84",
+  pages = "5238",
+  journal = "Journal of Open Source Software",
+  doi = "10.21105/joss.05238",
+  url = "https://doi.org/10.21105/joss.05238",
+  textVersion = "Schoch, D., (2023). graphlayouts: Layout algorithms for network visualizations in R. Journal of Open Source Software, 8(84), 5238, https://doi.org/10.21105/joss.05238"
+)

@@ -1,0 +1,20 @@
+Package: gson
+Title: Base Class and Methods for 'gson' Format
+Version: 0.1.0
+Authors@R: c(
+       person("Guangchuang", "Yu",     email = "guangchuangyu@gmail.com", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-6485-8781"))
+       )
+Description: Proposes a new file format ('gson') for storing gene set and related information, and provides read, write and other utilities to process this file format.
+Imports: jsonlite, methods, rlang, stats, tidyr, utils
+ByteCompile: true
+License: Artistic-2.0
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2023-03-07 04:04:14 UTC; ygc
+Author: Guangchuang Yu [aut, cre, cph]
+    (<https://orcid.org/0000-0002-6485-8781>)
+Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-03-07 04:20:02 UTC
+Built: R 4.2.3; ; 2024-04-24 02:42:25 UTC; windows

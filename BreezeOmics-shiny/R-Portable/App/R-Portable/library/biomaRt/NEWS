@@ -1,0 +1,129 @@
+CHANGES IN VERSION 2.52.0
+-------------------------
+
+BUG FIXES
+
+    o Stop reporting message about the use of https when using useEnsembl()
+    with a 'version' argument.
+    o Use virtualSchemaName provided by a Mart, rather than simply "default".
+    This caused issues with the Ensembl Plants Mart.
+
+CHANGES IN VERSION 2.50.0
+-------------------------
+
+MINOR CHANGES
+
+    o useMart() and listMarts() will warn users if using http to access 
+    Ensembl.  https will be enforced by Ensembl from late 2021.
+
+BUG FIXES
+
+    o Address issue where checking the list of Ensembl Archives would stop
+    all queries from working if the main www.ensembl.org site was unavailable.
+    o Fix bug introduced in getSequence() where asking for flanking sequences
+    resulted in an invalid query.
+    o The argument 'host' is no longer ignored in useEnsembl() (Thanks to forum
+    user "A" - https://support.bioconductor.org/p/9139019/)
+
+CHANGES IN VERSION 2.48.0
+-------------------------
+
+NEW FEATURES
+
+    o getSequence() now allows the cache to be turned off via the 'useCache'
+    argument.
+    o Automatic detection of SSL issues with Ensembl, and appropriate settings
+    applied to httr functions used by biomaRt.
+
+BUG FIXES
+
+    o Addressed issue with getSequence() and ID types that are not
+    available on the 'sequences' page.  This could result in truncated
+    sequences being returned from a query.
+    o getBM() would fail if it found a cache entry, but the file was corrupted.
+    Invalid entries are now detected and deleted if encountered.
+    
+CHANGES IN VERSION 2.46.0
+-------------------------
+
+BUG FIXES
+
+    o getLDS() now detects if trying to use datasets from different Marts
+    and reports this to the user.
+    
+
+CHANGES IN VERSION 2.42.0
+-------------------------
+
+NEW FEATURES
+
+    o The results of queries will now be cached, and if repeated queries
+    are detected the results are loaded from disk.  
+    
+MINOR CHANGES
+
+    o Ensembl users will be redirected to their closest mirror unless the 
+    host argument is explicitly provided.  In this case the defined value
+    will be enforced.
+    o Unused argument 'ssl.verifypeer' removed from listMarts() and useMarts().
+    o RCurl removed from package dependecies.
+    
+BUG FIXES
+
+    o Improvements made to selecting the correct port when using http
+    vs https
+    o Results that contain unescaped new line characters are now returned
+    successfully.
+
+CHANGES IN VERSION 2.36.0
+-------------------------
+
+BUG FIXES
+
+    o Patched problem returning the list of available datasets, if the 
+    description of one or more datasets included an apostrophe (introduced
+    with new primate species in Ensembl).
+    o Caught scenario where ensemblRedirect=FALSE was still being ignored.
+    o Changed query submission when redirection is detected to cope with 
+    apparently new behaviour of the Ensembl mirrors.
+    
+MINOR CHANGES
+
+    o Increase query timeout limit to 5 minutes.
+    
+    
+CHANGES IN VERSION 2.34.0
+-------------------------
+
+NEW FEATURES
+
+    o Added the listEnsemblArchives() function.  This returns a table of the
+    available Ensembl archives, and replaces the archive = TRUE argument to
+    several functions, which was no longer working.
+
+BUG FIXES
+
+    o The Ensembl BioMart server doesn't always respond well if queries with
+    more than 500 filter values are submitted.  If a query that exceed this is
+    detect biomaRt will now submit the query in batches and concatonate the 
+    result when completed.
+    
+MINOR CHANGES
+
+    o You can now provide a host with 'http://' at the start, or a trailing
+    '/' (typically copy/pasted from a browser) and useMarts() etc will cope.
+
+CHANGES IN VERSION 2.32.0
+-------------------------
+
+BUG FIXES
+
+    o Fixed bug when columns were not returned in the order requested,
+    which resulted in the wrong column names being added to the result.
+
+CHANGES IN VERSION 2.30.0
+-------------------------
+
+SIGNIFICANT USER-LEVEL CHANGES
+
+    o Updated vignette to use BiocStyle and execute most code chunks.

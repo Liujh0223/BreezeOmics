@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>KEGGREST</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Accessing the KEGG REST API}
+-->
+<h1>KEGGREST</h1>
+<p><a href="https://www.kegg.jp/kegg/">KEGG</a>
+is a database resource for understanding high-level functions
+and utilities of the biological system, such as the cell, the organism
+and the ecosystem, from molecular-level information, especially
+large-scale molecular datasets generated by genome sequencing and
+other high-throughput experimental technologies.</p>
+<p><code>KEGGREST</code> allows access to the
+<a href="https://www.kegg.jp/kegg/docs/keggapi.html">KEGG REST API</a>. Since
+KEGG disabled the KEGG SOAP server
+on December 31, 2012 (which means the <code>KEGGSOAP</code> package will no
+longer work), <code>KEGGREST</code> serves as a replacement.</p>
+<p>The interface to <code>KEGGREST</code> is simpler and in some ways more
+powerful than <code>KEGGSOAP</code>; however, not all the functionality
+that was available through the SOAP API has been exposed
+in the REST API. If and when more functionality is exposed
+on the server side, this package will be updated to take
+advantage of it.</p>
+<h2>Overview</h2>
+<p>The KEGG REST API is built on some simple operations:
+<code>info</code>, <code>list</code>, <code>find</code>, <code>get</code>, <code>conv</code>, and <code>link</code>.
+The corresponding <code>R</code> functions in <code>KEGGREST</code> are:
+<code>keggInfo()</code>, <code>keggList()</code>, <code>keggFind()</code>, <code>keggGet()</code>,
+<code>keggConv</code>, and <code>keggLink()</code>.</p>
+<h2>Exploring KEGG Resources with <code>keggList()</code></h2>
+<p>KEGG exposes a number of databases. To get an idea of
+what is available, run <code>listDatabases()</code>:</p>
+<pre><code class="language-r">library(KEGGREST)
+listDatabases()
+</code></pre>
+<pre><code>##  [1] &quot;pathway&quot;  &quot;brite&quot;    &quot;module&quot;   &quot;ko&quot;       &quot;genome&quot;   &quot;vg&quot;      
+##  [7] &quot;ag&quot;       &quot;compound&quot; &quot;glycan&quot;   &quot;reaction&quot; &quot;rclass&quot;   &quot;enzyme&quot;  
+## [13] &quot;disease&quot;  &quot;drug&quot;     &quot;dgroup&quot;   &quot;environ&quot;  &quot;genes&quot;    &quot;ligand&quot;  
+## [19] &quot;kegg&quot;
+</code></pre>
+<p>You can use these databases in further queries. Note that in many
+cases you can also use a three-letter KEGG organism code or a
+“T number” (genome identifier) in the same place you would use
+one of these database names.</p>
+<p>You can obtain the list of organisms available in KEGG with
+the <code>keggList()</code> function:</p>
+<pre><code class="language-r">org &lt;- keggList(&quot;organism&quot;)
+head(org)
+</code></pre>
+<pre><code>##      T.number organism species                                              
+## [1,] &quot;T01001&quot; &quot;hsa&quot;    &quot;Homo sapiens (human)&quot;                               
+## [2,] &quot;T01005&quot; &quot;ptr&quot;    &quot;Pan troglodytes (chimpanzee)&quot;                       
+## [3,] &quot;T02283&quot; &quot;pps&quot;    &quot;Pan paniscus (bonobo)&quot;                              
+## [4,] &quot;T02442&quot; &quot;ggo&quot;    &quot;Gorilla gorilla gorilla (western lowland gorilla)&quot;  
+## [5,] &quot;T01416&quot; &quot;pon&quot;    &quot;Pongo abelii (Sumatran orangutan)&quot;                  
+## [6,] &quot;T03265&quot; &quot;nle&quot;    &quot;Nomascus leucogenys (northern white-cheeked gibbon)&quot;
+##      phylogeny                               
+## [1,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+## [2,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+## [3,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+## [4,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+## [5,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+## [6,] &quot;Eukaryotes;Animals;Vertebrates;Mammals&quot;
+</code></pre>
+<p>From <code>KEGGREST</code>‘s point of view, you’ve just asked KEGG
+to show you the name of every entry in the “organism” database.</p>
+<p>Therefore, the complete list of entities that can be
+queried with <code>KEGGREST</code> can be obtained as follows:</p>
+<pre><code class="language-r">queryables &lt;- c(listDatabases(), org[,1], org[,2])
+</code></pre>
+<p>You could also ask for every entry in the “hsa” (<em>Homo sapiens</em>)
+database as follows:</p>
+<pre><code class="language-r">keggList(&quot;hsa&quot;)
+</code></pre>
+<h2>Get specific entries with <code>keggGet()</code></h2>
+<p>Once you have a list of specific KEGG identifiers, use
+<code>keggGet()</code> to get more information about them. Here we look up
+a human gene and an E. coli O157 gene:</p>
+<pre><code class="language-r">query &lt;- keggGet(c(&quot;hsa:10458&quot;, &quot;ece:Z5100&quot;))
+</code></pre>
+<p>As expected, this returns two items:</p>
+<pre><code class="language-r">length(query)
+</code></pre>
+<pre><code>## [1] 2
+</code></pre>
+<p>Behind the scenes, <code>KEGGREST</code> downloaded and parsed a KEGG
+<a href="https://www.kegg.jp/kegg/rest/dbentry.html">flat file</a>, which you
+can now explore:</p>
+<pre><code class="language-r">names(query[[1]])
+</code></pre>
+<pre><code>##  [1] &quot;ENTRY&quot;     &quot;SYMBOL&quot;    &quot;NAME&quot;      &quot;ORTHOLOGY&quot; &quot;ORGANISM&quot;  &quot;PATHWAY&quot;  
+##  [7] &quot;NETWORK&quot;   &quot;BRITE&quot;     &quot;POSITION&quot;  &quot;MOTIF&quot;     &quot;DBLINKS&quot;   &quot;STRUCTURE&quot;
+## [13] &quot;AASEQ&quot;     &quot;NTSEQ&quot;
+</code></pre>
+<pre><code class="language-r">query[[1]]$ENTRY
+</code></pre>
+<pre><code>##     CDS 
+## &quot;10458&quot;
+</code></pre>
+<pre><code class="language-r">query[[1]]$DBLINKS
+</code></pre>
+<pre><code>## [1] &quot;NCBI-GeneID: 10458&quot;        &quot;NCBI-ProteinID: NP_059345&quot;
+## [3] &quot;OMIM: 605475&quot;              &quot;HGNC: 947&quot;                
+## [5] &quot;Ensembl: ENSG00000175866&quot;  &quot;Pharos: Q9UQB8(Tbio)&quot;     
+## [7] &quot;UniProt: Q9UQB8&quot;
+</code></pre>
+<p><code>keggGet()</code> can also return amino acid sequences as <code>AAStringSet</code> objects
+(from the <code>Biostrings</code> package):</p>
+<pre><code class="language-r">keggGet(c(&quot;hsa:10458&quot;, &quot;ece:Z5100&quot;), &quot;aaseq&quot;) ## retrieves amino acid sequences
+</code></pre>
+<pre><code>## AAStringSet object of length 2:
+##     width seq                                               names               
+## [1]   552 MSLSRSEEMHRLTENVYKTIMEQ...DLSAQGPEGREHGDGSARTLAGR hsa:10458 K05627 ...
+## [2]   248 MLNGISNAASTLGRQLVGIASRV...SGLPPLAQALKDHLAAYEQSKKG ece:Z5100 K12786 ...
+</code></pre>
+<p>…or <code>DNAStringSet</code> objects if <code>option</code> is <code>ntseq</code>:</p>
+<pre><code class="language-r">keggGet(c(&quot;hsa:10458&quot;, &quot;ece:Z5100&quot;), &quot;ntseq&quot;) ## retrieves nucleotide sequences
+</code></pre>
+<pre><code>## DNAStringSet object of length 2:
+##     width seq                                               names               
+## [1]  1659 ATGTCTCTGTCTCGCTCAGAGGA...CCCGCACCCTGGCTGGAAGATGA hsa:10458 K05627 ...
+## [2]   747 ATGCTTAATGGAATTAGTAACGC...ATGAGCAATCGAAGAAAGGGTAA ece:Z5100 K12786 ...
+</code></pre>
+<p><code>keggGet()</code> can also return images:</p>
+<pre><code class="language-r">png &lt;- keggGet(&quot;hsa05130&quot;, &quot;image&quot;) 
+t &lt;- tempfile()
+library(png)
+writePNG(png, t)
+if (interactive()) browseURL(t)
+</code></pre>
+<p><strong>NOTE</strong>: <code>keggGet()</code> can only return 10 result sets at once (this limitation
+is on the server side). If you supply more than 10 inputs to <code>keggGet()</code>,
+<code>KEGGREST</code> will warn that only the first 10 results will be returned.</p>
+<h2>Search by keywords with <code>keggFind()</code></h2>
+<p>You can search for two separate keywords (“shiga” and “toxin” in this case):</p>
+<pre><code class="language-r">head(keggFind(&quot;genes&quot;, c(&quot;shiga&quot;, &quot;toxin&quot;)))
+</code></pre>
+<pre><code>##                                                               ece:Z1464 
+## &quot;stx2A; shiga-like toxin II A subunit encoded by bacteriophage BP-933W&quot; 
+##                                                               ece:Z1465 
+## &quot;stx2B; shiga-like toxin II B subunit encoded by bacteriophage BP-933W&quot; 
+##                                                               ece:Z3343 
+##   &quot;stx1B; shiga-like toxin 1 subunit B encoded within prophage CP-933V&quot; 
+##                                                               ece:Z3344 
+##   &quot;stx1A; shiga-like toxin 1 subunit A encoded within prophage CP-933V&quot; 
+##                                                            ecs:ECs_1205 
+##                                        &quot;stx2A; Shiga toxin 2 subunit A&quot; 
+##                                                            ecs:ECs_1206 
+##                                        &quot;stx2B; Shiga toxin 2 subunit B&quot;
+</code></pre>
+<p>Or search for the two words together:</p>
+<pre><code class="language-r">head(keggFind(&quot;genes&quot;, &quot;shiga toxin&quot;))
+</code></pre>
+<pre><code>##                                                               ece:Z1464 
+## &quot;stx2A; shiga-like toxin II A subunit encoded by bacteriophage BP-933W&quot; 
+##                                                               ece:Z1465 
+## &quot;stx2B; shiga-like toxin II B subunit encoded by bacteriophage BP-933W&quot; 
+##                                                               ece:Z3343 
+##   &quot;stx1B; shiga-like toxin 1 subunit B encoded within prophage CP-933V&quot; 
+##                                                               ece:Z3344 
+##   &quot;stx1A; shiga-like toxin 1 subunit A encoded within prophage CP-933V&quot; 
+##                                                            ecs:ECs_1205 
+##                                        &quot;stx2A; Shiga toxin 2 subunit A&quot; 
+##                                                            ecs:ECs_1206 
+##                                        &quot;stx2B; Shiga toxin 2 subunit B&quot;
+</code></pre>
+<p>Search for a chemical formula:</p>
+<pre><code class="language-r">head(keggFind(&quot;compound&quot;, &quot;C7H10O5&quot;, &quot;formula&quot;))
+</code></pre>
+<pre><code>## cpd:C00493 cpd:C04236 cpd:C16588 cpd:C17696 cpd:C18307 cpd:C18312 
+##  &quot;C7H10O5&quot;  &quot;C7H10O5&quot;  &quot;C7H10O5&quot;  &quot;C7H10O5&quot;  &quot;C7H10O5&quot;  &quot;C7H10O5&quot;
+</code></pre>
+<p>Search for a chemical formula containing “O5” and “C7”:</p>
+<pre><code class="language-r">head(keggFind(&quot;compound&quot;, &quot;O5C7&quot;, &quot;formula&quot;))
+</code></pre>
+<pre><code>## cpd:C00493 cpd:C00624 cpd:C01215 cpd:C01424 cpd:C02123 cpd:C02236 
+##  &quot;C7H10O5&quot; &quot;C7H11NO5&quot;  &quot;C7H9NO5&quot;   &quot;C7H6O5&quot;  &quot;C7H12O5&quot;  &quot;C7H6O5S&quot;
+</code></pre>
+<p>You can search for compounds with a particular exact mass:</p>
+<pre><code class="language-r">keggFind(&quot;compound&quot;, 174.05, &quot;exact_mass&quot;)
+</code></pre>
+<pre><code>##   cpd:C00493   cpd:C04236   cpd:C16588   cpd:C17696   cpd:C18307   cpd:C18312 
+## &quot;174.052823&quot; &quot;174.052823&quot; &quot;174.052823&quot; &quot;174.052823&quot; &quot;174.052823&quot; &quot;174.052823&quot; 
+##   cpd:C21281 
+## &quot;174.052823&quot;
+</code></pre>
+<p>Because we’ve supplied a number with two decimal digits of precision,
+KEGG will find all compounds with exact mass between 174.045 and 174.055.</p>
+<p>Integer ranges can be used to find compounds by molecular weight:</p>
+<pre><code class="language-r">head(keggFind(&quot;compound&quot;, 300:310, &quot;mol_weight&quot;))
+</code></pre>
+<pre><code>##   cpd:C00051   cpd:C00200   cpd:C00219   cpd:C00239   cpd:C00270   cpd:C00357 
+##  &quot;307.32348&quot;  &quot;306.33696&quot;  &quot;304.46688&quot; &quot;307.197122&quot;  &quot;309.26986&quot; &quot;301.187702&quot;
+</code></pre>
+<h2>Convert identifiers with <code>keggConv()</code></h2>
+<p>Convert between KEGG identifiers and outside identifiers.</p>
+<p>You can either specify fully qualified identifiers:</p>
+<pre><code class="language-r">keggConv(&quot;ncbi-proteinid&quot;, c(&quot;hsa:10458&quot;, &quot;ece:Z5100&quot;))
+</code></pre>
+<pre><code>##                  hsa:10458                  ece:Z5100 
+## &quot;ncbi-proteinid:NP_059345&quot;  &quot;ncbi-proteinid:AAG58814&quot;
+</code></pre>
+<p>…or get the mapping for an entire species:</p>
+<pre><code class="language-r">head(keggConv(&quot;eco&quot;, &quot;ncbi-geneid&quot;))
+</code></pre>
+<pre><code>## ncbi-geneid:944742 ncbi-geneid:945803 ncbi-geneid:947498 ncbi-geneid:945198 
+##        &quot;eco:b0001&quot;        &quot;eco:b0002&quot;        &quot;eco:b0003&quot;        &quot;eco:b0004&quot; 
+## ncbi-geneid:944747 ncbi-geneid:944749 
+##        &quot;eco:b0005&quot;        &quot;eco:b0006&quot;
+</code></pre>
+<p>Reversing the arguments does the opposite mapping:</p>
+<pre><code class="language-r">head(keggConv(&quot;ncbi-geneid&quot;, &quot;eco&quot;))
+</code></pre>
+<pre><code>##            eco:b0001            eco:b0002            eco:b0003 
+## &quot;ncbi-geneid:944742&quot; &quot;ncbi-geneid:945803&quot; &quot;ncbi-geneid:947498&quot; 
+##            eco:b0004            eco:b0005            eco:b0006 
+## &quot;ncbi-geneid:945198&quot; &quot;ncbi-geneid:944747&quot; &quot;ncbi-geneid:944749&quot;
+</code></pre>
+<h2>Link across databases with <code>keggLink()</code></h2>
+<p>Most of the <code>KEGGSOAP</code> functions whose names started with
+“get”, for example <code>get.pathways.by.genes()</code>, can be replaced
+with the <code>keggLink()</code> function. Here we query all pathways
+for human:</p>
+<pre><code class="language-r">head(keggLink(&quot;pathway&quot;, &quot;hsa&quot;))
+</code></pre>
+<pre><code>##       hsa:10327         hsa:124         hsa:125         hsa:126         hsa:127 
+## &quot;path:hsa00010&quot; &quot;path:hsa00010&quot; &quot;path:hsa00010&quot; &quot;path:hsa00010&quot; &quot;path:hsa00010&quot; 
+##         hsa:128 
+## &quot;path:hsa00010&quot;
+</code></pre>
+<p>…but you can also specify one or more genes (from multiple species):</p>
+<pre><code class="language-r">keggLink(&quot;pathway&quot;, c(&quot;hsa:10458&quot;, &quot;ece:Z5100&quot;))
+</code></pre>
+<pre><code>##       hsa:10458       hsa:10458       hsa:10458       hsa:10458       ece:Z5100 
+## &quot;path:hsa04520&quot; &quot;path:hsa04810&quot; &quot;path:hsa05130&quot; &quot;path:hsa05135&quot; &quot;path:ece05130&quot;
+</code></pre>
+
+</body>
+
+</html>

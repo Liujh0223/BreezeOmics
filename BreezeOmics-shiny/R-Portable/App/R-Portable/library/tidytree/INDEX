@@ -1,0 +1,33 @@
+MRCA                    MRCA
+Nnode.treedata          Nnode
+ancestor                ancestor
+as.treedata             as.treedata
+as.ultrametric          as.ultrametric
+child                   child
+drop.tip                drop.tip method
+get.data                get.data method
+get.fields              get.fields method
+get.treetext            get.treetext method
+getNodeNum              getNodeNum
+get_tree_data           get_tree_data
+groupClade              groupClade
+groupOTU                groupOTU
+isTip                   isTip
+node.label              extract the node label of phylo, treedata or
+                        tbl_tree
+nodeid                  nodeid
+nodelab                 nodelab
+offspring               offspring
+parent                  parent
+root.treedata           root
+rootnode                rootnode
+show                    show method
+sibling                 sibling
+td-label-assign         the tip or internal node label assign of
+                        tbl_tree phylo and treedata
+tip.label               extract the tip label of phylo treedata or
+                        tbl_tree
+tree_subset             Subset tree objects by related nodes
+treedata                treedata
+treedata-class          Class "treedata" This class stores phylogenetic
+                        tree with associated data

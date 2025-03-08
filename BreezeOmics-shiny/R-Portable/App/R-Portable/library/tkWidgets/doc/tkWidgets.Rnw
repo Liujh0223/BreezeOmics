@@ -1,0 +1,248 @@
+% \VignetteIndexEntry{tkWidgets contents}
+% \VignetteDepends{tkWidgets}
+% \VignetteKeywords{Interface}
+% \VignettePackage{tkWidgets}
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+
+\begin{document}
+\author{Jianhua Zhang}
+
+\title{Examples of some of the widgets}
+
+\maketitle
+
+\copyright{2003 Bioconductor}
+
+\section{Introduction}
+
+This package contains several widgets built using the R \Rpackage{tcltk}
+package or the \Rpackage{widgetTools} package to provide interfaces to
+perform different tasks. Available widgets include:
+
+\begin{itemize}
+\item \Rfunction{argsWidget} - a widget that allows users to input values for
+    an argument list passed to the widget as an argument
+\item \Rfunction{DPExplorer} - a widget that allows users to view a
+    {\texttt{Bioconductor}} data package and make selections
+\item \Rfunction{fileBrowser} - a widget that allows users to select a
+  group of files from a local directory
+\item \Rfunction{importWizard} - a widget that allows users to import
+  a data file into R, following an Excel style
+\item \Rfunction{objectBrowser} - a widget that allows users to browse R
+    objects and make a selection
+\item \Rfunction{vExplorer} - a widget that allows users to explore vignettes
+    of available R packages
+\item \Rfunction{eExplorer} - a widget that allows users to explor the
+  executable examples contained by a given R package
+\item \Rfunction{pExplorer} - a widget that allows users to explor the
+  structure and contents of a given R package
+\end{itemize}
+
+The following code invokes a widget that contains clickable buttons
+that brings up the widget when a button is clicked.
+
+<<>>=
+library(tkWidgets)
+PWEnv <- new.env(hash = TRUE, parent = parent.frame(1))
+argsFun <- function(){
+    argsWidget(list(Entry1 = "aaaaa", Ehtry2 = "bbbb"))
+}
+button1 <- button(wName = "button1", wValue = "argsWidget",
+                     wFuns = list(command = argsFun), wEnv = PWEnv)
+button2 <- button(wName = "button2", wValue = "DPExplorer",
+                     wFuns = list(command = DPExplorer), wEnv = PWEnv)
+button3 <- button(wName = "button3", wValue = "fileBrowser",
+                     wFuns = list(command = fileBrowser), wEnv = PWEnv)
+button4 <- button(wName = "button4", wValue = "importWizard",
+                     wFuns = list(command = importWizard), wEnv = PWEnv)
+button5 <- button(wName = "button5", wValue = "objectBrowser",
+                     wFuns = list(command = objectBrowser), wEnv = PWEnv)
+button6 <- button(wName = "button6", wValue = "vExplorer",
+                     wFuns = list(command = vExplorer), wEnv = PWEnv)
+button7 <- button(wName = "button7", wValue = "pExplorer",
+                     wFuns = list(command = pExplorer), wEnv = PWEnv)
+fun <- function(){eExplorer("tkWidgets")}
+button8 <- button(wName = "button8", wValue = "eExplorer",
+                     wFuns = list(command = fun), wEnv = PWEnv)
+
+pWidgets <- list(A = list(button1 = button1, button2 = button2), C =
+list(button3 = button3, button4 = button4), D = list(button5 = button5,
+button6 = button6), E = list(button7 = button7, button8 = button8))
+
+if(interactive()){
+viewWidget <- widget(wTitle = "tkWidgets Examples", pWidgets, funs = list(),
+                 preFun = function() print("Hello"),
+                 postFun = function() print("Bye"), env = PWEnv)
+}
+@
+
+\begin{figure*}[tbp]
+   \begin{center}
+     \includegraphics{widgets}
+     \caption{A snapshot of the widget when the example code chunk is
+       executed}
+     \label{Figure 1}
+   \end{center}
+\end{figure*}
+
+
+This vignette provides more detailed describtions of the following
+three widgets.
+
+\section{pExplorer}
+
+\Rfunction{pExplorer} allows users to explore the contents of an R
+package. The widget can be invoked by providing a package name, a path
+to the directory containing the package,
+and the names of files and or subdirectory to be excluded from showing
+by the widget. The default behavior is to open the
+first package in the library of locally installed R
+(\Rfunction{.libPaths()}) with subdirectories/files named "Meta" and
+  "latex" excluded if nothing is provided by a user.
+
+Figure 2 shows the widget invoked by typing \Rfunction{pExplorer("base")}.
+
+\begin{figure*}[tbp]
+   \begin{center}
+     \includegraphics{pExplorer}
+     \caption{A snapshot of the widget when \Rfunction{pExplorer} is called}
+     \label{Figure 2}
+   \end{center}
+\end{figure*}
+
+The following tasks can be performed through the interface:
+
+\begin{itemize}
+\item Typing in a valid path to a local directory containing R packages
+  and then press the Enter key will update the name of the package
+  being explored and show the contents of the first R package in the
+  path in the \texttt{Contents} list box.
+\item Clicking the dropdown button for package path and selecting a path
+  from the resulting dropdown list by double clicking will achieve the
+  same results as typing in a new path.
+\item Clicking the \texttt{Browse} button allows users to selecting a
+  directory containing R packages to achieve the same results as
+  typing in a new path.
+\item Clicking the \texttt{Select Package} button allows users to pick a new
+  package to explore and the name and contents of the package being
+  explored are updated.
+\item Double clicking an item in the \texttt{Contents} list box
+  results in different responses depending on the nature of the item
+  being clicked. If the item is a subdirectory, the \texttt{Contents}
+  will be updated with the contents of the subdirectory corresponding
+  to the item just being clicked and the \texttt{Back} right below the
+  list box will be activated. If the item is a file, the contents of
+  the file will be displayed in the \texttt{Display window} text box.
+\item Clicking the \texttt{Back} button allows users to go back to the
+  parent of the subdirectory whose contents are being displayed in
+  \texttt{Contents} list box.
+\item Clicking the \texttt{Try examples} button invokes
+  \Rfunction{eExplorer} going to be discussed next.
+\end{itemize}
+
+\section*{eExplorer}
+
+\Rfunction{eExplorer} allows users to explore the example code from
+all the help files for the specified package. When invoked by passing
+a valid package name, \Rfunction{eExplorer} will display the names of the
+files for example code stored in the \texttt{R-ex} subdirectory in the
+\texttt{Example code chunk} list box as shown by Figure 3.
+
+\begin{figure*}[tbp]
+   \begin{center}
+     \includegraphics{eExplorer}
+     \caption{A snapshot of the widget when \Rfunction{pExplorer} is called by
+       typing \texttt{eExplorer("base")}}
+     \label{Figure 3}
+   \end{center}
+\end{figure*}
+
+Clicking an item in the list displays the code example in the \texttt{R
+  Source Code} text box for users to view. Users may view the help
+  file containing the example code by clicking the \texttt{View Help}
+  button, execute the example code and have the output of the
+  execution displayed in the \texttt{Diaplay window} by clicking the
+  \texttt{Execute Code} button, or export the result of execution (if
+  R objects have been created as the result of execution) to
+  the global environment of the current R session by clicking the
+  \texttt{Export to R}.
+
+\section{vExplorer}
+
+\Rfunction{vExplorer} allows users to explore the vignettes for a given R
+package by taking the advantages of the functionalities provided by
+\Rfunction{Sweave}. When
+\Rfunction{vExplorer} is invoked without a package name as shown in
+Figure 3, the names of all the installed R packages containing
+vignettes will be shown in the \texttt{Package List} list box. When
+\Rfunction{vExplorer} is invoked with a package name, the
+\texttt{Vignette List} list box will be populated with the names of
+vignettes of the package.
+
+\begin{figure*}[tbp]
+   \begin{center}
+     \includegraphics{vExplorer1}
+     \caption{A snapshot of the widget when \Rfunction{vExplorer} is called by
+       typing \Rfunction{vExplorer()}}
+     \label{Figure 4}
+   \end{center}
+\end{figure*}
+
+Clicking a package name in the list box shows the names of
+all the vignettes of the package in the \texttt{Vignette List} list
+box. When a vignette name is clicked, a new widget as shown by Figure
+4 appears that allows users to perform the following tasks if the
+selected vignettes contains any execute-able code chunks:
+
+\begin{itemize}
+\item Clicking an active button in the \texttt{Code Chunk} text box
+  displays the code chunk in the \texttt{R Source Code} text box for
+  users to view.
+\item Clicking the \texttt{View PDF} buttons shows the pdf version of
+  the vignette currently being explored.
+\item Clicking the \texttt{Execute Code} button executes the code
+  shown in the text box and displays the results of the execution in
+  \texttt{Results of Execution}.
+\item Clicking the \texttt{Export to R} button export the result of
+  execution to the global environment of the current R session.
+\end{itemize}
+
+\begin{figure*}[tbp]
+   \begin{center}
+     \includegraphics{vExplorer2}
+     \caption{A snapshot of the widget when \texttt{Biobase.Rnw} of
+       the \Rpackage{Biobase} package was clicked}
+     \label{Figure 5}
+   \end{center}
+\end{figure*}
+
+The evaluation model for code chunks in a vignette is that they are
+evaluated sequentially. In order to ensure sequential evaluation and
+to help guide the user in terms of which code chunk is active we
+inactivate all buttons except the one associated with the first
+unevaluated code chunk.
+
+There are other widgets that are used by specific packages that may
+not be of general interest. These widgets are thus not included in the
+examples.
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+<<echo=FALSE,results=tex>>=
+toLatex(sessionInfo())
+@
+
+\end{document}

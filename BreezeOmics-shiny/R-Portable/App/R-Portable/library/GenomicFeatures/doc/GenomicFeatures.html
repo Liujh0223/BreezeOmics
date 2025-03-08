@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Making and Utilizing TxDb Objects</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/github.min.css">
+<script src="https://cdn.jsdelivr.net/combine/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js,npm/@xiee/utils/js/load-highlight.js" async></script>
+
+<!-- MathJax scripts -->
+<script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML" async>
+</script>
+
+<style type="text/css">
+body, td {
+  font-family: sans-serif;
+  background-color: white;
+  font-size: 13px;
+}
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 1.5;
+}
+tt, code, pre {
+  font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+a:visited { color: #80007f; }
+pre, img { max-width: 100%; }
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+code[class] { background-color: #F8F8F8; }
+code.language-undefined { background-color: inherit; }
+table {
+  margin: auto;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+table thead th { border-bottom: 1px solid #ddd; }
+th, td { padding: 5px; }
+thead, tfoot, tr:nth-child(even) { background: #eee; }
+blockquote {
+  color:#666;
+  margin:0;
+  padding-left: 1em;
+  border-left: 0.5em #eee solid;
+}
+hr { border: 1px #ddd dashed; }
+
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter:none !important;
+  }
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+  }
+  a, a:visited { text-decoration: underline; }
+  hr {
+    visibility: hidden;
+    page-break-before: always;
+  }
+  pre, blockquote {
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h2>Introduction</h2>
+<p>The <code>GenomicFeatures</code> package retrieves and manages
+transcript-related features from the UCSC Genome
+Bioinformatics\footnote{(<a href="http://genome.ucsc.edu/)%7D">http://genome.ucsc.edu/)}</a> and
+BioMart\footnote{(<a href="http://www.biomart.org/)%7D">http://www.biomart.org/)}</a> data resources. The
+package is useful for ChIP-chip, ChIP-seq, and RNA-seq analyses.</p>
+<pre><code class="language-r">suppressPackageStartupMessages(library('GenomicFeatures'))
+</code></pre>
+<h2><code>TxDb</code> Objects</h2>
+<p>The <code>GenomicFeatures</code> package uses <code>TxDb</code>
+objects to store transcript metadata. This class maps the 5’ and 3’
+untranslated regions (UTRs), protein coding sequences (CDSs) and exons
+for a set of mRNA transcripts to their associated
+genome. <code>TxDb</code> objects have numerous accessors functions to
+allow such features to be retrieved individually or grouped together
+in a way that reflects the underlying biology.</p>
+<p>All <code>TxDb</code> objects are backed by a SQLite database that
+manages genomic locations and the relationships between pre-processed
+mRNA transcripts, exons, protein coding sequences, and their related
+gene identifiers.</p>
+<h2>Retrieving Data from <code>TxDb</code> objects</h2>
+<h3>Loading Transcript Data</h3>
+<p>There are two ways that users can load pre-existing data to generate a
+<code>TxDb</code> object.  One method is to use the
+<code>loadDb</code> method to load the object directly from an
+appropriate .sqlite database file.</p>
+<p>Here we are loading a previously created <code>TxDb</code> object
+based on UCSC known gene data.  This database only contains a small
+subset of the possible annotations for human and is only included to
+demonstrate and test the functionality of the
+<code>GenomicFeatures</code> package as a demonstration.</p>
+<pre><code class="language-r">samplefile &lt;- system.file(&quot;extdata&quot;, &quot;hg19_knownGene_sample.sqlite&quot;,
+                          package=&quot;GenomicFeatures&quot;)
+txdb &lt;- loadDb(samplefile)
+txdb
+</code></pre>
+<pre><code>## TxDb object:
+## # Db type: TxDb
+## # Supporting package: GenomicFeatures
+## # Data source: UCSC
+## # Genome: hg19
+## # Organism: Homo sapiens
+## # UCSC Table: knownGene
+## # Resource URL: http://genome.ucsc.edu/
+## # Type of Gene ID: Entrez Gene ID
+## # Full dataset: no
+## # miRBase build ID: NA
+## # transcript_nrow: 178
+## # exon_nrow: 620
+## # cds_nrow: 523
+## # Db created by: GenomicFeatures package from Bioconductor
+## # Creation time: 2014-10-08 10:31:15 -0700 (Wed, 08 Oct 2014)
+## # GenomicFeatures version at creation time: 1.17.21
+## # RSQLite version at creation time: 0.11.4
+## # DBSCHEMAVERSION: 1.0
+</code></pre>
+<p>In this case, the <code>TxDb</code> object has been returned by
+the <code>loadDb</code> method.</p>
+<p>More commonly however, we expect that users will just load a
+TxDb annotation package like this:</p>
+<pre><code class="language-r">library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+txdb &lt;- TxDb.Hsapiens.UCSC.hg19.knownGene #shorthand (for convenience)
+txdb
+</code></pre>
+<pre><code>## TxDb object:
+## # Db type: TxDb
+## # Supporting package: GenomicFeatures
+## # Data source: UCSC
+## # Genome: hg19
+## # Organism: Homo sapiens
+## # Taxonomy ID: 9606
+## # UCSC Table: knownGene
+## # Resource URL: http://genome.ucsc.edu/
+## # Type of Gene ID: Entrez Gene ID
+## # Full dataset: yes
+## # miRBase build ID: GRCh37
+## # transcript_nrow: 82960
+## # exon_nrow: 289969
+## # cds_nrow: 237533
+## # Db created by: GenomicFeatures package from Bioconductor
+## # Creation time: 2015-10-07 18:11:28 +0000 (Wed, 07 Oct 2015)
+## # GenomicFeatures version at creation time: 1.21.30
+## # RSQLite version at creation time: 1.0.0
+## # DBSCHEMAVERSION: 1.1
+</code></pre>
+<p>Loading the package like this will also create a <code>TxDb</code>
+object, and by default that object will have the same name as the
+package itself.</p>
+<h3>Pre-filtering data based on Chromosomes</h3>
+<p>It is possible to filter the data that is returned from a
+<code>TxDb</code> object based on it’s chromosome.  This can be a
+useful way to limit the things that are returned if you are only
+interested in studying a handful of chromosomes.</p>
+<p>To determine which chromosomes are currently active, use the
+<code>seqlevels</code> method.  For example:</p>
+<pre><code class="language-r">head(seqlevels(txdb))
+</code></pre>
+<pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot; &quot;chr3&quot; &quot;chr4&quot; &quot;chr5&quot; &quot;chr6&quot;
+</code></pre>
+<p>Will tell you all the chromosomes that are active for the
+TxDb.Hsapiens.UCSC.hg19.knownGene <code>TxDb</code> object (by
+default it will be all of them).</p>
+<p>If you then wanted to only set Chromosome 1 to be active you could do
+it like this:</p>
+<pre><code class="language-r">seqlevels(txdb) &lt;- &quot;chr1&quot;
+</code></pre>
+<p>So if you ran this, then from this point on in your R session only
+chromosome 1 would be consulted when you call the various retrieval
+methods…  If you need to reset back to the original seqlevels (i.e.
+to the seqlevels stored in the db), then set the seqlevels to
+<code>seqlevels0(txdb)</code>.</p>
+<pre><code class="language-r">seqlevels(txdb) &lt;- seqlevels0(txdb)
+</code></pre>
+<p>\begin{Exercise} Use </code>seqlevels<code> to set only chromsome 15 to be active.  BTW, the rest of this vignette will assume you have succeeded at this. \end{Exercise}
+`2o\begin{Solution}</p>
+<pre><code class="language-r">seqlevels(txdb) &lt;- &quot;chr15&quot;
+seqlevels(txdb)
+</code></pre>
+<pre><code>## [1] &quot;chr15&quot;
+</code></pre>
+<p>\end{Solution}2o`</p>
+<h3>Retrieving data using the select method</h3>
+<p>The <code>TxDb</code> objects inherit from <code>AnnotationDb</code>
+objects (just as the <code>ChipDb</code> and <code>OrgDb</code> objects do).
+One of the implications of this relationship is that these object
+ought to be used in similar ways to each other.  Therefore we have
+written supporting <code>columns</code>, <code>keytypes</code>, <code>keys</code>
+and <code>select</code> methods for <code>TxDb</code> objects.</p>
+<p>These methods can be a useful way of extracting data from a
+<code>TxDb</code> object.  And they are used in the same way that
+they would be used to extract information about a <code>ChipDb</code> or
+an <code>OrgDb</code> object.  Here is a simple example of how to find the
+UCSC transcript names that match with a set of gene IDs.</p>
+<pre><code class="language-r">keys &lt;- c(&quot;100033416&quot;, &quot;100033417&quot;, &quot;100033420&quot;)
+columns(txdb)
+</code></pre>
+<pre><code>##  [1] &quot;CDSCHROM&quot;   &quot;CDSEND&quot;     &quot;CDSID&quot;      &quot;CDSNAME&quot;    &quot;CDSSTART&quot;  
+##  [6] &quot;CDSSTRAND&quot;  &quot;EXONCHROM&quot;  &quot;EXONEND&quot;    &quot;EXONID&quot;     &quot;EXONNAME&quot;  
+## [11] &quot;EXONRANK&quot;   &quot;EXONSTART&quot;  &quot;EXONSTRAND&quot; &quot;GENEID&quot;     &quot;TXCHROM&quot;   
+## [16] &quot;TXEND&quot;      &quot;TXID&quot;       &quot;TXNAME&quot;     &quot;TXSTART&quot;    &quot;TXSTRAND&quot;  
+## [21] &quot;TXTYPE&quot;
+</code></pre>
+<pre><code class="language-r">keytypes(txdb)
+</code></pre>
+<pre><code>## [1] &quot;CDSID&quot;    &quot;CDSNAME&quot;  &quot;EXONID&quot;   &quot;EXONNAME&quot; &quot;GENEID&quot;   &quot;TXID&quot;     &quot;TXNAME&quot;
+</code></pre>
+<pre><code class="language-r">select(txdb, keys = keys, columns=&quot;TXNAME&quot;, keytype=&quot;GENEID&quot;)
+</code></pre>
+<pre><code>## 'select()' returned 1:1 mapping between keys and columns
+</code></pre>
+<pre><code>##      GENEID     TXNAME
+## 1 100033416 uc001yxl.4
+## 2 100033417 uc001yxo.3
+## 3 100033420 uc001yxr.3
+</code></pre>
+<p>\begin{Exercise} For the genes in the example above, find the chromosome and strand information that will go with each of the transcript names. \end{Exercise}
+`2o\begin{Solution}</p>
+<pre><code class="language-r">columns(txdb)
+</code></pre>
+<pre><code>##  [1] &quot;CDSCHROM&quot;   &quot;CDSEND&quot;     &quot;CDSID&quot;      &quot;CDSNAME&quot;    &quot;CDSSTART&quot;  
+##  [6] &quot;CDSSTRAND&quot;  &quot;EXONCHROM&quot;  &quot;EXONEND&quot;    &quot;EXONID&quot;     &quot;EXONNAME&quot;  
+## [11] &quot;EXONRANK&quot;   &quot;EXONSTART&quot;  &quot;EXONSTRAND&quot; &quot;GENEID&quot;     &quot;TXCHROM&quot;   
+## [16] &quot;TXEND&quot;      &quot;TXID&quot;       &quot;TXNAME&quot;     &quot;TXSTART&quot;    &quot;TXSTRAND&quot;  
+## [21] &quot;TXTYPE&quot;
+</code></pre>
+<pre><code class="language-r">cols &lt;- c(&quot;TXNAME&quot;, &quot;TXSTRAND&quot;, &quot;TXCHROM&quot;)
+select(txdb, keys=keys, columns=cols, keytype=&quot;GENEID&quot;)
+</code></pre>
+<pre><code>## 'select()' returned 1:1 mapping between keys and columns
+</code></pre>
+<pre><code>##      GENEID     TXNAME TXCHROM TXSTRAND
+## 1 100033416 uc001yxl.4   chr15        +
+## 2 100033417 uc001yxo.3   chr15        +
+## 3 100033420 uc001yxr.3   chr15        +
+</code></pre>
+<p>\end{Solution}2o`</p>
+<h3>Methods for returning <code>GRanges</code> objects</h3>
+<p>Retrieving data with select is useful, but sometimes it is more
+convenient to extract the result as <code>GRanges</code> objects.  This is
+often the case when you are doing counting or specialized overlap
+operations downstream.  For these use cases there is another family of
+methods available.</p>
+<p>Perhaps the most common operations for a <code>TxDb</code> object
+is to retrieve the genomic coordinates or <em>ranges</em> for exons,
+transcripts or coding sequences.  The functions
+<code>transcripts</code>, <code>exons</code>, and <code>cds</code> return
+the coordinate information as a <code>GRanges</code> object.</p>
+<p>As an example, all transcripts present in a <code>TxDb</code> object
+can be obtained as follows:</p>
+<pre><code class="language-r">GR &lt;- transcripts(txdb)
+GR[1:3]
+</code></pre>
+<pre><code>## GRanges object with 3 ranges and 2 metadata columns:
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]    chr15 20362688-20364420      + |     53552  uc001yte.1
+##   [2]    chr15 20487997-20496811      + |     53553  uc001ytf.1
+##   [3]    chr15 20723929-20727150      + |     53554  uc001ytj.3
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+</code></pre>
+<p>The <code>transcripts</code> function returns a <code>GRanges</code> class
+object.  You can learn a lot more about the manipulation of these
+objects by reading the <code>GenomicRanges</code> introductory
+vignette.  The <code>show</code> method for a <code>GRanges</code> object
+will display the ranges, seqnames (a chromosome or a contig), and
+strand on the left side and then present related metadata on the right
+side.  At the bottom, the seqlengths display all the possible seqnames
+along with the length of each sequence.</p>
+<p>The <code>strand</code> function is used to obtain the strand
+information from the transcripts.  The sum of the Lengths of the
+<code>Rle</code> object that <code>strand</code> returns is equal to the
+length of the <code>GRanges</code> object.</p>
+<pre><code class="language-r">tx_strand &lt;- strand(GR)
+tx_strand
+</code></pre>
+<pre><code>## factor-Rle of length 3337 with 2 runs
+##   Lengths: 1732 1605
+##   Values :    +    -
+## Levels(3): + - *
+</code></pre>
+<pre><code class="language-r">sum(runLength(tx_strand))
+</code></pre>
+<pre><code>## [1] 3337
+</code></pre>
+<pre><code class="language-r">length(GR)
+</code></pre>
+<pre><code>## [1] 3337
+</code></pre>
+<p>In addition, the <code>transcripts</code> function can also be used to
+retrieve a subset of the transcripts available such as those on the
+\(+\)-strand of chromosome 1.</p>
+<pre><code class="language-r">GR &lt;- transcripts(txdb, filter=list(tx_chrom = &quot;chr15&quot;, tx_strand = &quot;+&quot;))
+length(GR)
+</code></pre>
+<pre><code>## [1] 1732
+</code></pre>
+<pre><code class="language-r">unique(strand(GR))
+</code></pre>
+<pre><code>## [1] +
+## Levels: + - *
+</code></pre>
+<p>The <code>promoters</code> function computes a <code>GRanges</code> object
+that spans the promoter region around the transcription start site
+for the transcripts in a <code>TxDb</code> object.  The <code>upstream</code>
+and <code>downstream</code> arguments define the number of bases upstream
+and downstream from the transcription start site that make up the
+promoter region.</p>
+<pre><code class="language-r">PR &lt;- promoters(txdb, upstream=2000, downstream=400)
+PR
+</code></pre>
+<pre><code>## GRanges object with 3337 ranges and 2 metadata columns:
+##              seqnames              ranges strand |     tx_id     tx_name
+##                 &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   uc001yte.1    chr15   20360688-20363087      + |     53552  uc001yte.1
+##   uc001ytf.1    chr15   20485997-20488396      + |     53553  uc001ytf.1
+##   uc001ytj.3    chr15   20721929-20724328      + |     53554  uc001ytj.3
+##   uc021sex.1    chr15   20737312-20739711      + |     53555  uc021sex.1
+##   uc010tzb.1    chr15   20740235-20742634      + |     53556  uc010tzb.1
+##          ...      ...                 ...    ... .       ...         ...
+##   uc021syy.1    chr15 102302656-102305055      - |     56884  uc021syy.1
+##   uc002cdf.1    chr15 102462863-102465262      - |     56885  uc002cdf.1
+##   uc002cds.2    chr15 102518897-102521296      - |     56886  uc002cds.2
+##   uc010utv.1    chr15 102518897-102521296      - |     56887  uc010utv.1
+##   uc010utw.1    chr15 102518897-102521296      - |     56888  uc010utw.1
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+</code></pre>
+<p>The <code>exons</code> and <code>cds</code> functions can also be used
+in a similar fashion to retrive genomic coordinates for exons and
+coding sequences.</p>
+<p>\begin{Exercise} Use </code>exons<code>to retrieve all the exons from chromosome 15. How does the length of this compare to the value returned by</code>transcripts<code>? \end{Exercise}
+`2o\begin{Solution}</p>
+<pre><code class="language-r">EX &lt;- exons(txdb)
+EX[1:4]
+</code></pre>
+<pre><code>## GRanges object with 4 ranges and 1 metadata column:
+##       seqnames            ranges strand |   exon_id
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
+##   [1]    chr15 20362688-20362858      + |    192986
+##   [2]    chr15 20362943-20363123      + |    192987
+##   [3]    chr15 20364397-20364420      + |    192988
+##   [4]    chr15 20487997-20488227      + |    192989
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+</code></pre>
+<pre><code class="language-r">length(EX)
+</code></pre>
+<pre><code>## [1] 10771
+</code></pre>
+<pre><code class="language-r">length(GR)
+</code></pre>
+<pre><code>## [1] 1732
+</code></pre>
+<p>\end{Solution}2o`</p>
+<h3>Working with Grouped Features</h3>
+<p>Often one is interested in how particular genomic features relate to
+each other, and not just their location.  For example, it might be of
+interest to group transcripts by gene or to group exons by transcript.
+Such groupings are supported by the <code>transcriptsBy</code>,
+<code>exonsBy</code>, and <code>cdsBy</code> functions.</p>
+<p>The following call can be used to group transcripts by genes:</p>
+<pre><code class="language-r">GRList &lt;- transcriptsBy(txdb, by = &quot;gene&quot;)
+length(GRList)
+</code></pre>
+<pre><code>## [1] 799
+</code></pre>
+<pre><code class="language-r">names(GRList)[10:13]
+</code></pre>
+<pre><code>## [1] &quot;100033424&quot; &quot;100033425&quot; &quot;100033427&quot; &quot;100033428&quot;
+</code></pre>
+<pre><code class="language-r">GRList[11:12]
+</code></pre>
+<pre><code>## GRangesList object of length 2:
+## $`100033425`
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]    chr15 25324204-25325381      + |     53638  uc001yxw.4
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+## 
+## $`100033427`
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]    chr15 25326433-25326526      + |     53640  uc001yxz.3
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+</code></pre>
+<p>The <code>transcriptsBy</code> function returns a <code>GRangesList</code>
+class object.  As with <code>GRanges</code> objects, you can learn more
+about these objects by reading the <code>GenomicRanges</code>
+introductory vignette.  The <code>show</code> method for a
+<code>GRangesList</code> object will display as a list of <code>GRanges</code>
+objects.  And, at the bottom the seqinfo will be displayed once for
+the entire list.</p>
+<p>For each of these three functions, there is a limited set of options
+that can be passed into the <code>by</code> argument to allow grouping.
+For the <code>transcriptsBy</code> function, you can group by gene,
+exon or cds, whereas for the <code>exonsBy</code> and <code>cdsBy</code>
+functions can only be grouped by transcript (tx) or gene.</p>
+<p>So as a further example, to extract all the exons for each transcript
+you can call:</p>
+<pre><code class="language-r">GRList &lt;- exonsBy(txdb, by = &quot;tx&quot;)
+length(GRList)
+</code></pre>
+<pre><code>## [1] 3337
+</code></pre>
+<pre><code class="language-r">names(GRList)[10:13]
+</code></pre>
+<pre><code>## [1] &quot;53561&quot; &quot;53562&quot; &quot;53563&quot; &quot;53564&quot;
+</code></pre>
+<pre><code class="language-r">GRList[[12]]
+</code></pre>
+<pre><code>## GRanges object with 1 range and 3 metadata columns:
+##       seqnames            ranges strand |   exon_id   exon_name exon_rank
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt; &lt;integer&gt;
+##   [1]    chr15 22043463-22043502      + |    193028        &lt;NA&gt;         1
+##   -------
+##   seqinfo: 1 sequence from hg19 genome
+</code></pre>
+<p>As you can see, the <code>GRangesList</code> objects returned from each
+function contain locations and identifiers grouped into a list like
+object according to the type of feature specified in the <code>by</code>
+argument. The object returned can then be used by functions like
+<code>findOverlaps</code> to contextualize alignments from
+high-throughput sequencing.</p>
+<p>The identifiers used to label the <code>GRanges</code> objects depend upon
+the data source used to create the <code>TxDb</code> object.  So
+the list identifiers will not always be Entrez Gene IDs, as they were
+in the first example.  Furthermore, some data sources do not provide a
+unique identifier for all features.  In this situation, the group
+label will be a synthetic ID created by <code>GenomicFeatures</code> to
+keep the relations between features consistent in the database this
+was the case in the 2nd example.  Even though the results will
+sometimes have to come back to you as synthetic IDs, you can still
+always retrieve the original IDs.</p>
+<p>\begin{Exercise} Starting with the tx_ids that are the names of the GRList object we just made, use </code>select<code>to retrieve that matching transcript names.  Remember that the list used a</code>by<code> argument = &quot;tx&quot;, so the list is grouped by transcript IDs. \end{Exercise}
+`2o\begin{Solution}</p>
+<pre><code class="language-r">GRList &lt;- exonsBy(txdb, by = &quot;tx&quot;)
+tx_ids &lt;- names(GRList)
+head(select(txdb, keys=tx_ids, columns=&quot;TXNAME&quot;, keytype=&quot;TXID&quot;))
+</code></pre>
+<pre><code>## 'select()' returned 1:1 mapping between keys and columns
+</code></pre>
+<pre><code>##    TXID     TXNAME
+## 1 53552 uc001yte.1
+## 2 53553 uc001ytf.1
+## 3 53554 uc001ytj.3
+## 4 53555 uc021sex.1
+## 5 53556 uc010tzb.1
+## 6 53557 uc021sey.1
+</code></pre>
+<p>\end{Solution}2o`</p>
+<p>Finally, the order of the results in a <code>GRangesList</code> object can
+vary with the way in which things were grouped. In most cases the
+grouped elements of the <code>GRangesList</code> object will be listed in
+the order that they occurred along the chromosome.  However, when
+exons or CDS are grouped by transcript, they will instead be grouped
+according to their position along the transcript itself.  This is
+important because alternative splicing can mean that the order along
+the transcript can be different from that along the chromosome.</p>
+<h3>Predefined grouping functions</h3>
+<p>The <code>intronsByTranscript</code>, <code>fiveUTRsByTranscript</code>
+and <code>threeUTRsByTranscript</code> are convenience functions that
+provide behavior equivalent to the grouping functions, but in
+prespecified form. These functions return a <code>GRangesList</code>
+object grouped by transcript for introns, 5’ UTR’s, and 3’ UTR’s,
+respectively.  Below are examples of how you can call these methods.</p>
+<pre><code class="language-r">length(intronsByTranscript(txdb))
+</code></pre>
+<pre><code>## [1] 3337
+</code></pre>
+<pre><code class="language-r">length(fiveUTRsByTranscript(txdb))
+</code></pre>
+<pre><code>## [1] 1825
+</code></pre>
+<pre><code class="language-r">length(threeUTRsByTranscript(txdb))
+</code></pre>
+<pre><code>## [1] 1803
+</code></pre>
+<h3>Getting the actual sequence data</h3>
+<p>The <code>GenomicFeatures</code> package also provides provides
+functions for converting from ranges to actual sequence (when paired
+with an appropriate <code>BSgenome</code> package).</p>
+<pre><code class="language-r">library(BSgenome.Hsapiens.UCSC.hg19)
+</code></pre>
+<pre><code>## Loading required package: BSgenome
+</code></pre>
+<pre><code>## Loading required package: Biostrings
+</code></pre>
+<pre><code>## Loading required package: XVector
+</code></pre>
+<pre><code>## 
+## Attaching package: 'Biostrings'
+</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     strsplit
+</code></pre>
+<pre><code>## Loading required package: rtracklayer
+</code></pre>
+<pre><code class="language-r">tx_seqs1 &lt;- extractTranscriptSeqs(Hsapiens, TxDb.Hsapiens.UCSC.hg19.knownGene,
+                                  use.names=TRUE)
+</code></pre>
+<p>And, once these sequences have been extracted, you can translate them
+into proteins with <code>translate</code>:</p>
+<pre><code class="language-r">suppressWarnings(translate(tx_seqs1))
+</code></pre>
+<pre><code>## AAStringSet object of length 3337:
+##        width seq                                            names               
+##    [1]   125 EDQDDEARVQYEGFRPGMYVRV...YTPQHMHCGAAFWA*FSDSCH uc001yte.1
+##    [2]   288 RIAS*GRAEFSSAQTSEIQRRR...ESVFYSVYFNYGNNCFFTVTD uc001ytf.1
+##    [3]   588 RSGQRLPEQPEAEGGDPGKQRR...RDLLENETHLYLCSIKICFSS uc001ytj.3
+##    [4]    10 HHLNCRPQTG                                     uc021sex.1
+##    [5]     9 STVTLPHSQ                                      uc010tzb.1
+##    ...   ... ...
+## [3333]    10 QVPMRVQVGQ                                     uc021syy.1
+## [3334]   306 MVTEFIFLGLSDSQELQTFLFM...DMKTAIRRLRKWDAHSSVKF* uc002cdf.1
+## [3335]   550 LAVSLFFDLFFLFMCICCLLAQ...TPRRLHPAQLEILY*KHTVGF uc002cds.2
+## [3336]   496 LAVSLFFDLFFLFMCICCLLAQ...PETFASCTARDPLLKAHCWFL uc010utv.1
+## [3337]   531 LAVSLFFDLFFLFMCICCLLAQ...TPRRLHPAQLEILY*KHTVGF uc010utw.1
+</code></pre>
+<p>\begin{Exercise} But of course this is not a meaningful translation, because the call to </code>extractTranscriptSeqs<code>will have extracted all the transcribed regions of the genome regardless of whether or not they are translated. Look at the manual page for</code>extractTranscriptSeqs<code> and see how you can use cdsBy to only translate only the coding regions. \end{Exercise}
+`2o\begin{Solution}</p>
+<pre><code class="language-r">cds_seqs &lt;- extractTranscriptSeqs(Hsapiens,
+                                  cdsBy(txdb, by=&quot;tx&quot;, use.names=TRUE))
+translate(cds_seqs)
+</code></pre>
+<pre><code>## AAStringSet object of length 1875:
+##        width seq                                            names               
+##    [1]   102 MYVRVEIENVPCEFVQNIDPHY...RQRLLKYTPQHMHCGAAFWA* uc001yte.1
+##    [2]   435 MEWKLEQSMREQALLKAQLTQL...LGSNCCVPFFCWAWPPRRRR* uc010tzc.1
+##    [3]   317 MKIANNTVVTEFILLGLTQSQD...SMKRLLSRHVVCQVDFIIRN* uc001yuc.1
+##    [4]   314 METANYTKVTEFVLTGLSQTPE...KEVKAAMRKLVTKYILCKEK* uc010tzu.2
+##    [5]   317 MKIANNTVVTEFILLGLTQSQD...SMKRLLSRHVVCQVDFIIRN* uc010tzv.2
+##    ...   ... ...
+## [1871]   186 MAGGVLPLRGLRALCRVLLFLS...CLGRSEFKDICQQNVFLQVY* uc010ush.1
+## [1872]   258 MYNSKLWEASGHWQHYSENMFT...PVNFLKKDLWLTLTWITVVH* uc002bxl.3
+## [1873]   803 MAAEALAAEAVASRLERQEEDI...AIDKLKNLRKTRTLNAEEAF* uc002bxm.3
+## [1874]   306 MVTEFIFLGLSDSQELQTFLFM...DMKTAIRRLRKWDAHSSVKF* uc002cdf.1
+## [1875]   134 MSESINFSHNLGQLLSPPRCVV...KGETQESVESRVLPGPRHRH* uc010utv.1
+</code></pre>
+<p>\end{Solution}2o`</p>
+<h2>Creating New <code>TxDb</code> Objects or Packages</h2>
+<p>The <code>GenomicFeatures</code> package provides functions to create
+<code>TxDb</code> objects based on data downloaded from UCSC
+Genome Bioinformatics or BioMart. The following subsections
+demonstrate the use of these functions.  There is also support for
+creating <code>TxDb</code> objects from custom data sources using
+<code>makeTxDb</code>; see the help page for this function for
+details.</p>
+<h3>Using <code>makeTxDbFromUCSC</code></h3>
+<p>The function <code>makeTxDbFromUCSC</code> downloads UCSC
+Genome Bioinformatics transcript tables (e.g. <code>knownGene</code>,
+<code>refGene</code>, <code>ensGene</code>) for a genome build (e.g.
+<code>mm9</code>, <code>hg19</code>).  Use the <code>supportedUCSCtables</code>
+utility function to get the list of tables known to work with
+<code>makeTxDbFromUCSC</code>.</p>
+<pre><code class="language-r">supportedUCSCtables(genome=&quot;mm9&quot;)
+</code></pre>
+<pre><code>##         tablename          track           subtrack
+## 1       knownGene     UCSC Genes               &lt;NA&gt;
+## 2  knownGeneOld11 Old UCSC Genes               &lt;NA&gt;
+## 3   knownGeneOld8 Old UCSC Genes               &lt;NA&gt;
+## 4   knownGeneOld7 Old UCSC Genes               &lt;NA&gt;
+## 5   knownGeneOld6 Old UCSC Genes               &lt;NA&gt;
+## 6   knownGeneOld4 Old UCSC Genes               &lt;NA&gt;
+## 7   knownGeneOld3 Old UCSC Genes               &lt;NA&gt;
+## 8        ccdsGene           CCDS               &lt;NA&gt;
+## 9         refGene   RefSeq Genes               &lt;NA&gt;
+## 10    xenoRefGene   Other RefSeq               &lt;NA&gt;
+## 11       vegaGene     Vega Genes Vega Protein Genes
+## 12 vegaPseudoGene     Vega Genes   Vega Pseudogenes
+## 13        ensGene  Ensembl Genes               &lt;NA&gt;
+## 14        acembly  AceView Genes               &lt;NA&gt;
+## 15  nscanPasaGene         N-SCAN    N-SCAN PASA-EST
+## 16      nscanGene         N-SCAN             N-SCAN
+## 17        sgpGene      SGP Genes               &lt;NA&gt;
+## 18         geneid   Geneid Genes               &lt;NA&gt;
+## 19        genscan  Genscan Genes               &lt;NA&gt;
+## 20       exoniphy       Exoniphy               &lt;NA&gt;
+## 21   augustusGene       AUGUSTUS               &lt;NA&gt;
+</code></pre>
+<pre><code class="language-r">mm9KG_txdb &lt;- makeTxDbFromUCSC(genome=&quot;mm9&quot;, tablename=&quot;knownGene&quot;)
+</code></pre>
+<h3>Using <code>makeTxDbFromBiomart</code></h3>
+<p>Retrieve data from BioMart by specifying the mart and the data set to
+the <code>makeTxDbFromBiomart</code> function (not all BioMart
+data sets are currently supported):</p>
+<pre><code class="language-r">mmusculusEnsembl &lt;- makeTxDbFromBiomart(dataset=&quot;mmusculus_gene_ensembl&quot;)
+</code></pre>
+<p>As with the <code>makeTxDbFromUCSC</code> function, the
+<code>makeTxDbFromBiomart</code> function also has a
+<code>circ_seqs</code> argument that will default to using the contents
+of the <code>DEFAULT_CIRC_SEQS</code> vector.  And just like those UCSC
+sources, there is also a helper function called
+<code>getChromInfoFromBiomart</code> that can show what the different
+chromosomes are called for a given source.</p>
+<p>Using the <code>makeTxDbFromBiomart</code>
+<code>makeTxDbFromUCSC</code> functions can take a while and
+may also require some bandwidth as these methods have to download and
+then assemble a database from their respective sources.  It is not
+expected that most users will want to do this step every time.
+Instead, we suggest that you save your annotation objects and label
+them with an appropriate time stamp so as to facilitate reproducible
+research.</p>
+<h3>Using <code>makeTxDbFromEnsembl</code></h3>
+<p>The <code>makeTxDbFromEnsembl</code> function creates a <code>TxDb</code> object
+for a given organism by importing the genomic locations of its transcripts,
+exons, CDS, and genes from an Ensembl database.</p>
+<p>See <code>?makeTxDbFromEnsembl</code> for more information.</p>
+<h3>Using <code>makeTxDbFromGFF</code></h3>
+<p>You can also extract transcript information from either GFF3 or GTF
+files by using the <code>makeTxDbFromGFF</code> function.
+Usage is similar to <code>makeTxDbFromBiomart</code> and
+<code>makeTxDbFromUCSC</code>.</p>
+<h3>Saving and Loading a <code>TxDb</code> Object</h3>
+<p>Once a <code>TxDb</code> object has been created, it can be saved
+to avoid the time and bandwidth costs of recreating it and to make it
+possible to reproduce results with identical genomic feature data at a
+later date.  Since <code>TxDb</code> objects are backed by a
+SQLite database, the save format is a SQLite database file (which
+could be accessed from programs other than R if desired).  Note that
+it is not possible to serialize a <code>TxDb</code> object using
+R’s <code>save</code> function.</p>
+<pre><code class="language-r">saveDb(mm9KG_txdb, file=&quot;fileName.sqlite&quot;)
+</code></pre>
+<p>And as was mentioned earlier, a saved <code>TxDb</code> object can
+be initialized from a .sqlite file by simply using <code>loadDb</code>.</p>
+<pre><code class="language-r">mm9KG_txdb &lt;- loadDb(&quot;fileName.sqlite&quot;)
+</code></pre>
+<h3>Using <code>makeTxDbPackageFromUCSC</code> and</h3>
+<pre><code>`makeTxDbPackageFromBiomart`
+</code></pre>
+<p>It is often much more convenient to just make an annotation package
+out of your annotations.  If you are finding that this is the case,
+then you should consider the convenience functions:
+<code>makeTxDbPackageFromUCSC</code> and
+<code>makeTxDbPackageFromBiomart</code>.  These functions are similar
+to <code>makeTxDbFromUCSC</code> and
+<code>makeTxDbFromBiomart</code> except that they will take the
+extra step of actually wrapping the database up into an annotation
+package for you.  This package can then be installed and used as of
+the standard TxDb packages found on in the Bioconductor
+repository.</p>
+<h2>Session Information</h2>
+<pre><code>## R version 4.2.2 (2022-10-31 ucrt)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows Server x64 (build 20348)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=C                          
+## [2] LC_CTYPE=English_United States.utf8   
+## [3] LC_MONETARY=English_United States.utf8
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.utf8    
+## 
+## attached base packages:
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] BSgenome.Hsapiens.UCSC.hg19_1.4.3      
+##  [2] BSgenome_1.66.2                        
+##  [3] rtracklayer_1.58.0                     
+##  [4] Biostrings_2.66.0                      
+##  [5] XVector_0.38.0                         
+##  [6] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2
+##  [7] GenomicFeatures_1.50.4                 
+##  [8] AnnotationDbi_1.60.0                   
+##  [9] Biobase_2.58.0                         
+## [10] GenomicRanges_1.50.2                   
+## [11] GenomeInfoDb_1.34.7                    
+## [12] IRanges_2.32.0                         
+## [13] S4Vectors_0.36.1                       
+## [14] BiocGenerics_0.44.0                    
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.10                 lattice_0.20-45            
+##  [3] prettyunits_1.1.1           png_0.1-8                  
+##  [5] Rsamtools_2.14.0            assertthat_0.2.1           
+##  [7] digest_0.6.31               utf8_1.2.2                 
+##  [9] BiocFileCache_2.6.0         R6_2.5.1                   
+## [11] RSQLite_2.2.20              evaluate_0.20              
+## [13] httr_1.4.4                  pillar_1.8.1               
+## [15] zlibbioc_1.44.0             rlang_1.0.6                
+## [17] progress_1.2.2              curl_5.0.0                 
+## [19] blob_1.2.3                  Matrix_1.5-3               
+## [21] BiocParallel_1.32.5         stringr_1.5.0              
+## [23] RCurl_1.98-1.9              bit_4.0.5                  
+## [25] biomaRt_2.54.0              DelayedArray_0.24.0        
+## [27] compiler_4.2.2              xfun_0.36                  
+## [29] pkgconfig_2.0.3             SummarizedExperiment_1.28.0
+## [31] tidyselect_1.2.0            KEGGREST_1.38.0            
+## [33] tibble_3.1.8                GenomeInfoDbData_1.2.9     
+## [35] matrixStats_0.63.0          codetools_0.2-18           
+## [37] XML_3.99-0.13               fansi_1.0.4                
+## [39] crayon_1.5.2                dplyr_1.0.10               
+## [41] dbplyr_2.3.0                GenomicAlignments_1.34.0   
+## [43] bitops_1.0-7                rappdirs_0.3.3             
+## [45] grid_4.2.2                  lifecycle_1.0.3            
+## [47] DBI_1.1.3                   magrittr_2.0.3             
+## [49] cli_3.6.0                   stringi_1.7.12             
+## [51] cachem_1.0.6                xml2_1.3.3                 
+## [53] ellipsis_0.3.2              filelock_1.0.2             
+## [55] generics_0.1.3              vctrs_0.5.2                
+## [57] rjson_0.2.21                restfulr_0.0.15            
+## [59] tools_4.2.2                 bit64_4.0.5                
+## [61] glue_1.6.2                  MatrixGenerics_1.10.0      
+## [63] hms_1.1.2                   parallel_4.2.2             
+## [65] fastmap_1.1.0               yaml_2.3.7                 
+## [67] memoise_2.0.1               knitr_1.42                 
+## [69] BiocIO_1.8.0
+</code></pre>
+
+
+<script src="https://cdn.jsdelivr.net/combine/npm/@xiee/utils/js/center-img.min.js" async></script>
+</body>
+
+</html>

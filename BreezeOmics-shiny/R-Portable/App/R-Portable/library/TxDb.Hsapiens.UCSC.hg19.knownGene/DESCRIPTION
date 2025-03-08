@@ -1,0 +1,19 @@
+Package: TxDb.Hsapiens.UCSC.hg19.knownGene
+Title: Annotation package for TxDb object(s)
+Description: Exposes an annotation databases generated from UCSC by exposing these as TxDb objects
+Version: 3.2.2
+Author: Marc Carlson, Bioconductor Package Maintainer <maintainer@bioconductor.org> [cre]
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: GenomicFeatures (>= 1.21.30)
+Imports: AnnotationDbi
+License: Artistic-2.0
+organism: Homo sapiens
+species: Homo sapiens
+provider: UCSC
+provider_version: hg19 genome based on the knownGene table
+release_date: 2015-10-07 18:11:28 +0000 (Wed, 07 Oct 2015)
+resource_url: http://genome.ucsc.edu/
+biocViews: AnnotationData, Genetics, TxDb, Homo_sapiens
+NeedsCompilation: no
+Packaged: 2015-10-07 19:28:21 UTC; ubuntu
+Built: R 4.2.0; ; 2024-08-08 18:55:35 UTC; windows

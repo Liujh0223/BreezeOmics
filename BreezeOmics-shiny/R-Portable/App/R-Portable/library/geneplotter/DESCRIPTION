@@ -1,0 +1,21 @@
+Package: geneplotter
+Title: Graphics related functions for Bioconductor
+Version: 1.76.0
+Author: R. Gentleman, Biocore
+Description: Functions for plotting genomic data
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Depends: R (>= 2.10), methods, Biobase, BiocGenerics, lattice, annotate
+Imports: AnnotationDbi, graphics, grDevices, grid, RColorBrewer, stats,
+        utils
+Suggests: Rgraphviz, fibroEset, hgu95av2.db, hu6800.db, hgu133a.db
+License: Artistic-2.0
+biocViews: Visualization
+LazyLoad: yes
+git_url: https://git.bioconductor.org/packages/geneplotter
+git_branch: RELEASE_3_16
+git_last_commit: 4eb6a78
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-02 00:31:53 UTC; biocbuild
+Built: R 4.2.1; ; 2022-11-02 13:39:24 UTC; windows

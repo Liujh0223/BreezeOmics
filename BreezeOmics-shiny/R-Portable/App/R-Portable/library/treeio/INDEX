@@ -1,0 +1,47 @@
+Nnode.treedata          Nnode
+as.treedata.phylo       as.treedata
+as.ultrametric          as.ultrametric
+drop.tip                drop.tip method
+get.placements          get.placements
+get.tree                get.tree
+get.treetext            get.treetext method
+getNodeNum              getNodeNum
+is.ggtree               is.ggtree
+isTip                   isTip
+jplace-class            Class "jplace" This class stores phylogenetic
+                        placements
+label_branch_paml       label_branch_paml
+mask                    mask
+merge_tree              merge_tree
+print.treedataList      print
+raxml2nwk               raxml2nwk
+read.astral             read.astral
+read.beast              read.beast
+read.codeml             read.codeml
+read.codeml_mlc         read.codeml_mlc
+read.fasta              read.fasta
+read.hyphy              read.hyphy
+read.hyphy.seq          read.hyphy.seq
+read.iqtree             read.iqtree
+read.jplace             read.jplace
+read.jtree              read.jtree
+read.mcmctree           read.mcmctree
+read.mega_tabular       read.mega_tabular
+read.newick             read.newick
+read.nextstrain.json    read.nextstrain.json
+read.nhx                read.nhx
+read.paml_rst           read.paml_rst
+read.phylip             read.phylip
+read.phylip.seq         read.phylip.seq
+read.phylip.tree        read.phylip.tree
+read.phyloxml           read.phyloxml
+read.r8s                read.r8s
+read.raxml              read.raxml
+read.treeqza            read.treeqza
+rename_taxa             rename_taxa
+rescale_tree            rescale_tree
+root.treedata           root
+tree_subset             Subset tree objects by related nodes
+write.beast             write.beast
+write.beast.newick      write.beast.newick
+write.jtree             write.jtree

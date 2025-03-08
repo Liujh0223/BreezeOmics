@@ -1,0 +1,68 @@
+---
+title: "Parsing command-line arguments by Getopt::Long"
+author: "Zuguang Gu (z.gu@dkfz.de)"
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    fig_caption: true
+    toc: true
+    toc_depth: 3
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Parsing command-line arguments by Getopt::Long}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+---------------------------------------------------------------------
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    comment = NA,
+    fig.align = "center")
+library(GetoptLong)
+```
+
+
+```{r, echo = FALSE, results = "asis"}
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+  os <- sysinf['sysname']
+  if (os == 'Darwin')
+    os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  tolower(os)
+}
+
+is.solaris = function() {
+  os = get_os()
+  !(os %in% c("windows", "unix", "linux", "osx"))
+}
+
+if(is.solaris()) {
+  cat("**GetoptLong** is not supported on Solaris platform.\n")
+} else {
+  if(!is.solaris()) {
+      invisible(knit("GetoptLong.Rmd2", "GetoptLong.md2"))
+  }
+
+  if(Sys.info()["user"] == "jokergoo") {
+      invisible(file.copy("GetoptLong.md2", "/Users/jokergoo/project/GetoptLong/vignettes/GetoptLong.md2", overwrite = TRUE))
+  }
+
+  ln = readLines("GetoptLong.md2")
+  cat(paste(ln, collapse = "\n"))
+}
+```
+

@@ -1,0 +1,50 @@
+Package: BiocIO
+Title: Standard Input and Output for Bioconductor Packages
+Version: 1.8.0
+Authors@R: c(
+    person("Martin", "Morgan", role = "aut"),
+    person("Michael", "Lawrence", role = "aut"),
+    person("Daniel", "Van Twisk", role = "aut"),
+    person(
+        family = "Bioconductor Package Maintainer",
+        role = "cre",
+        email = "maintainer@bioconductor.org"
+    ))
+Description: The `BiocIO` package contains high-level abstract classes
+    and generics used by developers to build IO funcionality within the
+    Bioconductor suite of packages. Implements `import()` and `export()`
+    standard generics for importing and exporting biological data formats.
+    `import()` supports whole-file as well as chunk-wise iterative import. The
+    `import()` interface optionally provides a standard mechanism for
+    'lazy' access via `filter()` (on row or element-like components of
+    the file resource), `select()` (on column-like components of the
+    file resource) and `collect()`. The `import()` interface
+    optionally provides transparent access to remote (e.g. via https)
+    as well as local access. Developers can register a file extension,
+    e.g., `.loom` for dispatch from character-based URIs to specific
+    `import()` / `export()` methods based on classes representing file
+    types, e.g., `LoomFile()`.
+License: Artistic-2.0
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: R (>= 4.0)
+Imports: BiocGenerics, S4Vectors, methods, tools
+Suggests: testthat, knitr, rmarkdown, BiocStyle
+Collate: export.R import.R BiocFile.R compression.R
+VignetteBuilder: knitr
+biocViews: Annotation,DataImport
+BugReports: https://github.com/Bioconductor/BiocIO/issues
+git_url: https://git.bioconductor.org/packages/BiocIO
+git_branch: RELEASE_3_16
+git_last_commit: 4a719fa
+git_last_commit_date: 2022-11-01
+Date/Publication: 2022-11-01
+NeedsCompilation: no
+Packaged: 2022-11-01 22:55:39 UTC; biocbuild
+Author: Martin Morgan [aut],
+  Michael Lawrence [aut],
+  Daniel Van Twisk [aut],
+  Bioconductor Package Maintainer [cre]
+Maintainer: Bioconductor Package Maintainer <maintainer@bioconductor.org>
+Built: R 4.2.1; ; 2022-11-02 13:16:46 UTC; windows

@@ -1,0 +1,21 @@
+GOSemSim-package        Gene Ontology-based Sematic Similarity Measures
+GOSemSimDATA-class      Class "GOSemSimDATA" This class stores IC and
+                        gene to go mapping for semantic similarity
+                        measurement
+clusterSim              Semantic Similarity Between Two Gene Clusters
+combineScores           combining similarity matrix to similarity score
+geneSim                 Semantic Similarity Between two Genes
+goSim                   Semantic Similarity Between Two GO Terms
+go_term_table           Information content of GO terms
+godata                  godata
+infoContentMethod       information content based methods
+load_OrgDb              load_OrgDb
+mclusterSim             Pairwise Semantic Similarities for a List of
+                        Gene Clusters
+mgeneSim                Pairwise Semantic Similarity for a List of
+                        Genes
+mgoSim                  Semantic Similarity Between two GO terms lists
+tcss_cutoff             determine the topological cutoff for TCSS
+                        method
+termSim                 termSim
+wangMethod_internal     wangMethod

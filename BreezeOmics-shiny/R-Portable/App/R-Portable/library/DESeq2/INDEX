@@ -1,0 +1,72 @@
+DESeq                   Differential expression analysis based on the
+                        Negative Binomial (a.k.a. Gamma-Poisson)
+                        distribution
+DESeq2-package          DESeq2 package for differential analysis of
+                        count data
+DESeqDataSet-class      DESeqDataSet object and constructors
+DESeqResults-class      DESeqResults object and constructor
+DESeqTransform-class    DESeqTransform object and constructor
+coef.DESeqDataSet       Extract a matrix of model coefficients/standard
+                        errors
+collapseReplicates      Collapse technical replicates in a
+                        RangedSummarizedExperiment or DESeqDataSet
+counts,DESeqDataSet-method
+                        Accessors for the 'counts' slot of a
+                        DESeqDataSet object.
+design,DESeqDataSet-method
+                        Accessors for the 'design' slot of a
+                        DESeqDataSet object.
+dispersionFunction      Accessors for the 'dispersionFunction' slot of
+                        a DESeqDataSet object.
+dispersions             Accessor functions for the dispersion estimates
+                        in a DESeqDataSet object.
+estimateBetaPriorVar    Steps for estimating the beta prior variance
+estimateDispersions,DESeqDataSet-method
+                        Estimate the dispersions for a DESeqDataSet
+estimateDispersionsGeneEst
+                        Low-level functions to fit dispersion estimates
+estimateSizeFactors,DESeqDataSet-method
+                        Estimate the size factors for a 'DESeqDataSet'
+estimateSizeFactorsForMatrix
+                        Low-level function to estimate size factors
+                        with robust regression.
+fpkm                    FPKM: fragments per kilobase per million mapped
+                        fragments
+fpm                     FPM: fragments per million mapped fragments
+integrateWithSingleCell
+                        Integrate bulk DE results with Bioconductor
+                        single-cell RNA-seq datasets
+lfcShrink               Shrink log2 fold changes
+makeExampleDESeqDataSet
+                        Make a simulated DESeqDataSet
+nbinomLRT               Likelihood ratio test (chi-squared test) for
+                        GLMs
+nbinomWaldTest          Wald test for the GLM coefficients
+normTransform           Normalized counts transformation
+normalizationFactors    Accessor functions for the normalization
+                        factors in a DESeqDataSet object.
+normalizeGeneLength     Normalize for gene length
+plotCounts              Plot of normalized counts for a single gene
+plotDispEsts            Plot dispersion estimates
+plotMA                  MA-plot from base means and log fold changes
+plotPCA                 Sample PCA plot for transformed data
+plotSparsity            Sparsity plot
+priorInfo               Accessors for the 'priorInfo' slot of a
+                        DESeqResults object.
+replaceOutliers         Replace outliers with trimmed mean
+results                 Extract results from a DESeq analysis
+rlog                    Apply a 'regularized log' transformation
+show,DESeqResults-method
+                        Show method for DESeqResults objects
+sizeFactors,DESeqDataSet-method
+                        Accessor functions for the 'sizeFactors'
+                        information in a DESeqDataSet object.
+summary,DESeqResults-method
+                        Summarize DESeq results
+unmix                   Unmix samples using loss in a variance
+                        stabilized space
+varianceStabilizingTransformation
+                        Apply a variance stabilizing transformation
+                        (VST) to the count data
+vst                     Quickly estimate dispersion trend and apply a
+                        variance stabilizing transformation

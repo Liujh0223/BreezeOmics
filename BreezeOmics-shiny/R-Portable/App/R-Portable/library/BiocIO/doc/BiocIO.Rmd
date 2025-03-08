@@ -1,0 +1,157 @@
+---
+title: "An Overview of the BiocIO package"
+author:
+- name: Daniel Van Twisk
+  affiliation: Roswell Park Comprehensive Cancer Center
+- name: Martin Morgan
+  affiliation: Roswell Park Comprehensive Cancer Center
+  email: maintainer@biocondcutor.org
+package: BiocIO
+output:
+  BiocStyle::html_document
+abstract: |
+  BiocIO contains defintions for import and export methods used throughout
+  Biocondcutor for IO purposes. The BiocFile class which serves as an interface
+  for File classes within Bioconductor is also defined in this package. This
+  vignette will describe the functionality of these base methods and classes as
+  well as an example for developers on how to interface with them.
+vignette: |
+  %\VignetteIndexEntry{BiocIO}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The `BiocIO` package is primarily to be used by developers for interfacing with
+the abstract classes and generics in this package to develop their own related
+classes and methods. 
+
+# Installation
+```{r installation, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("BiocIO")
+```
+```{r library}
+library("BiocIO")
+```
+## Import and Export
+The functions import and export load and save objects from and to particular
+file formats. This package contains the following generics for the import
+and export methods used throughout the Bioconductor package suite.
+```{r importexportGeneirc}
+getGeneric("import")
+getGeneric("export")
+```
+
+## The BiocFile Class
+BiocFile is a base class for high-level file abstractions, where subclasses are
+associated with a particular file format/type. It wraps a low-level
+representation of a file, currently either a path/URL or connection.
+
+## CompressedFile
+
+CompressedFile is a base class that extends the BiocFile class that offers
+high-level file abstractions for compressed file formats. As with the BiocFile
+class, it takes either a path/URL of connection as an argument. This package
+also includes other File classes that extend CompressedFile including: BZ2File,
+XZFile, GZFile, and BGZFile which extends the GZfile class
+
+# For developers
+
+## Converting existing "File" Classes
+
+As of the current release, the `rtracklayer` package's `RTLFile`, `RTLList`,
+and `CompressedFile` classes are throwing the following error when a class
+that extends them is initialized. The error can currently be seen with the
+`LoomFile` class from LoomExperiment.
+
+```{r warningExample, eval=FALSE}
+file <- tempfile(fileext = ".loom")
+LoomFile(file)
+
+### LoomFile object
+### resource: file.loom
+### Warning messages:
+### 1: This class is extending the deprecated RTLFile class from
+###     rtracklayer. Use BiocFile from BiocIO in place of RTLFile.
+### 2: Use BiocIO::resource()
+```
+
+The first warning indicates the the `RTLFile` class from `rtracklayer` is
+being deprecated in future releases. The second waning indicates that the
+`resource` method from `rtracklayer` has also been moved to `BiocIO`.
+
+To resolve this issue, simply replace the `contains="RTLFile"` argument in
+`setClass` with `contains="BiocFile"`.
+
+```{r replaceExample, eval=FALSE}
+## Old
+setClass('LoomFile', contains='RTLFile')
+
+## New
+setClass('LoomFile', contains='BiocFile')
+```
+
+## Creating classes and methods that extend BiocFile's class and methods
+
+The primary purpose of this package is to provide high-level classes and
+generics to facilitate file IO within the Bioconductor package suite. The
+remainder of this vignette will detail how to create File classes that extend
+the BiocFile class and create methods for these classes. This section will also
+detail using the filter and select methods from the tidyverse dplyr package to
+facilitate lazy operations on files.
+
+The CSVFile class defined in this package will be used as an example. The
+purpose of the CSVFile class is to represent CSVFile so that IO operations can
+be performed on the file. The following code defines the CSVFile class that
+extends the BiocFile class using the `contains` argument. The CSVFile function
+is used as a constructor function requiring only the argument `resource` (either
+a `character` or a `connection`).
+
+```{r defineCSVFile}
+.CSVFile <- setClass("CSVFile", contains = "BiocFile")
+
+CSVFile <-
+    function(resource)
+{
+    .CSVFile(resource = resource)
+}
+```
+
+Next, the import and export functions are defined. These functions are meant to
+import the data into R in a usable format (a `data.frame` or another
+user-friendly R class), then export that R object into a file. For the CSVFile
+example, the base `read.csv()` and `write.csv()` functions are used as the body
+for our methods.
+```{r defineImportExport}
+setMethod("import", "CSVFile",
+    function(con, format, text, ...)
+{
+    read.csv(resource(con), ...)
+})
+
+setMethod("export", c("data.frame", "CSVFile"),
+    function(object, con, format, ...)
+{
+    write.csv(object, resource(con), ...)
+})
+```
+
+And finally a demonstration of the CSVFile class and import/export methods in
+action.
+```{r demonstrateCSV}
+temp <- tempfile(fileext = ".csv")
+csv <- CSVFile(temp)
+
+export(mtcars, csv)
+df <- import(csv)
+```
+
+
+## Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```

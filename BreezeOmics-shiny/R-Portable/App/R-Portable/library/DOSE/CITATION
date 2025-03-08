@@ -1,0 +1,22 @@
+citHeader("Please cite G. Yu (2015) for using DOSE. In addition, please cite G. Yu (2012) when using compareCluster in clusterProfiler package, G. Yu (2015) when applying enrichment analysis to NGS data by using ChIPseeker and G. Yu (2010) when using GOSemSim for GO semantic similarity analysis")
+
+citEntry(entry  = "ARTICLE",
+         title  = "DOSE: an R/Bioconductor package for Disease Ontology Semantic and Enrichment analysis",
+         author = personList(
+             as.person("Guangchuang Yu"),
+             as.person("Li-Gen Wang"),
+             as.person("Guang-Rong Yan"),
+             as.person("Qing-Yu He")
+             ),
+         journal = "Bioinformatics",
+         year    = "2015",
+         volume  = "31",
+         number  = "4",
+         pages   = "608-609",
+         PMID    = "",
+         url     = "http://bioinformatics.oxfordjournals.org/content/31/4/608",
+         doi     = "10.1093/bioinformatics/btu684",
+         textVersion = paste("Guangchuang Yu, Li-Gen Wang, Guang-Rong Yan, Qing-Yu He.",
+             "DOSE: an R/Bioconductor package for Disease Ontology Semantic and Enrichment analysis.",
+             "Bioinformatics 2015 31(4):608-609")
+         )

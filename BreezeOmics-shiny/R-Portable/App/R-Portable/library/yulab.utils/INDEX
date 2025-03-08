@@ -1,0 +1,32 @@
+CRANpkg                 print md text of package with link to homepage
+                        (CRAN or Bioconductor)
+Githubpkg               print md text of package with link to github
+                        repo
+check_pkg               check_pkg
+combinations            combinations
+exec                    exec
+get_dependencies        get_dependencies
+get_fun_from_pkg        get_fun_from_pkg
+initial_cache           cache intermediate data
+install_zip             install_zip
+install_zip_gh          install_zip_gh
+is.installed            is.installed
+ls2df                   Convert a list of vector (e.g, gene IDs) to a
+                        data.frame object
+mat2df                  mat2df
+mat2list                mat2list
+mypkg                   mypkg
+o                       o
+packageTitle            packageTitle
+pload                   pload
+rbindlist               rbindlist
+read.cb                 read.cb
+scale_range             scale-range
+scihub_dl               download publication via scihub
+set_PCRE                switch regular expression style (PCRE vs TRE)
+show_in_excel           show_in_excel
+str_extract             str_extract
+str_starts              str_starts
+str_wrap                str_wrap
+yread_tsv               yread
+yulab_msg               yulab_msg

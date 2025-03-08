@@ -1,0 +1,215 @@
+CHANGES IN VERSION 2.5
+----------------------
+
+ENHANCEMENT
+
+    o (2.5.2) Add option to override unique identifer when adding files to the
+    cache. This will allow exact match of original file name.
+
+BUG FIX
+
+    o (2.5.1) ERROR if interactively decide not to removebfc
+
+CHANGES IN VERSION 2.3
+----------------------
+
+ENHANCEMENT
+
+    o (2.3.4) Add instructions for a shared cache across multiple users of a system
+    o (2.3.2) Add direct SQL calls for certain retrieval functions to speed up
+    access time. This will speed up the bfcquery function as well as any
+    function tha utilized the underlying .sql_get_field, .get_all_rids or
+    .get_all_web_rids.
+    o (2.3.1) Add @LTLA solution for making bfcrpath thread safe
+
+CHANGES IN VERSION 2.1
+----------------------
+
+MAJOR UPDATES
+
+    o (2.1.1) Change caching location warning/deprecation to an ERROR in
+    preparation for removal of dependency next release.
+
+CHANGES IN VERSION 1.99
+----------------------
+
+MAJOR UPDATES
+
+    o (1.99.0) The default caching location has changed. Instead of
+    rappdirs::user_cache_dir using tools::R_user_dir. To avoid conflicting
+    caches, a user will have to manage an old cache location before
+    proceeding. Information for handling an old cache location is provided in
+    the vignette.
+    o (1.99.0) Another major change, a default caching location is automatically
+    created in a non interactive session instead of using a temporary
+    location. In an interactive session, a user is still prompted for
+    permission.
+    o (1.99.0) An enviornment variable may be set system wide or user wide to
+    control the default caching location: BFC_CACHE. Note: do not use R
+    variables or command line export to set this variable. It must be set system
+    wide or user wide for reproducibility in future R sessions or else it must
+    be specified upon ever usage. It must be set before calling
+    library(BiocFileCache) to take effect.
+    o (1.99.0) Fixes partial argument matching error in SQL function SQLExecute
+    o (1.15.1) Added file locking for thread-safe SQL operations. Thanks for the PR @LTLA
+
+BUG FIX
+
+    o (1.99.6) cleanbfc() incorrect format string; see
+    https://github.com/Bioconductor/BiocFileCache/issues/31
+
+CHANGES IN VERSION 1.11
+----------------------
+
+BUG FIX
+
+    o (1.11.5) Update dplyr functions for dplyr_1.0.0 release 
+    o (1.11.2) Fixes run of examples. Different result manual vs interactive so
+    have conditional that will allow complete example if run by user rather than
+    run automatically through the checks. 
+
+NEW FEATURES
+
+    o (1.11.1) Add makeCachedActiveBinding(). Allows data to be cached during
+    ActiveBinding call. Avoids callback function executing data retrieval
+    everytime.
+
+    o (1.11.3) Only asks for / reports use of temporary cache once per
+    session. https://github.com/Bioconductor/TENxBrainData/issues/7
+
+CHANGES IN VERSION 1.7
+----------------------
+
+BUG FIX
+
+    o (1.7.10) Fix date comparison to use as.POSIXlt instead of as.Date. This
+    catches the rare edge case if a remote resource is updated twice in a day
+    and a download happened in between the two.
+    o (1.7.9) Make creation of database atomic commits
+    o (1.7.8) Make adding resource to database atomic commits
+    o (1.7.4) Limit where possible opening database in RW mode. Use read-only
+    mode whereever possible to avoid database locking
+    o (1.7.2) Fix bug in multi path addition through bfcadd/bfcrpaths. The
+    function was assuming all files had same rtype and action. Now can
+    vectorize
+    o (1.7.1) Fix man documentation example. Interactive vs non interactive
+    session
+
+CHANGES IN VERSION 1.5
+----------------------
+
+NEW FEATURES
+
+    o (v. 1.5.1) Add 'exact = ' for exact matching in bfcquery(),
+      bfcrpath(). (v. 1.5.2) defaults to TRUE for bfcrpath()
+
+BUG FIX
+
+    o (v. 1.5.2) bfcrpath() more robust when adding regular expression
+      rnames.
+
+USER-VISIBLE CHANGES
+
+    o (v. 1.5.4) bfcpath() implementation change. Only displays rpath and can
+    work with multiple rids. bfcpath only for rpath access while bfcrpath is the
+    option to get or add.
+
+CHANGES IN VERSION 1.3
+----------------------
+
+NEW FEATURES
+
+    o (v. 1.3.35) Save a post download processed file to cache.
+    o (v. 1.3.28) Add ask = TRUE argument to BiocFileCache().
+    o (v. 1.3.24) Add function makeBiocFileCacheFromDataFrame to
+      convert data.frame to BiocFileCache
+    o (v. 1.3.19) etag now checked in addition to last modified time to
+    determine if local version of file is current
+    o (v. 1.3.16) importbfc to load output of exportbfc
+    o (v. 1.3.15) exportbfc allows users to create exportable archive of bfc
+      related files
+    o (v. 1.3.11) bfcisrelative checks for rtype='local' in addition to relative
+    o (v. 1.3.11) Helper function to check rtype for local but
+      relative, and web and update if necessary
+    o (v. 1.3.10) Add function to check portability of BiocFileCache:
+      bfcisrelative
+    o (v. 1.3.10) Add function to convert rpaths for portability: bfcrelative
+    o (v. 1.3.9) Optionally download web resource when adding to cache
+      bfcadd(download=TRUE)
+
+SCHEMA CHANGE
+
+    o (v. 1.3.36) expires added
+    o (v. 1.3.19) etag added
+    o (v. 1.3.9) Last modified time default is NA
+
+USER-VISIBLE CHANGES
+
+    o (v. 1.3.38) ... argument exposed and pased to GET, this includes bfcadd
+    which original ... was pasesed to file.copy. This use of ... is used in bfc
+    functions bfcadd(), bfcupdate() and bfcdownload() which could potential
+    download the file.
+    o (v. 1.3.30) bfcnew(), bfcadd(), accept vector arguments;
+      performance improvements and
+    o (v. 1.3.25) bfcinfo and bfcquery will show full rpaths even if
+      stored as relative
+    o (v. 1.3.22) prompt user only once when using default cache
+    o (v. 1.3.17) prompt user when overwriting exisiting file
+    o (v. 1.3.16) add importbfc to extract output of exportbfc and
+      load bfc object
+    o (v. 1.3.16) added exportbfc to export bfc or subset of bfc
+    o (v. 1.3.16) bfcisportblae and bfcportbale removed for exportbfc
+    o (v. 1.3.14) upon bfc creation, option to update to most current schema
+    o (v. 1.3.13) bfcportable operates over all offending ids instead
+      of asking individually
+    o (v. 1.3.12) bfcisrelative/bfcrelative changed to
+      bfcisportbale/bfcportable
+    o (v. 1.3.11) web resource rpaths are stored as relative links
+    o (v. 1.3.9) If web resource was not downloaded, bfcneedsupdate is TRUE
+    o (v. 1.3.9) Local and non downloaded web will have last modified
+      time as NA
+    o (v. 1.3.6) Update how default cache location is determined
+    o (v. 1.3.1) Expose GET::config argument to web resource functions
+
+BUG CORRECTION
+
+    o (v. 1.3.40) correct trycatch with cache_info. cache_info bug workaround
+    orginally output NA even if present, now manually grab values if present
+    o (v. 1.3.37) correct which functions update access_time
+    o (v. 1.3.26) patch for cache_info after returning etag and last_modified
+    o (v. 1.3.4) patch for cache_info bug
+
+
+
+CHANGES IN VERSION 1.1
+----------------------
+
+NEW FEATURES
+
+    o (v. 1.1.7) bfcmeta() and friends allows arbitrary metadata on
+      records and ability to query bfcmeta data.
+
+USER-VISIBLE CHANGES
+
+    o (v. 1.1.16) if httr::HEAD fails don't try httr::GET, just report not
+    available
+
+    o (v. 1.1.7) bfcquery() syntax changed to grep(), rather than SQL
+      'LIKE'.
+
+    o (v. 1.1.7) bfcquery() supports user-specified 'fields='.
+
+    o (v. 1.1.5) queryCount renamed to bfccount
+
+    o (v. 1.1.2) Add user specified extension to file in cache
+
+    o (v. 1.1.2) Use dbExecute/dbSendStatement rather than pasting query
+
+    o Files in cache retain basename and extension of original file
+
+CHANGES IN VERSION 0.99.0
+-------------------------
+
+SIGNIFICANT NEW FEATURES
+
+    o First Bioconductor release.

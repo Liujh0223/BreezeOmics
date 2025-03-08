@@ -1,0 +1,8 @@
+$ ldd stringtie.exe
+        ntdll.dll => /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll (0x7ffcb7c70000)
+        KERNEL32.DLL => /cygdrive/c/WINDOWS/System32/KERNEL32.DLL (0x7ffcb6c10000)
+        KERNELBASE.dll => /cygdrive/c/WINDOWS/System32/KERNELBASE.dll (0x7ffcb5350000)
+        cygwin1.dll => /usr/bin/cygwin1.dll (0x7ffc4f520000)
+        cyggcc_s-seh-1.dll => /usr/bin/cyggcc_s-seh-1.dll (0x3c0980000)
+        cygz.dll => /usr/bin/cygz.dll (0x34d300000)
+        cygstdc++-6.dll => /usr/bin/cygstdc++-6.dll (0x35b230000)

@@ -1,0 +1,11 @@
+---
+title: "circlize vignette"
+output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{circlize vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+Please go to https://jokergoo.github.io/circlize_book/book/ for the full vignette.

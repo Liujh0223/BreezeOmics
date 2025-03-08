@@ -1,0 +1,9 @@
+import(methods)
+
+exportClasses(chunkList, codeChunk, DynDoc, SweaveOptions, Vignette, vignetteCode)
+
+exportMethods("chunk<-", chunk, chunkList, chunkName, chunks, codeChunk, codeChunks, evalChunk, evalEnv, getAllCodeChunks, getChunk, getDepends, getKeywords, getOptions, getRequires, getSuggests, indexEntry, numChunks, numOptions, path, pdfPath, "setChunk<-", show, summary, SweaveOptions, vigPackage, vigPkgVersion)
+
+export(baseVigDesc, editVignetteCode, getPkgVigList, getVigInfo, getVigInfoNames, getVignette, getVignetteCode, getVignetteHeader, hasVigHeaderField, tangleToR, tangleToRFinish, tangleToRRuncode, tangleToRSetup, .transformNames, transformVigInfoLine)
+
+S3method(print, pkgFileList)
