@@ -3,7 +3,8 @@
 **BreezeOmics**: A whole-stream RNA-seq analysis tools, fully graphical design requires no programming knowledge. With the built-in BreezeOmics-Index, BreezeOmics-RNAseq pipeline allows users to perform downstream RNAseq analysis using the HISAT2-StringTie pipeline, and the BreezeOmics-Vis developed based on R shiny enables users to perform advanced downstream visual analysis based on gene expression matrix on the windows system.
 ## 2. Operating requirement
 1. Windows operating system (windows10 and windows11 have been tested).
-2. At least 50GB hard disk and 8GB memory free.
+2. Due to UTF-8 encoding issues, only Windows 10 version 1903 （released on May 21, 2019） and above are supported.
+3. At least 50GB hard disk and 8GB memory free.
 ## 3. Installation
 Clone the BreezeOmics project(670Mb) locally and unzip it, and can be used immediately after running **BreezeOmics.exe**, and currently only supports windows system (it has been tested to be stable on windows 10 and windows 11)
 ## 4. Demo data sets
